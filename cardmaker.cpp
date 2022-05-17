@@ -67,7 +67,6 @@ void SetSuit(QPixmap& PixSuit, CardSuit suit)
 QPixmap *CardMaker::CreateCard(CardSuit suit, CardValue value)
 {
     qDebug() << "Card was created" ;
-    //CachedCards[(int)suit][(int)value] = new QPixmap(CARD_WIDTH, CARD_HEIGHT);
     QPixmap* Card = new QPixmap(CARD_WIDTH, CARD_HEIGHT);
     Card->fill(Qt::white);
 
@@ -79,17 +78,25 @@ QPixmap *CardMaker::CreateCard(CardSuit suit, CardValue value)
         painter.setPen(Qt::red);
     else
         painter.setPen(Qt::black);
+    QPixmap PixSuit; SetSuit(PixSuit, suit);
+
     // UP-LEFT VALUE
     painter.drawText(5,VALUE_FONT,QString(printVal));
 
     // UP-LEFT SUIT
-    QPixmap PixSuit; SetSuit(PixSuit, suit);
     painter.drawPixmap(3,VALUE_FONT,SUIT_SIZE, SUIT_SIZE,PixSuit);
 
     // CENTER SUIT
+    painter.drawPixmap(CARD_WIDTH/2-CENTER_SUIT_SIZE/2,
+                       CARD_HEIGHT/2-CENTER_SUIT_SIZE/2,
+                       CENTER_SUIT_SIZE, CENTER_SUIT_SIZE,PixSuit);
 
+    painter.translate(CARD_WIDTH, CARD_HEIGHT);
+    painter.rotate(180);
     // DOWN-RIGHT REVERSE SUIT
+     painter.drawPixmap(3,VALUE_FONT,SUIT_SIZE, SUIT_SIZE,PixSuit);
     // DOWN-RIGHT REVERSE VALUE
+    painter.drawText(5,VALUE_FONT,QString(printVal));
     painter.end();
     CachedCards[(int)suit][(int)value] = Card;
     return Card;
