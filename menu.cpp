@@ -23,9 +23,9 @@ void Menu::StartMenu()
     FuncButton2.setText("Exit");
     FuncButton2.setFixedSize(200,100);
 
-    Layout.addWidget(&Title,0,0);
-    Layout.addWidget(&FuncButton1,1,0);
-    Layout.addWidget(&FuncButton2,2,0);
+    Layout.addWidget(&Title,0,0); //Title.show();
+    Layout.addWidget(&FuncButton1,1,0); //FuncButton1.show();
+    Layout.addWidget(&FuncButton2,2,0); //FuncButton2.show();
 
     QObject::connect(&FuncButton1,SIGNAL(clicked()),this,SLOT(PlayersMenu()));
     QObject::connect(&FuncButton2, SIGNAL(clicked()),this, SLOT(Exit()));
@@ -52,7 +52,7 @@ void Menu::PlayersMenu()
     Layout.addWidget(&Title,0,0,1,3);
     Layout.addWidget(&FuncButton1,1,0);
     Layout.addWidget(&FuncButton2,1,1);
-    Layout.addWidget(&FuncButton3,1,2);
+    Layout.addWidget(&FuncButton3,1,2); FuncButton3.show();
 
     QObject::connect(&FuncButton1,SIGNAL(clicked()),this,SLOT(SetPlayers()));
     QObject::connect(&FuncButton2,SIGNAL(clicked()),this,SLOT(SetPlayers()));
@@ -106,5 +106,10 @@ void Menu::SetDifficulty()
     QObject::disconnect(&FuncButton1,SIGNAL(clicked()),this,SLOT(SetDifficulty()));
     QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(SetDifficulty()));
     QObject::disconnect(&FuncButton3,SIGNAL(clicked()),this,SLOT(SetDifficulty()));
+
+    Title.hide();
+    FuncButton1.hide();
+    FuncButton3.hide();
+    FuncButton2.hide();
     emit StartGame(players, difficulty);
 }

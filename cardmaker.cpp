@@ -32,8 +32,8 @@ CardMaker::~CardMaker()
     {
         for(int k = 0; k < NUM_OF_VALUES; ++k)
         {
-            if(CachedCards[i][k] != nullptr)
-                delete CachedCards[i][k];
+            if(CachedCards[i][k] != nullptr){}
+              // delete CachedCards[i][k];
         }
     }
 }
@@ -64,22 +64,51 @@ void SetSuit(QPixmap& PixSuit, CardSuit suit)
     }
 
 }
+
+void MakeAce(QPainter& painter, QPixmap& PixSuit)
+{
+    int offset = QFontMetrics(painter.font()).width('f')/2-1;
+    // ACE TOP
+    painter.drawText(CARD_WIDTH/2-offset,VALUE_FONT,QString('f'));
+    // SUIT CENTER
+    painter.drawPixmap(CARD_WIDTH/2-CENTER_SUIT_SIZE*1.4/2,
+                       CARD_HEIGHT/2-CENTER_SUIT_SIZE*1.4/2,
+                       CENTER_SUIT_SIZE*1.4, CENTER_SUIT_SIZE*1.4,PixSuit);
+
+    painter.translate(CARD_WIDTH, CARD_HEIGHT);
+    painter.rotate(180);
+
+    // ACE REVRSE DOWN
+    painter.drawText(CARD_WIDTH/2-offset,VALUE_FONT,QString('f'));
+
+    painter.end();
+}
+
+
 QPixmap *CardMaker::CreateCard(CardSuit suit, CardValue value)
 {
-    qDebug() << "Card was created" ;
+    qDebug() << "New card was created" ;
     QPixmap* Card = new QPixmap(CARD_WIDTH, CARD_HEIGHT);
     Card->fill(Qt::white);
 
-    char printVal = GetPrintValue(value);
-    qDebug() << printVal;
     QPainter painter(Card);
     painter.setFont(this->Font);
+
     if(suit < CardSuit::CLOVERS)
         painter.setPen(Qt::red);
     else
         painter.setPen(Qt::black);
+
     QPixmap PixSuit; SetSuit(PixSuit, suit);
 
+    if(value == CardValue::ACE)
+    {
+        MakeAce(painter,PixSuit);
+        CachedCards[(int)suit][(int)value] = Card;
+        return Card;
+    }
+
+    char printVal = GetPrintValue(value);
     // UP-LEFT VALUE
     painter.drawText(5,VALUE_FONT,QString(printVal));
 
@@ -102,7 +131,7 @@ QPixmap *CardMaker::CreateCard(CardSuit suit, CardValue value)
     return Card;
 }
 
-const QPixmap* CardMaker::GetCard(CardSuit suit, CardValue value)
+QPixmap* CardMaker::GetCard(CardSuit suit, CardValue value)
 {
     if(CachedCards[(int)suit][(int)value] != nullptr)
     {
@@ -112,4 +141,9 @@ const QPixmap* CardMaker::GetCard(CardSuit suit, CardValue value)
     {
         return CreateCard(suit, value);
     }
+}
+
+QPixmap *CardMaker::GetCard(Card &card)
+{
+    return GetCard(card.Suit, card.Value);
 }

@@ -14,7 +14,8 @@ public:
     CardMaker();
     ~CardMaker();
 
-    const QPixmap* GetCard(CardSuit suit, CardValue value);
+    QPixmap* GetCard(CardSuit suit, CardValue value);
+    QPixmap* GetCard(Card &card);
 };
 
 #endif // CARDMAKER_H

@@ -4,34 +4,19 @@
 
 Test::Test(QWidget *parent) : QWidget(parent), Pm(CARD_WIDTH,CARD_HEIGHT)
 {
-//    Pm.fill(QColor::fromRgb(255,255,255));
-//    //Pm.load("F:\\Projects\\Qt\\Chicken\\card_back.jpg");
-//    QFont fn("Hoyle Playing Cards", 28, QFont::Normal);
-//    QPixmap m;
-//    m.load("F:\\Projects\\Qt\\Chicken\\src\\ace.png");
 
-//    m = m.transformed(QTransform().rotate(180),Qt::SmoothTransformation);
-//    QBrush br(Qt::red);
-//    QPainter pn;
-//    pn.begin(&Pm);
-//    pn.setBrush(br);
-//    pn.setPen(Qt::red);
-//    pn.setFont(fn);
-
-
-//    pn.drawPixmap(0,0,40,40,m);
-//    pn.save();
-//    pn.translate(55, 85);
-//    pn.rotate(180);
-//    pn.drawText(0,0,"f");
-//    pn.restore();
-//    pn.end();
-
+    Hld = new PlayerCardHolder(nullptr, &maker);
     SuitCouter = CardSuit::HEARTS;
     ValueCounter = CardValue::ACE;
     Pm = *maker.GetCard(CardSuit::HEARTS, CardValue::ACE);
-
+//    Card *c = new Card;
+//    c->Suit = SuitCouter;
+//    c->Value = ValueCounter;
     this->setFixedSize(110,170);
+//    Hld->AddCard(c);
+//    Hld->AddCard(c);
+//    Hld->AddCard(c);
+//    Hld->AddCard(c);
 
 }
 
@@ -43,6 +28,47 @@ void Test::paintEvent(QPaintEvent *e)
 
 }
 #include <QDebug>
+#include <QThread>
+void MoveAnim(QWidget* wgt, int destX, int destY)
+{
+    float dist;
+    float offset=1;
+    int cur_X;
+    int cur_Y;
+    do
+    {
+//        dist = sqrt(pow(destX-wgt->pos().x(),2)+ pow(destY-wgt->pos().y(),2));
+//        cos = (destX-wgt->pos().x())/dist;
+//        sin = (destY-wgt->pos().y())/dist;
+//        wgt->move(roundf(cos*offset),roundf(sin*offset));
+        cur_X = wgt->pos().x();
+        cur_Y = wgt->pos().y();
+        if(destX > cur_X)
+        {
+            wgt->move(cur_X+1,cur_Y);
+        }
+        else if(destX < wgt->pos().x())
+        {
+            wgt->move(cur_X-1,cur_Y);
+        }
+        if(destY > cur_Y)
+        {
+            wgt->move(cur_X,cur_Y+1);
+        }
+        else if(destY < cur_Y)
+        {
+            wgt->move(cur_X,cur_Y-1);
+        }
+        wgt->updateGeometry();
+        wgt->update();
+        wgt->repaint();
+        qDebug() << "aaa";
+        QThread::msleep(100);
+        //QThread::yieldCurrentThread();
+
+    }while(destX != wgt->pos().x()&&destY != wgt->pos().y());
+}
+
 void Test::mousePressEvent(QMouseEvent *e)
 {
 
@@ -58,6 +84,26 @@ void Test::mousePressEvent(QMouseEvent *e)
         SuitCouter = CardSuit(((int)SuitCouter+1)%4);
         Pm = *maker.GetCard(SuitCouter,ValueCounter);
         this->update();
+    }
+    else if(e->button() == Qt::MouseButton::MiddleButton)
+    {
+        //MoveAnim(this, this->pos().x()+30,this->pos().y()+20);
+    }
+}
+
+void Test::keyPressEvent(QKeyEvent *e)
+{
+    qDebug() << "Key pressed";
+    if(e->key() == Qt::Key::Key_A)
+    {
+        Card *c = new Card;
+        c->Suit = SuitCouter;
+        c->Value = ValueCounter;
+        Hld->AddCard(c);
+    }
+    else if(e->key() == Qt::Key::Key_D)
+    {
+        Hld->ExtractCards();
     }
 }
 
