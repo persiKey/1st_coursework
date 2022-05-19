@@ -1,5 +1,7 @@
 #include "playercarddisplayer.h"
 #include <QPainter>
+#include<QMouseEvent>
+
 #include "constants.h"
 
 PlayerCardDisplayer::PlayerCardDisplayer(QWidget *parent) : QWidget(parent)
@@ -24,7 +26,6 @@ void PlayerCardDisplayer::paintEvent(QPaintEvent *e)
     painter.drawPixmap(0,0,CARD_WIDTH, CARD_HEIGHT,*PixCard);
     painter.end();
 }
-#include<QMouseEvent>
 void PlayerCardDisplayer::mousePressEvent(QMouseEvent *e)
 {
     if(e->button() == Qt::MouseButton::LeftButton)

@@ -12,7 +12,7 @@ constexpr int CENTER_SUIT_SIZE = 50;
 constexpr int VALUE_FONT= 35;
 
 constexpr int VISIBLE_CARDS_IN_HAND = 6;
-
+constexpr int VISIBLE_CARDS_SPACING =10;
 enum class CardSuit
 {
     HEARTS = 0,
@@ -38,6 +38,12 @@ struct Card
 {
     CardSuit Suit;
     CardValue Value;
+};
+
+enum class CardOrientation
+{
+    HOR,
+    VER
 };
 
 #endif // CONSTANTS_H

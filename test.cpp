@@ -2,22 +2,25 @@
 #include <QPainter>
 #include <QMouseEvent>
 
-Test::Test(QWidget *parent) : QWidget(parent), Pm(CARD_WIDTH,CARD_HEIGHT)
+Test::Test(QWidget *parent) : QWidget(nullptr), Pm(CARD_WIDTH,CARD_HEIGHT)
 {
 
-    Hld = new PlayerCardHolder(nullptr, &maker);
+    Hld = new PlayerCardHolder(parent, &maker);
+    EnHld = new EnemyCardHolder(CardOrientation::HOR, parent);
     SuitCouter = CardSuit::HEARTS;
     ValueCounter = CardValue::ACE;
     Pm = *maker.GetCard(CardSuit::HEARTS, CardValue::ACE);
-//    Card *c = new Card;
-//    c->Suit = SuitCouter;
-//    c->Value = ValueCounter;
+Card *c = new Card;
+    c->Suit = SuitCouter;
+    c->Value = ValueCounter;
     this->setFixedSize(110,170);
-//    Hld->AddCard(c);
+    Hld->AddCard(c);
 //    Hld->AddCard(c);
 //    Hld->AddCard(c);
 //    Hld->AddCard(c);
     Hld->UpdateDequeSuit(CardSuit::TILES);
+    Hld->show();
+    EnHld->show();
 }
 
 void Test::paintEvent(QPaintEvent *e)
@@ -100,10 +103,12 @@ void Test::keyPressEvent(QKeyEvent *e)
         c->Suit = SuitCouter;
         c->Value = ValueCounter;
         Hld->AddCard(c);
+        EnHld->AddCard();
     }
     else if(e->key() == Qt::Key::Key_D)
     {
         Hld->ExtractCards();
+        EnHld->ExtractCard();
     }
 }
 

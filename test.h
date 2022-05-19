@@ -8,6 +8,8 @@
 #include "cardmaker.h"
 
 #include "playercardholder.h"
+#include "enemycardholder.h"
+
 class Test : public QWidget
 {
     Q_OBJECT
@@ -16,6 +18,7 @@ class Test : public QWidget
     CardSuit SuitCouter;
     CardValue ValueCounter;
     PlayerCardHolder* Hld;
+    EnemyCardHolder* EnHld;
 public:
     explicit Test(QWidget *parent = nullptr);
 

@@ -4,14 +4,14 @@
 #include <QDebug>
 PlayerCardHolder::PlayerCardHolder(QWidget *parent, CardMaker *maker) : QWidget(parent), cardMaker(maker)
 {
-    this->move(100,100);
-    this->setFixedSize(900,500);
+    this->move(100,720-CARD_HEIGHT);
+    this->setFixedSize(900,CARD_HEIGHT);
     this->show();
     display_pos = 0;
 
     Layout = new QHBoxLayout;
     Layout->setSpacing(10);
-
+    Layout->setContentsMargins(0,0,0,0);
     CtrlLeft.setText("<");
     CtrlRight.setText(">");
     CtrlLeft.setFixedSize(CARD_WIDTH/4, CARD_HEIGHT);
