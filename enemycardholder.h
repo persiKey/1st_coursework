@@ -7,7 +7,6 @@
 class EnemyCardDisplayer : public QWidget
 {
     Q_OBJECT
-    QPixmap* cover;
     CardOrientation Orientation;
 
 public:

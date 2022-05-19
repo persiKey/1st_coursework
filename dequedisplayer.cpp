@@ -5,6 +5,7 @@
 #include <random>
 #include <time.h>
 
+
 DequeDisplayer::DequeDisplayer(QWidget *parent) : QWidget(parent), deque(DEQUE_WIDTH, DEQUE_HEIGHT)
 {
     srand(time(NULL));
@@ -25,17 +26,16 @@ void DequeDisplayer::DrawCoverCards()
     QPainter painter(&deque);
     for(int i = 0; i < DisplayedCardsCount;++i)
     {
-        //painter.drawPixmap(offset,0,50, CARD_HEIGHT,*cover,0,0,CARD_WIDTH,CARD_HEIGHT);
-        painter.drawPixmap(offset,0,CARD_WIDTH,CARD_HEIGHT,*cover);
-        offset += 5;
+        painter.drawPixmap(offset,0,DEQUE_SPACING, CARD_HEIGHT,*CardMaker::GetCover(),0,0,DEQUE_SPACING,CARD_HEIGHT);
+        offset += DEQUE_OFFSET;
     }
-    painter.drawPixmap(offset,0,CARD_WIDTH,CARD_HEIGHT,*cover);
+    painter.drawPixmap(offset,0,CARD_WIDTH,CARD_HEIGHT,*CardMaker::GetCover());
     painter.end();
 }
 
 void DequeDisplayer::AddCard()
 {
-    if(DisplayedCardsCount >= 4) return;
+    if(DisplayedCardsCount >= MAX_DEQUE_DISPLAYING_CARDS-1) return;
     ++DisplayedCardsCount;
     DrawCoverCards();
     this->update();
@@ -50,10 +50,6 @@ void DequeDisplayer::ExtractCard()
     this->update();
 }
 
-void DequeDisplayer::SetCover(QPixmap * cov)
-{
-    this->cover = cov;
-}
 
 void DequeDisplayer::paintEvent(QPaintEvent *e)
 {
@@ -61,6 +57,8 @@ void DequeDisplayer::paintEvent(QPaintEvent *e)
     painter.drawPixmap(0,0,DEQUE_WIDTH,DEQUE_HEIGHT,deque);
     painter.end();
 }
+
+//OPEN DEQUE DISPLAYER
 
 OpenDequeDisplayer::OpenDequeDisplayer(QWidget *parent, CardMaker *maker) : QWidget(parent), maker(maker), deque(DEQUE_WIDTH, DEQUE_HEIGHT)
 {

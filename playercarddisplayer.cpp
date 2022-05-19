@@ -3,6 +3,7 @@
 #include<QMouseEvent>
 
 #include "constants.h"
+#include "cardmaker.h"
 
 PlayerCardDisplayer::PlayerCardDisplayer(QWidget *parent) : QWidget(parent)
 {
@@ -34,19 +35,11 @@ void PlayerCardDisplayer::mousePressEvent(QMouseEvent *e)
     }
 }
 
-void DrawCardBorder(QPainter *painter)
-{
-    painter->drawLine(0,0,CARD_WIDTH-1,0);
-    painter->drawLine(0,0,0,CARD_HEIGHT-1);
-    painter->drawLine(CARD_WIDTH-1,0,CARD_WIDTH-1, CARD_HEIGHT-1);
-    painter->drawLine(0,CARD_HEIGHT-1,CARD_WIDTH-1, CARD_HEIGHT-1);
-}
-
 void PlayerCardDisplayer::printSelection()
 {
     QPainter painter(PixCard);
     painter.setPen(Qt::green);
-    DrawCardBorder(&painter);
+    DrawCardBorder(painter);
     painter.end();
     this->update();
 }
@@ -55,7 +48,7 @@ void PlayerCardDisplayer::unprintSelection()
 {
     QPainter painter(PixCard);
     painter.setPen(Qt::black);
-    DrawCardBorder(&painter);
+    DrawCardBorder(painter);
     painter.end();
     this->update();
 }

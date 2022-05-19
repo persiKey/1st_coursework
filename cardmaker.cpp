@@ -1,6 +1,7 @@
 #include "cardmaker.h"
 #include <QDebug>
 
+QPixmap* CardMaker::CachedCover;
 
 CardMaker::CardMaker() : Font("Hoyle Playing Cards", VALUE_FONT, QFont::Normal)
 {
@@ -17,7 +18,6 @@ CardMaker::CardMaker() : Font("Hoyle Playing Cards", VALUE_FONT, QFont::Normal)
             CachedCards[i][k] = nullptr;
         }
     }
-
 }
 
 CardMaker::~CardMaker()
@@ -36,6 +36,7 @@ CardMaker::~CardMaker()
               // delete CachedCards[i][k];
         }
     }
+
 }
 char GetPrintValue(CardValue value)
 {
@@ -154,4 +155,19 @@ QPixmap* CardMaker::GetCard(CardSuit suit, CardValue value)
 QPixmap *CardMaker::GetCard(Card &card)
 {
     return GetCard(card.Suit, card.Value);
+}
+
+QPixmap* CardMaker::GetCover()
+{
+    if(CachedCover == nullptr)
+    {
+        CachedCover = new QPixmap(CARD_WIDTH, CARD_HEIGHT);
+        QPixmap tmp("src\\cover.png");
+        QPainter painter(CachedCover);
+        painter.drawPixmap(0,0,CARD_WIDTH,CARD_HEIGHT,tmp);
+        DrawCardBorder(painter);
+        painter.end();
+    }
+
+    return CachedCover;
 }

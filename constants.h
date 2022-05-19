@@ -16,7 +16,9 @@ constexpr int VISIBLE_CARDS_SPACING = 10;
 
 constexpr int DEQUE_WIDTH = CARD_WIDTH*1.2;
 constexpr int DEQUE_HEIGHT = CARD_HEIGHT*1.1;
-
+constexpr int DEQUE_SPACING = 10;
+constexpr int DEQUE_OFFSET = 5;
+constexpr int MAX_DEQUE_DISPLAYING_CARDS = 4;
 enum class CardSuit
 {
     HEARTS = 0,

@@ -7,10 +7,11 @@ Test::Test(QWidget *parent) : QWidget(nullptr), Pm(CARD_WIDTH,CARD_HEIGHT)
 
     Hld = new PlayerCardHolder(parent, &maker);
     EnHld = new EnemyCardHolder(CardOrientation::HOR, parent);
-    dis = new DequeDisplayer();
     Odis = new OpenDequeDisplayer(nullptr,&maker);
-    QPixmap* pix_cov = new QPixmap("src\\cover.png");
-    dis->SetCover(pix_cov);
+//    QPixmap* pix_cov = new QPixmap("src\\cover.png");
+//    dis->SetCover(pix_cov);
+
+    dis = new DequeDisplayer();
     SuitCouter = CardSuit::HEARTS;
     ValueCounter = CardValue::ACE;
     Pm = *maker.GetCard(CardSuit::HEARTS, CardValue::ACE);

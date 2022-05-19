@@ -9,7 +9,6 @@ class DequeDisplayer : public QWidget
 {
     Q_OBJECT
     QPixmap deque;
-    QPixmap* cover;
     int DisplayedCardsCount;
 
     void ClearDeque();
@@ -18,7 +17,6 @@ public:
     explicit DequeDisplayer(QWidget *parent = nullptr);
     void AddCard();
     void ExtractCard();
-    void SetCover(QPixmap*);
     void paintEvent(QPaintEvent *e);
 signals:
 

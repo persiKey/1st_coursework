@@ -3,11 +3,10 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-
+#include "cardmaker.h"
 
 EnemyCardDisplayer::EnemyCardDisplayer(CardOrientation orient, QWidget *parent) : QWidget(parent), Orientation(orient)
 {
-    cover =  new QPixmap("src\\cover.png");
     SetOrientation(orient);
 }
 
@@ -19,7 +18,7 @@ void  EnemyCardDisplayer::paintEvent(QPaintEvent *e)
         painter.translate(0,CARD_WIDTH);
         painter.rotate(-90);
     }
-    painter.drawPixmap(0,0,CARD_WIDTH, CARD_HEIGHT,*cover);
+    painter.drawPixmap(0,0,CARD_WIDTH, CARD_HEIGHT,*CardMaker::GetCover());
     painter.end();
 
 }

@@ -8,6 +8,7 @@
 class CardMaker
 {
     QPixmap*** CachedCards;
+    static QPixmap* CachedCover;
     QFont Font;
     QPixmap* CreateCard(CardSuit suit, CardValue value);
 public:
@@ -16,6 +17,7 @@ public:
 
     QPixmap* GetCard(CardSuit suit, CardValue value);
     QPixmap* GetCard(Card &card);
+    static QPixmap* GetCover();
 };
-
+void DrawCardBorder(QPainter&);
 #endif // CARDMAKER_H
