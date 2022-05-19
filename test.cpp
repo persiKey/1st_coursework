@@ -7,6 +7,10 @@ Test::Test(QWidget *parent) : QWidget(nullptr), Pm(CARD_WIDTH,CARD_HEIGHT)
 
     Hld = new PlayerCardHolder(parent, &maker);
     EnHld = new EnemyCardHolder(CardOrientation::HOR, parent);
+    dis = new DequeDisplayer();
+    Odis = new OpenDequeDisplayer(nullptr,&maker);
+    QPixmap* pix_cov = new QPixmap("src\\cover.png");
+    dis->SetCover(pix_cov);
     SuitCouter = CardSuit::HEARTS;
     ValueCounter = CardValue::ACE;
     Pm = *maker.GetCard(CardSuit::HEARTS, CardValue::ACE);
@@ -21,6 +25,10 @@ Card *c = new Card;
     Hld->UpdateDequeSuit(CardSuit::TILES);
     Hld->show();
     EnHld->show();
+    dis->show();
+    dis->move(300,300);
+    Odis->show();
+    Odis->move(600,300);
 }
 
 void Test::paintEvent(QPaintEvent *e)
@@ -104,11 +112,15 @@ void Test::keyPressEvent(QKeyEvent *e)
         c->Value = ValueCounter;
         Hld->AddCard(c);
         EnHld->AddCard();
+        dis->AddCard();
+        Odis->PrintCardOver(*c);
     }
     else if(e->key() == Qt::Key::Key_D)
     {
         Hld->ExtractCards();
         EnHld->ExtractCard();
+        dis->ExtractCard();
+        Odis->ClearDeque();
     }
 }
 

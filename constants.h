@@ -12,7 +12,11 @@ constexpr int CENTER_SUIT_SIZE = 50;
 constexpr int VALUE_FONT= 35;
 
 constexpr int VISIBLE_CARDS_IN_HAND = 6;
-constexpr int VISIBLE_CARDS_SPACING =10;
+constexpr int VISIBLE_CARDS_SPACING = 10;
+
+constexpr int DEQUE_WIDTH = CARD_WIDTH*1.2;
+constexpr int DEQUE_HEIGHT = CARD_HEIGHT*1.1;
+
 enum class CardSuit
 {
     HEARTS = 0,

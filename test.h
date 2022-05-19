@@ -9,6 +9,7 @@
 
 #include "playercardholder.h"
 #include "enemycardholder.h"
+#include "dequedisplayer.h"
 
 class Test : public QWidget
 {
@@ -19,6 +20,8 @@ class Test : public QWidget
     CardValue ValueCounter;
     PlayerCardHolder* Hld;
     EnemyCardHolder* EnHld;
+    DequeDisplayer* dis;
+    OpenDequeDisplayer* Odis;
 public:
     explicit Test(QWidget *parent = nullptr);
 

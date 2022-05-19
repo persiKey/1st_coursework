@@ -64,6 +64,13 @@ void SetSuit(QPixmap& PixSuit, CardSuit suit)
     }
 
 }
+void DrawCardBorder(QPainter &painter)
+{
+    painter.drawLine(0,0,CARD_WIDTH-1,0);
+    painter.drawLine(0,0,0,CARD_HEIGHT-1);
+    painter.drawLine(CARD_WIDTH-1,0,CARD_WIDTH-1, CARD_HEIGHT-1);
+    painter.drawLine(0,CARD_HEIGHT-1,CARD_WIDTH-1, CARD_HEIGHT-1);
+}
 
 void MakeAce(QPainter& painter, QPixmap& PixSuit)
 {
@@ -80,7 +87,6 @@ void MakeAce(QPainter& painter, QPixmap& PixSuit)
 
     // ACE REVRSE DOWN
     painter.drawText(CARD_WIDTH/2-offset,VALUE_FONT,QString('f'));
-
     painter.end();
 }
 
@@ -94,13 +100,13 @@ QPixmap *CardMaker::CreateCard(CardSuit suit, CardValue value)
     QPainter painter(Card);
     painter.setFont(this->Font);
 
+    DrawCardBorder(painter);
     if(suit < CardSuit::CLOVERS)
         painter.setPen(Qt::red);
     else
         painter.setPen(Qt::black);
 
     QPixmap PixSuit; SetSuit(PixSuit, suit);
-
     if(value == CardValue::ACE)
     {
         MakeAce(painter,PixSuit);
@@ -126,6 +132,8 @@ QPixmap *CardMaker::CreateCard(CardSuit suit, CardValue value)
      painter.drawPixmap(3,VALUE_FONT,SUIT_SIZE, SUIT_SIZE,PixSuit);
     // DOWN-RIGHT REVERSE VALUE
     painter.drawText(5,VALUE_FONT,QString(printVal));
+    // BORDER
+    //DrawCardBorder(painter);
     painter.end();
     CachedCards[(int)suit][(int)value] = Card;
     return Card;
