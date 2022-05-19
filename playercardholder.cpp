@@ -20,7 +20,6 @@ PlayerCardHolder::PlayerCardHolder(QWidget *parent, CardMaker *maker) : QWidget(
     Layout->addWidget(&CtrlLeft);
     for(int i = 0; i < VISIBLE_CARDS_IN_HAND;++i)
     {
-        //VisibleCards[i].setParent(this);
         Layout->addWidget(VisibleCards+i);
         VisibleCards[i].setIndex(i);
         VisibleCards[i].hide();
@@ -82,20 +81,8 @@ void PlayerCardHolder::CheckRight()
     UpdateVisibleCards();
 }
 
-void PlayerCardHolder::ExtractCards()
+void PlayerCardHolder::UpdateExtractedCards()
 {
-    for(size_t i = 0; i < ChoosenCardsIndexes.size();++i)
-    {
-        AllCards[ChoosenCardsIndexes[i]] = nullptr;
-    }
-    for(size_t i = 0; i < AllCards.size();++i)
-    {
-        if(AllCards[i] == nullptr)
-        {
-            AllCards.erase(AllCards.begin()+i);
-            --i;
-        }
-    }
     int size = AllCards.size();
     if(size <= VISIBLE_CARDS_IN_HAND)
     {
@@ -113,48 +100,65 @@ void PlayerCardHolder::ExtractCards()
     }
     else
     {
-        qDebug() << "display pos " <<  display_pos;
-        qDebug() << "Coosen size: " << ChoosenCardsIndexes.size()
-                 << "All size: " << size;
-        //display_pos -= ChoosenCardsIndexes.size();
-        qDebug() << "af display pos " <<  display_pos;
-//        if(display_pos - size < 0)
-//        {
-//            display_pos =0;
-//        }
         if(display_pos + 1>size-VISIBLE_CARDS_IN_HAND)
         {
             display_pos = size-VISIBLE_CARDS_IN_HAND;
         }
-        assert(display_pos >= 0);
         UpdateVisibleCards();
     }
-    ChoosenCardsIndexes.clear();
 }
+
+vector<Card*> PlayerCardHolder::ExtractCards()
+{
+    vector<Card*> extractedCards;
+    for(size_t i = 0; i < ChoosenCardsIndexes.size();++i)
+    {
+        PlayerCardDisplayer Card;
+        Card.updatePix(cardMaker->GetCard(*AllCards[ChoosenCardsIndexes[i]]));
+        Card.unprintSelection();
+        extractedCards.push_back(AllCards[ChoosenCardsIndexes[i]]);
+        AllCards[ChoosenCardsIndexes[i]] = nullptr;
+    }
+    for(size_t i = 0; i < AllCards.size();++i)
+    {
+        if(AllCards[i] == nullptr)
+        {
+            AllCards.erase(AllCards.begin()+i);
+            --i;
+        }
+    }
+    UpdateExtractedCards();
+    ChoosenCardsIndexes.clear();
+    return extractedCards;
+}
+
+void PlayerCardHolder::UpdateDequeSuit(CardSuit suit)
+{
+    DequeSuit = suit;
+}
+
 void PlayerCardHolder::CardChoosen(int index)
 {
-    qDebug() << "Come ind: " << index << "Indexes: ";
-    for(auto ind : ChoosenCardsIndexes)
+    int allCardIndex = index + display_pos;
+    auto pos = std::find(ChoosenCardsIndexes.begin(), ChoosenCardsIndexes.end(),allCardIndex);
+    if(pos == ChoosenCardsIndexes.end() )
     {
-        qDebug() << ind << ' ';
-    }
-    qDebug() << "Display pos: " << display_pos;
-    auto pos = std::find(ChoosenCardsIndexes.begin(), ChoosenCardsIndexes.end(),index+display_pos);
-    if(pos == ChoosenCardsIndexes.end())
-    {
-
-        VisibleCards[index].printSelection();
-        ChoosenCardsIndexes.push_back(index+display_pos);
+        if(ChoosenCardsIndexes.size() == 0 && AllCards[allCardIndex]->Suit != DequeSuit)
+        {
+            VisibleCards[index].printSelection();
+            ChoosenCardsIndexes.push_back(allCardIndex);
+            SelectedValue = AllCards[allCardIndex]->Value;
+        }
+        else if(SelectedValue == AllCards[allCardIndex]->Value)
+        {
+            VisibleCards[index].printSelection();
+            ChoosenCardsIndexes.push_back(allCardIndex);
+        }
     }
     else
     {
         VisibleCards[index].unprintSelection();
         ChoosenCardsIndexes.erase(pos);
     }
-    qDebug() << "Indexes: ";
-    for(auto index : ChoosenCardsIndexes)
-    {
-        qDebug() << index << ' ';
-    }
-    qDebug() << "Display pos: " << display_pos;
+
 }

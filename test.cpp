@@ -17,7 +17,7 @@ Test::Test(QWidget *parent) : QWidget(parent), Pm(CARD_WIDTH,CARD_HEIGHT)
 //    Hld->AddCard(c);
 //    Hld->AddCard(c);
 //    Hld->AddCard(c);
-
+    Hld->UpdateDequeSuit(CardSuit::TILES);
 }
 
 void Test::paintEvent(QPaintEvent *e)

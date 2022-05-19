@@ -18,7 +18,6 @@ public:
     void mousePressEvent(QMouseEvent *e);
     void printSelection();
     void unprintSelection();
-
 signals:
     void Choosen(int);
 };

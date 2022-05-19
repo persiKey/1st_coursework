@@ -16,25 +16,34 @@ using std::vector;
 class PlayerCardHolder : public QWidget
 {
     Q_OBJECT
-    vector<Card*> AllCards;
-    vector<int> ChoosenCardsIndexes;
-    PlayerCardDisplayer VisibleCards[VISIBLE_CARDS_IN_HAND];
     QLayout* Layout;
     QPushButton CtrlLeft;
     QPushButton CtrlRight;
-    int display_pos;
+
     CardMaker *cardMaker;
+    PlayerCardDisplayer VisibleCards[VISIBLE_CARDS_IN_HAND];
+    int display_pos;
+
+    vector<Card*> AllCards;
+    vector<int> ChoosenCardsIndexes;
+    CardSuit DequeSuit;
+    CardValue SelectedValue;
 
     void UpdateVisibleCards();
+    void UpdateExtractedCards();
     void ShowCtrlButtons();
     void HideCtrlButtons();
+
 public:
     explicit PlayerCardHolder(QWidget *parent = nullptr, CardMaker* maker = nullptr);
     void AddCard(Card *card);
-    void ExtractCards();
+    vector<Card*> ExtractCards();
+    void UpdateDequeSuit(CardSuit suit);
+
 private slots:
     void CheckLeft();
     void CheckRight();
+
 public slots:
     void CardChoosen(int);
 };
