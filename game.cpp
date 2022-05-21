@@ -4,6 +4,7 @@
 
 #include "constants.h"
 
+#include <thread>
 Game::Game(QObject *parent) : QObject(parent)
 {
 
@@ -12,22 +13,27 @@ Game::Game(QObject *parent) : QObject(parent)
 void Game::setWnd(QWidget *wnd)
 {
     this->Wnd = wnd;
-
+    qDebug() << this->Wnd;
 }
-
+#include <QApplication>
 void Game::OneGameTact()
 {
     vector<Card*> moveCards = Player->PlaceCards();
     if(moveCards.empty()) return;
     OpenDeque->PlaceCards(moveCards);
+    QApplication::processEvents();
+    std::this_thread::sleep_for(std::chrono::seconds(2));
     last = moveCards.back()->Suit;
     Player->AddCard(Deque->TakeCard());
     for(int i = 0; i < players-1;++i)
     {
+        qDebug() << players << " h " << i;
         moveCards = Enemies[i]->PlaceCards();
         OpenDeque->PlaceCards(moveCards);
         last = moveCards.back()->Suit;
         Enemies[i]->AddCard(Deque->TakeCard());
+        QApplication::processEvents();
+        std::this_thread::sleep_for(std::chrono::seconds(2));
     }
     Player->SetDequeSuit(last);
 }
@@ -44,7 +50,6 @@ void Game::GenerateCards()
     }
 }
 
-#include <thread>
 
 void Game::GiveCardsToPlayers()
 {
@@ -63,6 +68,7 @@ void Game::MainLoop()
 
     while(true)
     {
+
         qDebug() << "yes";
         std::this_thread::sleep_for(std::chrono::seconds(10));
     }
@@ -95,7 +101,7 @@ void Game::Init(int pl, int dif)
     Deque = new CardDeque(Wnd,Cards);
     OpenDeque = new OpenCardDeque(Wnd,Maker);
     GenerateCards();
-    std::thread a(&Game::MainLoop,this);
+    std::thread a(&Game::MainLoop,std::ref(*this));
     a.detach();
     GiveCardsToPlayers();
 
