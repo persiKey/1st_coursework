@@ -24,7 +24,7 @@ class PlayerCardHolder : public QWidget
     PlayerCardDisplayer VisibleCards[VISIBLE_CARDS_IN_HAND];
     int display_pos;
 
-    vector<Card*> AllCards;
+    vector<Card*>* AllCards;
     vector<int> ChoosenCardsIndexes;
     CardSuit DequeSuit;
     CardValue SelectedValue;
@@ -35,9 +35,11 @@ class PlayerCardHolder : public QWidget
     void HideCtrlButtons();
 
 public:
-    explicit PlayerCardHolder(QWidget *parent = nullptr, CardMaker* maker = nullptr);
-    void AddCard(Card *card);
-    vector<Card*> ExtractCards();
+    explicit PlayerCardHolder(QWidget *parent = nullptr, CardMaker* maker = nullptr,vector<Card*>* Cards= nullptr);
+    void AddCard();
+
+    void ExtractCards();
+    vector<int> GetIndexes();
     void UpdateDequeSuit(CardSuit suit);
 
 private slots:

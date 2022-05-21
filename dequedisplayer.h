@@ -31,7 +31,7 @@ public:
     explicit OpenDequeDisplayer(QWidget *parent = nullptr, CardMaker* maker = nullptr);
     void SetCardMaker(CardMaker* maker);
     void ClearDeque();
-    void PrintCardOver(Card card);
+    void PrintCardOver(Card* card);
     void paintEvent(QPaintEvent *e);
 };
 

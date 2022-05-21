@@ -34,15 +34,14 @@ void EnemyCardDisplayer::SetOrientation(CardOrientation orient)
 
 EnemyCardHolder::EnemyCardHolder(CardOrientation orient, QWidget *parent) : Orientation(orient), QWidget(parent)
 {
-    this->move(0,50);
     switch (Orientation) {
     case CardOrientation::HOR :
         Layout = new QVBoxLayout;
-        this->setFixedSize(CARD_HEIGHT,(CARD_WIDTH+VISIBLE_CARDS_SPACING)*VISIBLE_CARDS_IN_HAND);
+        this->setFixedSize(CARD_HEIGHT,(CARD_WIDTH+VISIBLE_CARDS_SPACING)*VISIBLE_CARDS_IN_HAND-VISIBLE_CARDS_SPACING);
         break;
     case CardOrientation::VER :
         Layout = new QHBoxLayout;
-        this->setFixedSize((CARD_WIDTH+VISIBLE_CARDS_SPACING)*VISIBLE_CARDS_IN_HAND, CARD_HEIGHT);
+        this->setFixedSize((CARD_WIDTH+VISIBLE_CARDS_SPACING)*VISIBLE_CARDS_IN_HAND-VISIBLE_CARDS_SPACING, CARD_HEIGHT);
         break;
     }
 

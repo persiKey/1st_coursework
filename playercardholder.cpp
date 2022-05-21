@@ -2,9 +2,8 @@
 #include <QVBoxLayout>
 
 #include <QDebug>
-PlayerCardHolder::PlayerCardHolder(QWidget *parent, CardMaker *maker) : QWidget(parent), cardMaker(maker)
+PlayerCardHolder::PlayerCardHolder(QWidget *parent, CardMaker *maker, vector<Card*>* Cards) : QWidget(parent), cardMaker(maker), AllCards(Cards)
 {
-    this->move(100,720-CARD_HEIGHT);
     this->setFixedSize(900,CARD_HEIGHT);
     this->show();
     display_pos = 0;
@@ -32,25 +31,25 @@ PlayerCardHolder::PlayerCardHolder(QWidget *parent, CardMaker *maker) : QWidget(
     HideCtrlButtons();
 }
 
-void PlayerCardHolder::AddCard(Card *card)
+void PlayerCardHolder::AddCard()
 {
-    AllCards.push_back(card);
-    if(AllCards.size() > VISIBLE_CARDS_IN_HAND)
+    if(AllCards->size() > VISIBLE_CARDS_IN_HAND)
     {
         ShowCtrlButtons();
         CheckRight();
     }
     else
     {
-        VisibleCards[AllCards.size()-1].updatePix(cardMaker->GetCard(*card));
-        VisibleCards[AllCards.size()-1].show();
+        VisibleCards[AllCards->size()-1].updatePix(cardMaker->GetCard(*(*AllCards).back()));
+        VisibleCards[AllCards->size()-1].show();
     }
 }
+
 void PlayerCardHolder::UpdateVisibleCards()
 {
     for(int i = 0;i < VISIBLE_CARDS_IN_HAND;++i)
     {
-        VisibleCards[i].updatePix(cardMaker->GetCard(*AllCards[i+display_pos]));
+        VisibleCards[i].updatePix(cardMaker->GetCard(*(*AllCards)[i+display_pos]));
         VisibleCards[i].update();
     }
 }
@@ -76,19 +75,19 @@ void PlayerCardHolder::CheckLeft()
 
 void PlayerCardHolder::CheckRight()
 {
-    if(display_pos +1 > AllCards.size()-VISIBLE_CARDS_IN_HAND) return;
+    if(display_pos +1 > AllCards->size()-VISIBLE_CARDS_IN_HAND) return;
     display_pos++;
     UpdateVisibleCards();
 }
 
 void PlayerCardHolder::UpdateExtractedCards()
 {
-    int size = AllCards.size();
+    int size = AllCards->size();
     if(size <= VISIBLE_CARDS_IN_HAND)
     {
         for(int i = 0; i < size;++i)
         {
-            VisibleCards[i].updatePix(cardMaker->GetCard(*AllCards[i]));
+            VisibleCards[i].updatePix(cardMaker->GetCard(*(*AllCards)[i]));
             VisibleCards[i].update();
         }
         for(int i = size; i < VISIBLE_CARDS_IN_HAND;++i)
@@ -107,29 +106,20 @@ void PlayerCardHolder::UpdateExtractedCards()
         UpdateVisibleCards();
     }
 }
-
-vector<Card*> PlayerCardHolder::ExtractCards()
+vector<int> PlayerCardHolder::GetIndexes()
 {
-    vector<Card*> extractedCards;
     for(size_t i = 0; i < ChoosenCardsIndexes.size();++i)
     {
         PlayerCardDisplayer Card;
-        Card.updatePix(cardMaker->GetCard(*AllCards[ChoosenCardsIndexes[i]]));
+        Card.updatePix(cardMaker->GetCard(*(*AllCards)[ChoosenCardsIndexes[i]]));
         Card.unprintSelection();
-        extractedCards.push_back(AllCards[ChoosenCardsIndexes[i]]);
-        AllCards[ChoosenCardsIndexes[i]] = nullptr;
     }
-    for(size_t i = 0; i < AllCards.size();++i)
-    {
-        if(AllCards[i] == nullptr)
-        {
-            AllCards.erase(AllCards.begin()+i);
-            --i;
-        }
-    }
+    return ChoosenCardsIndexes;
+}
+void PlayerCardHolder::ExtractCards()
+{
     UpdateExtractedCards();
     ChoosenCardsIndexes.clear();
-    return extractedCards;
 }
 
 void PlayerCardHolder::UpdateDequeSuit(CardSuit suit)
@@ -143,13 +133,13 @@ void PlayerCardHolder::CardChoosen(int index)
     auto pos = std::find(ChoosenCardsIndexes.begin(), ChoosenCardsIndexes.end(),allCardIndex);
     if(pos == ChoosenCardsIndexes.end() )
     {
-        if(ChoosenCardsIndexes.size() == 0 && AllCards[allCardIndex]->Suit != DequeSuit)
+        if(ChoosenCardsIndexes.size() == 0 && (*AllCards)[allCardIndex]->Suit != DequeSuit)
         {
             VisibleCards[index].printSelection();
             ChoosenCardsIndexes.push_back(allCardIndex);
-            SelectedValue = AllCards[allCardIndex]->Value;
+            SelectedValue = (*AllCards)[allCardIndex]->Value;
         }
-        else if(SelectedValue == AllCards[allCardIndex]->Value)
+        else if(SelectedValue == (*AllCards)[allCardIndex]->Value)
         {
             VisibleCards[index].printSelection();
             ChoosenCardsIndexes.push_back(allCardIndex);

@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QtWidgets>
+#include "constants.h"
+
 
 class Menu : public QObject
 {
@@ -20,6 +22,9 @@ private slots:
     void StartMenu();
     void PlayersMenu();
     void DifficultyMenu();
+    void GameMenu(GameState state);
+    void RestartGame();
+    void ResumeFromPause();
     void Exit();
     void SetPlayers();
     void SetDifficulty();

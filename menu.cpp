@@ -90,6 +90,61 @@ void Menu::DifficultyMenu()
     QObject::connect(&FuncButton3,SIGNAL(clicked()),this,SLOT(SetDifficulty()));
 }
 
+void Menu::RestartGame()
+{
+    QObject::disconnect(&FuncButton1,SIGNAL(clicked()),this,SLOT(RestartGame()));
+    QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(StartMenu()));
+    QObject::disconnect(&FuncButton3,SIGNAL(clicked()),this,SLOT(ResumeFromPause()));
+
+    Title.hide();
+    FuncButton1.hide();
+    FuncButton3.hide();
+    FuncButton2.hide();
+    emit StartGame(players, difficulty);
+}
+
+void Menu::ResumeFromPause()
+{
+    Title.hide();
+    FuncButton1.hide();
+    FuncButton3.hide();
+    FuncButton2.hide();
+}
+
+void Menu::GameMenu(GameState state)
+{
+    FuncButton1.setText("Почати заново");
+    FuncButton2.setText("Головне меню");
+    switch (state) {
+    case GameState::WIN:
+        Title.setText("Ви перемогли");
+        break;
+    case GameState::LOSE:
+        Title.setText("Ви програли");
+        break;
+    }
+
+    if(GameState::PAUSE == state)
+    {
+        Title.setText("Павза");
+        FuncButton3.setText("Продовжити");
+        Layout.addWidget(&Title,0,0,1,1);
+        Layout.addWidget(&FuncButton3,1,0,1,1);
+        Layout.addWidget(&FuncButton1,2,0,1,1);
+        Layout.addWidget(&FuncButton2,3,0,1,1);
+        QObject::connect(&FuncButton3,SIGNAL(clicked()),this,SLOT(ResumeFromPause()));
+    }
+    else
+    {
+        Layout.addWidget(&Title,0,0,1,1);
+        Layout.addWidget(&FuncButton1,1,0,1,1);
+        Layout.addWidget(&FuncButton2,2,0,1,1);
+    }
+    QObject::connect(&FuncButton1,SIGNAL(clicked()),this,SLOT(RestartGame()));
+    QObject::connect(&FuncButton2,SIGNAL(clicked()),this,SLOT(StartMenu()));
+
+}
+
 void Menu::SetDifficulty()
 {
     QPushButton *s = dynamic_cast<QPushButton*>(QObject::sender());
@@ -101,6 +156,7 @@ void Menu::SetDifficulty()
         difficulty = 2;
     else
         difficulty = 3;
+
 
     qDebug() << dif << ' ' << difficulty;
     QObject::disconnect(&FuncButton1,SIGNAL(clicked()),this,SLOT(SetDifficulty()));

@@ -94,7 +94,6 @@ void MakeAce(QPainter& painter, QPixmap& PixSuit)
 
 QPixmap *CardMaker::CreateCard(CardSuit suit, CardValue value)
 {
-    qDebug() << "New card was created" ;
     QPixmap* Card = new QPixmap(CARD_WIDTH, CARD_HEIGHT);
     Card->fill(Qt::white);
 

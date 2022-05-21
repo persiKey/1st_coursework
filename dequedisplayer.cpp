@@ -77,9 +77,9 @@ void OpenDequeDisplayer::ClearDeque()
     this->update();
 }
 
-void OpenDequeDisplayer::PrintCardOver(Card card)
+void OpenDequeDisplayer::PrintCardOver(Card *card)
 {
-    QPixmap* PixCard = maker->GetCard(card);
+    QPixmap* PixCard = maker->GetCard(*card);
     QPainter painter(&deque);
     int offset = rand() % 20;
     painter.drawPixmap(offset,0,CARD_WIDTH,CARD_HEIGHT,*PixCard);

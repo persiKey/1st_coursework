@@ -19,7 +19,7 @@ Card *c = new Card;
     c->Suit = SuitCouter;
     c->Value = ValueCounter;
     this->setFixedSize(110,170);
-    Hld->AddCard(c);
+    //Hld->AddCard(c);
 //    Hld->AddCard(c);
 //    Hld->AddCard(c);
 //    Hld->AddCard(c);
@@ -111,10 +111,10 @@ void Test::keyPressEvent(QKeyEvent *e)
         Card *c = new Card;
         c->Suit = SuitCouter;
         c->Value = ValueCounter;
-        Hld->AddCard(c);
+        //Hld->AddCard(c);
         EnHld->AddCard();
         dis->AddCard();
-        Odis->PrintCardOver(*c);
+        //Odis->PrintCardOver(*c);
     }
     else if(e->key() == Qt::Key::Key_D)
     {
