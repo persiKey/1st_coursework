@@ -5,6 +5,14 @@
 #include "constants.h"
 
 #include <thread>
+#include <QApplication>
+
+void ProcessAndPause(int msec)
+{
+    QApplication::processEvents();
+    std::this_thread::sleep_for(std::chrono::milliseconds(msec));
+}
+
 Game::Game(QObject *parent) : QObject(parent)
 {
 
@@ -14,28 +22,6 @@ void Game::setWnd(QWidget *wnd)
 {
     this->Wnd = wnd;
     qDebug() << this->Wnd;
-}
-#include <QApplication>
-void Game::OneGameTact()
-{
-    vector<Card*> moveCards = Player->PlaceCards();
-    if(moveCards.empty()) return;
-    OpenDeque->PlaceCards(moveCards);
-    QApplication::processEvents();
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-    last = moveCards.back()->Suit;
-    Player->AddCard(Deque->TakeCard());
-    for(int i = 0; i < players-1;++i)
-    {
-        qDebug() << players << " h " << i;
-        moveCards = Enemies[i]->PlaceCards();
-        OpenDeque->PlaceCards(moveCards);
-        last = moveCards.back()->Suit;
-        Enemies[i]->AddCard(Deque->TakeCard());
-        QApplication::processEvents();
-        std::this_thread::sleep_for(std::chrono::seconds(2));
-    }
-    Player->SetDequeSuit(last);
 }
 
 void Game::GenerateCards()
@@ -63,6 +49,7 @@ void Game::GiveCardsToPlayers()
     }
 
 }
+
 void Game::MainLoop()
 {
 
@@ -105,4 +92,88 @@ void Game::Init(int pl, int dif)
     a.detach();
     GiveCardsToPlayers();
 
+}
+
+bool Game::CheckMovesAvailable(class Player* pl)
+{
+    for(auto card : pl->Hand)
+    {
+        if(card->Suit != last)
+            return true;
+    }
+    return false;
+}
+
+void Game::TakeAllOpenCards(class Player *pl)
+{
+
+    for(size_t i = 0; i < OpenDeque->Cards.size();++i)
+    {
+        pl->AddCard(OpenDeque->Cards.back());
+        ProcessAndPause(80);
+        OpenDeque->Cards.pop_back();
+    }
+    OpenDeque->Clear();
+
+}
+
+bool Game::CheckIfWin(class Player *pl)
+{
+    if(pl->Hand.empty())
+        return true;
+    return false;
+}
+
+void Game::RenewDeque()
+{
+
+    Card* last_open = OpenDeque->Cards.back();
+    OpenDeque->Cards.pop_back();
+
+    for(size_t i = 0; i < OpenDeque->Cards.size();++i)
+    {
+        Deque->Cards.push_back(OpenDeque->Cards.back());
+        OpenDeque->Cards.pop_back();
+        Deque->Displayer->AddCard();
+        --i;
+    }
+    OpenDeque->Clear();
+    OpenDeque->PlaceCard(last_open);
+}
+
+bool Game::OnePlayerTact(class Player *pl)
+{
+    pl->SetDequeSuit(last);
+    if(!CheckMovesAvailable(pl))
+    {
+        TakeAllOpenCards(pl);
+        return false;
+    }
+    vector<Card*> moveCards = pl->PlaceCards();
+    if(moveCards.empty()) return false;
+    OpenDeque->PlaceCards(moveCards);
+    last = moveCards.back()->Suit;
+    if(CheckIfWin(pl)) return true;
+
+    if(Deque->Cards.empty()) RenewDeque();
+    pl->AddCard(Deque->TakeCard());
+    ProcessAndPause(1000);
+    return false;
+}
+
+
+void Game::OneGameTact()
+{
+    if(OnePlayerTact(Player))
+    {
+        qDebug() << "Player won";
+    }
+    for(int i = 0; i < players-1;++i)
+    {
+        if(OnePlayerTact(Enemies[i]))
+        {
+            qDebug() << "Bot " << i + 1 << " won";
+        }
+    }
+    Player->SetDequeSuit(last);
 }

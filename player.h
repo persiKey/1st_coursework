@@ -12,9 +12,9 @@ protected:
     vector<Card*> Hand;
 public:
     Player();
-    void AddCard(Card*);
-    vector<Card *> PlaceCards();
-    void SetDequeSuit(CardSuit);
+    virtual void AddCard(Card*);
+    virtual vector<Card *> PlaceCards();
+    virtual void SetDequeSuit(CardSuit);
 };
 
 class MainPlayer : public Player
@@ -23,9 +23,9 @@ private:
     PlayerCardHolder* Holder;
 public:
     MainPlayer(QWidget* wnd,CardMaker* maker);
-    void AddCard(Card* card);
-    vector<Card *> PlaceCards();
-    void SetDequeSuit(CardSuit);
+    void AddCard(Card* card) override;
+    vector<Card *> PlaceCards() override;
+    void SetDequeSuit(CardSuit) override;
 };
 
 class Enemy : public Player
@@ -33,10 +33,12 @@ class Enemy : public Player
 
 private:
     EnemyCardHolder* Holder;
+    CardSuit last;
 public:
     Enemy(QWidget* wnd, CardOrientation, int x, int y);
-    void AddCard(Card* card);
-    vector<Card *> PlaceCards();
+    void AddCard(Card* card) override;
+    vector<Card *> PlaceCards() override;
+    void SetDequeSuit(CardSuit) override;
 };
 
 #endif // PLAYER_H

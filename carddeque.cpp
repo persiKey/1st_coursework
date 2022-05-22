@@ -11,14 +11,14 @@ CardDeque::CardDeque(QWidget *wnd, Card Cards[])
 
 Card *CardDeque::TakeCard()
 {
-    Card* card = Deque.back();
-    Deque.pop_back();
+    Card* card = Cards.back();
+    Cards.pop_back();
     return card;
 }
 
 void CardDeque::RandomCardGen(Card Cards[])
 {
-    Deque.clear();
+    this->Cards.clear();
     srand(time(NULL));
     vector<int> indexes;
     for(int i =0; i < NUM_OF_SUITS*NUM_OF_VALUES;++i)
@@ -29,7 +29,7 @@ void CardDeque::RandomCardGen(Card Cards[])
     for(int i =0; i < NUM_OF_SUITS*NUM_OF_VALUES;++i)
     {
         k = rand() % indexes.size();
-        Deque.push_back(&Cards[indexes[k]]);
+        this->Cards.push_back(&Cards[indexes[k]]);
         Displayer->AddCard();
         indexes.erase(indexes.begin()+k);
     }
@@ -44,6 +44,7 @@ OpenCardDeque::OpenCardDeque(QWidget *wnd, CardMaker *maker)
 
 void OpenCardDeque::PlaceCard(Card* card)
 {
+    Cards.push_back(card);
     Displayer->PrintCardOver(card);
 }
 
@@ -51,11 +52,13 @@ void OpenCardDeque::PlaceCards(vector<Card *> &cards)
 {
     for(auto card : cards)
     {
+        Cards.push_back(card);
         Displayer->PrintCardOver(card);
     }
 }
 
 void OpenCardDeque::Clear()
 {
+    Cards.clear();
     Displayer->ClearDeque();
 }

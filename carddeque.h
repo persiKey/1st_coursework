@@ -7,7 +7,8 @@ using std::vector;
 
 class CardDeque
 {
-    vector<Card*> Deque;
+    friend class Game;
+    vector<Card*> Cards;
     DequeDisplayer* Displayer;
 
 
@@ -19,6 +20,7 @@ public:
 
 class OpenCardDeque
 {
+    friend class Game;
     vector<Card*> Cards;
     OpenDequeDisplayer* Displayer;
 public:

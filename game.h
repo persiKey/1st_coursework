@@ -33,6 +33,11 @@ private:
     void MainLoop();
     void Deside();
     void GiveCardsToPlayers();
+    bool CheckMovesAvailable(class Player* pl);
+    void TakeAllOpenCards(class Player*pl);
+    bool CheckIfWin(class Player* pl);
+    void RenewDeque();
+    bool OnePlayerTact(class Player *pl);
 public:
     explicit Game(QObject *parent = nullptr);
     void setWnd(QWidget* wnd);

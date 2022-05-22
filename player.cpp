@@ -10,6 +10,16 @@ void Player::AddCard(Card * card)
     Hand.push_back(card);
 }
 
+vector<Card *> Player::PlaceCards()
+{
+    return vector<Card*>{};
+}
+
+void Player::SetDequeSuit(CardSuit)
+{
+
+}
+
 
 MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker)
 {
@@ -69,4 +79,9 @@ vector<Card *> Enemy::PlaceCards()
     Card* res = Hand.back();
     Hand.pop_back();
     return vector<Card*>{res};
+}
+
+void Enemy::SetDequeSuit(CardSuit suit)
+{
+    last = suit;
 }
