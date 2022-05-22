@@ -83,7 +83,11 @@ void Game::Init(int pl, int dif)
     GiveCardsToPlayers();
     last  = CardSuit(-1);
     Player->SetDequeSuit(&last);
-    for(int i =0; i < players-1;++i) Enemies[i]->SetDequeSuit(&last);
+    for(int i =0; i < players-1;++i)
+    {
+        Enemies[i]->SetDequeSuit(&last);
+        Enemies[i]->dif = difficulty;
+    }
 
     ShowGameElements();
     InitMenuElements();
@@ -102,7 +106,7 @@ bool Game::CheckMovesAvailable(class Player* pl)
 void Game::TakeAllOpenCards(class Player *pl)
 {
 
-    for(size_t i = 0; i < OpenDeque->Cards.size();++i)
+    while(!OpenDeque->Cards.empty())
     {
         pl->AddCard(OpenDeque->Cards.back());
         ProcessAndPause(80);
@@ -146,7 +150,7 @@ int Game::OnePlayerTact(class Player *pl)
     if(moveCards.empty()) return -1;
     OpenDeque->PlaceCards(moveCards);
     last = moveCards.back()->Suit;
-    if(CheckIfWin(pl)) return true;
+    if(CheckIfWin(pl)) return 1;
 
     if(Deque->Cards.empty()) RenewDeque();
     pl->AddCard(Deque->TakeCard());
@@ -158,12 +162,15 @@ void Game::OneGameTact()
 {
 
     switch (OnePlayerTact(Player)) {
-    case true: DisplayWinLoose("Ви виграли!");return;
+    case 1: DisplayWinLoose("Ви виграли!");return;
     case -1: return;
     }
     for(int i = 0; i < players-1;++i)
     {
-        if(OnePlayerTact(Enemies[i]))
+        if(OnePlayerTact(Enemies[i]) == 1)
+        {
+            ProcessAndPause(2000);
             DisplayWinLoose("Ви програли!");
+        }
     }
 }

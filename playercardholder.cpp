@@ -141,6 +141,7 @@ void PlayerCardHolder::CardChoosen(int index)
         }
         else if(SelectedValue == (*AllCards)[allCardIndex]->Value)
         {
+            if(ChoosenCardsIndexes.size() == 0 && (*AllCards)[allCardIndex]->Suit == *DequeSuit) return;
             VisibleCards[index].printSelection();
             ChoosenCardsIndexes.push_back(allCardIndex);
         }
@@ -158,6 +159,7 @@ void PlayerCardHolder::CardChoosen(int index)
                 Card.unprintSelection();
                 ChoosenCardsIndexes.pop_back();
                 this->update();
+                SelectedValue = CardValue(-1);
             }
         }
     }

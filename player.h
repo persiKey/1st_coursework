@@ -43,6 +43,7 @@ public:
 class Enemy : public Player
 {
     friend class Game;
+    int dif;
 private:
     EnemyCardHolder* Holder;
 public:
@@ -53,6 +54,9 @@ public:
     void Clear() override;
     void Show() override;
     void Hide() override;
+    vector<int> EasyThink();
+    //vector<int> MediumThink();
+    //vector<int> HardThink();
 };
 
 #endif // PLAYER_H

@@ -119,11 +119,30 @@ void Enemy::AddCard(Card *card)
 
 vector<Card *> Enemy::PlaceCards()
 {
-    Holder->ExtractCard();
-    Card* res = Hand.back();
-    Hand.pop_back();
+    vector<int> indexes;
+    switch (dif) {
+    case 1: indexes = EasyThink();break;
+
+    }
+    vector<Card*> result;
+    for(size_t i = 0; i < indexes.size();++i)
+    {
+        if(Hand.size() < VISIBLE_CARDS_IN_HAND)
+            Holder->ExtractCard();
+        result.push_back(Hand[indexes[i]]);
+        Hand[indexes[i]] = nullptr;
+    }
+    for(size_t i = 0; i < Hand.size();++i)
+    {
+        if(Hand[i] == nullptr)
+        {
+            Hand.erase(Hand.begin()+i);
+            --i;
+        }
+    }
+
     Player::UpdateCounter();
-    return vector<Card*>{res};
+    return result;
 }
 
 void Enemy::SetDequeSuit(CardSuit *suit)
@@ -148,4 +167,55 @@ void Enemy::Hide()
 {
     Holder->hide();
     Counter->hide();
+}
+#include <map>
+vector<int> Enemy::EasyThink()
+{
+    std::map<CardValue,int> rep;
+    for(auto Card : Hand)
+    {
+        if(!rep.insert(std::make_pair(Card->Value,1)).second)
+        {
+            rep[Card->Value]++;
+        }
+    }
+    int max=1;
+    CardValue Cardvalue;
+
+    for(auto i : rep)
+    {
+        if(max < i.second)
+        {
+            max = i.second;
+            Cardvalue = i.first;
+        }
+    }
+
+    if(max == 1)
+    {
+        for(int i = 0; i < Hand.size();++i)
+        {
+            if(Hand[i]->Suit != *OpenSuit)
+            {
+                return vector<int>{i};
+            }
+        }
+    }
+    vector<int> indexes;
+    for(int i = 0; i < Hand.size();++i)
+    {
+        if(Hand[i]->Value == Cardvalue)
+        {
+            indexes.push_back(i);
+        }
+    }
+    if(Hand[indexes[0]]->Suit == *OpenSuit)
+    {
+        std::swap(indexes[0], indexes[1]);
+    }
+
+
+    return indexes;
+    // find avilable
+    // find repeatable
 }
