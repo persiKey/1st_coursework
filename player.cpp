@@ -20,6 +20,16 @@ void Player::SetDequeSuit(CardSuit*)
 
 }
 
+void Player::Clear()
+{
+
+}
+
+Player::~Player()
+{
+
+}
+
 
 MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker)
 {
@@ -61,6 +71,13 @@ void MainPlayer::SetDequeSuit(CardSuit *suit)
     Holder->UpdateDequeSuit(suit);
 }
 
+void MainPlayer::Clear()
+{
+    Holder->GetIndexes();
+    Hand.clear();
+    Holder->ExtractCards();
+}
+
 Enemy::Enemy(QWidget *wnd, CardOrientation orient, int x, int y)
 {
     Holder = new EnemyCardHolder(orient,wnd);
@@ -85,4 +102,10 @@ vector<Card *> Enemy::PlaceCards()
 void Enemy::SetDequeSuit(CardSuit *suit)
 {
     Player::OpenSuit = suit;
+}
+
+void Enemy::Clear()
+{
+    Holder->ExtractAllCards();
+    Hand.clear();
 }

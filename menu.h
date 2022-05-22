@@ -22,9 +22,6 @@ private slots:
     void StartMenu();
     void PlayersMenu();
     void DifficultyMenu();
-    void GameMenu(GameState state);
-    void RestartGame();
-    void ResumeFromPause();
     void Exit();
     void SetPlayers();
     void SetDifficulty();

@@ -10,8 +10,8 @@ Menu::Menu(QWidget* parent) : QObject(parent)
 void Menu::setWnd(QWidget *wnd)
 {
     this->Wnd = wnd;
-    StartMenu();
     Wnd->setLayout(&Layout);
+    StartMenu();
     Wnd->show();
 }
 
@@ -23,9 +23,9 @@ void Menu::StartMenu()
     FuncButton2.setText("Exit");
     FuncButton2.setFixedSize(200,100);
 
-    Layout.addWidget(&Title,0,0); //Title.show();
-    Layout.addWidget(&FuncButton1,1,0); //FuncButton1.show();
-    Layout.addWidget(&FuncButton2,2,0); //FuncButton2.show();
+    Layout.addWidget(&Title,0,0); Title.show();
+    Layout.addWidget(&FuncButton1,1,0); FuncButton1.show();
+    Layout.addWidget(&FuncButton2,2,0); FuncButton2.show();
 
     QObject::connect(&FuncButton1,SIGNAL(clicked()),this,SLOT(PlayersMenu()));
     QObject::connect(&FuncButton2, SIGNAL(clicked()),this, SLOT(Exit()));
@@ -43,9 +43,7 @@ void Menu::PlayersMenu()
 
     Title.setText("Виберіть кількість гравців");
     FuncButton1.setText("2");
-    FuncButton1.setFixedSize(200,100);
     FuncButton2.setText("3");
-    FuncButton2.setFixedSize(200,100);
     FuncButton3.setText("4");
     FuncButton3.setFixedSize(200,100);
 
@@ -74,11 +72,8 @@ void Menu::DifficultyMenu()
 {
     Title.setText("Виберіть рівень складності");
     FuncButton1.setText("Легкий");
-    FuncButton1.setFixedSize(200,100);
     FuncButton2.setText("Середній");
-    FuncButton2.setFixedSize(200,100);
     FuncButton3.setText("Важкий");
-    FuncButton3.setFixedSize(200,100);
 
     Layout.addWidget(&Title,0,0);
     Layout.addWidget(&FuncButton1,1,0);
@@ -90,60 +85,6 @@ void Menu::DifficultyMenu()
     QObject::connect(&FuncButton3,SIGNAL(clicked()),this,SLOT(SetDifficulty()));
 }
 
-void Menu::RestartGame()
-{
-    QObject::disconnect(&FuncButton1,SIGNAL(clicked()),this,SLOT(RestartGame()));
-    QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(StartMenu()));
-    QObject::disconnect(&FuncButton3,SIGNAL(clicked()),this,SLOT(ResumeFromPause()));
-
-    Title.hide();
-    FuncButton1.hide();
-    FuncButton3.hide();
-    FuncButton2.hide();
-    emit StartGame(players, difficulty);
-}
-
-void Menu::ResumeFromPause()
-{
-    Title.hide();
-    FuncButton1.hide();
-    FuncButton3.hide();
-    FuncButton2.hide();
-}
-
-void Menu::GameMenu(GameState state)
-{
-    FuncButton1.setText("Почати заново");
-    FuncButton2.setText("Головне меню");
-    switch (state) {
-    case GameState::WIN:
-        Title.setText("Ви перемогли");
-        break;
-    case GameState::LOSE:
-        Title.setText("Ви програли");
-        break;
-    }
-
-    if(GameState::PAUSE == state)
-    {
-        Title.setText("Павза");
-        FuncButton3.setText("Продовжити");
-        Layout.addWidget(&Title,0,0,1,1);
-        Layout.addWidget(&FuncButton3,1,0,1,1);
-        Layout.addWidget(&FuncButton1,2,0,1,1);
-        Layout.addWidget(&FuncButton2,3,0,1,1);
-        QObject::connect(&FuncButton3,SIGNAL(clicked()),this,SLOT(ResumeFromPause()));
-    }
-    else
-    {
-        Layout.addWidget(&Title,0,0,1,1);
-        Layout.addWidget(&FuncButton1,1,0,1,1);
-        Layout.addWidget(&FuncButton2,2,0,1,1);
-    }
-    QObject::connect(&FuncButton1,SIGNAL(clicked()),this,SLOT(RestartGame()));
-    QObject::connect(&FuncButton2,SIGNAL(clicked()),this,SLOT(StartMenu()));
-
-}
 
 void Menu::SetDifficulty()
 {

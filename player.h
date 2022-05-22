@@ -16,10 +16,13 @@ public:
     virtual void AddCard(Card*);
     virtual vector<Card *> PlaceCards();
     virtual void SetDequeSuit(CardSuit*);
+    virtual void Clear();
+    virtual ~Player();
 };
 
 class MainPlayer : public Player
 {
+    friend class Game;
 private:
     PlayerCardHolder* Holder;
 public:
@@ -27,11 +30,12 @@ public:
     void AddCard(Card* card) override;
     vector<Card *> PlaceCards() override;
     void SetDequeSuit(CardSuit*) override;
+    void Clear() override;
 };
 
 class Enemy : public Player
 {
-
+    friend class Game;
 private:
     EnemyCardHolder* Holder;
 public:
@@ -39,6 +43,7 @@ public:
     void AddCard(Card* card) override;
     vector<Card *> PlaceCards() override;
     void SetDequeSuit(CardSuit*) override;
+    void Clear() override;
 };
 
 #endif // PLAYER_H

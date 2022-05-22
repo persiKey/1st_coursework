@@ -69,3 +69,12 @@ void EnemyCardHolder::ExtractCard()
     VisibleCards[VisibleCardsIndex--].hide();
 
 }
+
+void EnemyCardHolder::ExtractAllCards()
+{
+    for(int i = 0; i < VisibleCardsIndex;++i)
+    {
+        VisibleCards[i].hide();
+    }
+    VisibleCardsIndex = -1;
+}

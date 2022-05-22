@@ -29,6 +29,7 @@ public:
 public slots:
     void AddCard();
     void ExtractCard();
+    void ExtractAllCards();
 
 };
 

@@ -16,6 +16,12 @@ Card *CardDeque::TakeCard()
     return card;
 }
 
+void CardDeque::Clear()
+{
+    Cards.clear();
+    Displayer->Clear();
+}
+
 void CardDeque::RandomCardGen(Card Cards[])
 {
     this->Cards.clear();

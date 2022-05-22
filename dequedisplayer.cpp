@@ -10,8 +10,7 @@ DequeDisplayer::DequeDisplayer(QWidget *parent) : QWidget(parent), deque(DEQUE_W
 {
     srand(time(NULL));
     this->setFixedSize(DEQUE_WIDTH,DEQUE_HEIGHT);
-    DisplayedCardsCount = -1;
-    ClearDeque();
+    Clear();
 }
 
 void DequeDisplayer::ClearDeque()
@@ -48,6 +47,12 @@ void DequeDisplayer::ExtractCard()
     ClearDeque();
     DrawCoverCards();
     this->update();
+}
+
+void DequeDisplayer::Clear()
+{
+    DisplayedCardsCount = -1;
+    ClearDeque();
 }
 
 

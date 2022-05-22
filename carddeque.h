@@ -16,6 +16,7 @@ public:
     CardDeque(QWidget* wnd, Card Cards[]);
     void RandomCardGen(Card[]);
     Card *TakeCard();
+    void Clear();
 };
 
 class OpenCardDeque

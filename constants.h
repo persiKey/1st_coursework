@@ -20,12 +20,6 @@ constexpr int DEQUE_SPACING = 10;
 constexpr int DEQUE_OFFSET = 5;
 constexpr int MAX_DEQUE_DISPLAYING_CARDS = 4;
 
-enum class GameState
-{
-    WIN,
-    LOSE,
-    PAUSE
-};
 
 enum class CardSuit
 {

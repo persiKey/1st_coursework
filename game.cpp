@@ -1,5 +1,4 @@
 #include "game.h"
-// 11:17
 #include "QDebug"
 
 #include "constants.h"
@@ -15,7 +14,7 @@ void ProcessAndPause(int msec)
 
 Game::Game(QObject *parent) : QObject(parent)
 {
-
+    GenerateCards();
 }
 
 void Game::setWnd(QWidget *wnd)
@@ -50,23 +49,17 @@ void Game::GiveCardsToPlayers()
 
 }
 
-void Game::MainLoop()
-{
-
-    while(true)
-    {
-
-        qDebug() << "yes";
-        std::this_thread::sleep_for(std::chrono::seconds(10));
-    }
-}
 
 void Game::Init(int pl, int dif)
 {
     Move = new QPushButton("Зробити хід", Wnd);
     Move->move(800,400);
-    Move->show();
     QObject::connect(Move,SIGNAL(clicked()),this,SLOT(OneGameTact()));
+
+    PauseButton = new QPushButton("||", Wnd);
+    PauseButton->move(900,400); PauseButton->setFixedSize(30,30);
+    QObject::connect(PauseButton,SIGNAL(clicked()),this,SLOT(PauseGame()));
+
     this->players = pl;
     this->difficulty = dif;
     qDebug() << players << " " << difficulty << "\n";
@@ -87,13 +80,14 @@ void Game::Init(int pl, int dif)
     }
     Deque = new CardDeque(Wnd,Cards);
     OpenDeque = new OpenCardDeque(Wnd,Maker);
-    GenerateCards();
-    std::thread a(&Game::MainLoop,std::ref(*this));
-    a.detach();
+
     GiveCardsToPlayers();
     last  = CardSuit(-1);
     Player->SetDequeSuit(&last);
     for(int i =0; i < players-1;++i) Enemies[i]->SetDequeSuit(&last);
+
+    InitMenuElements();
+    ShowGameElements();
 }
 
 bool Game::CheckMovesAvailable(class Player* pl)
@@ -165,14 +159,12 @@ void Game::OneGameTact()
 {
 
     switch (OnePlayerTact(Player)) {
-    case true: qDebug() << "Player won";break;
+    case true: DisplayWinLoose("Ви виграли!");return;
     case -1: return;
     }
     for(int i = 0; i < players-1;++i)
     {
         if(OnePlayerTact(Enemies[i]))
-        {
-            qDebug() << "Bot " << i + 1 << " won";
-        }
+            DisplayWinLoose("Ви програли!");
     }
 }

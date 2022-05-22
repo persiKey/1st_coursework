@@ -17,6 +17,7 @@ public:
     explicit DequeDisplayer(QWidget *parent = nullptr);
     void AddCard();
     void ExtractCard();
+    void Clear();
     void paintEvent(QPaintEvent *e);
 signals:
 
