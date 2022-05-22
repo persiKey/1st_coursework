@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QWidget MainWnd;
-    MainWnd.setFixedSize(1280,720);
+    MainWnd.setFixedSize(1280,800);
     Menu menu;
     menu.setWnd(&MainWnd);
     Game game;

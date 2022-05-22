@@ -4,22 +4,22 @@ void Game::ShowGameElements()
 {
     PauseButton->show();
     Move->show();
-    Player->Holder->show();
+    Player->Show();
     for(int i = 0; i < players-1;++i)
-        Enemies[i]->Holder->show();
-    Deque->Displayer->show();
-    OpenDeque->Displayer->show();
+        Enemies[i]->Show();
+    Deque->Show();
+    OpenDeque->Show();
 }
 
 void Game::HideGameElements()
 {
     PauseButton->hide();
     Move->hide();
-    Player->Holder->hide();
+    Player->Hide();
     for(int i = 0; i < players-1;++i)
-        Enemies[i]->Holder->hide();
-    Deque->Displayer->hide();
-    OpenDeque->Displayer->hide();
+        Enemies[i]->Hide();
+    Deque->Hide();
+    OpenDeque->Hide();
 }
 
 void Game::HideMenuElements()

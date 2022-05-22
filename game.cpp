@@ -86,8 +86,8 @@ void Game::Init(int pl, int dif)
     Player->SetDequeSuit(&last);
     for(int i =0; i < players-1;++i) Enemies[i]->SetDequeSuit(&last);
 
-    InitMenuElements();
     ShowGameElements();
+    InitMenuElements();
 }
 
 bool Game::CheckMovesAvailable(class Player* pl)

@@ -22,21 +22,20 @@ CardMaker::CardMaker() : Font("Hoyle Playing Cards", VALUE_FONT, QFont::Normal)
 
 CardMaker::~CardMaker()
 {
+    for(int i =0 ; i < NUM_OF_SUITS; ++i)
+    {
+        for(int k = 0; k < NUM_OF_VALUES; ++k)
+        {
+            assert(true);
+            if(CachedCards[i][k] != nullptr){}
+              delete CachedCards[i][k];
+        }
+    }
     for(int i = 0; i < NUM_OF_SUITS; ++i)
     {
         delete[] CachedCards[i];
     }
     delete [] CachedCards;
-
-    for(int i =0 ; i < NUM_OF_SUITS; ++i)
-    {
-        for(int k = 0; k < NUM_OF_VALUES; ++k)
-        {
-            if(CachedCards[i][k] != nullptr){}
-              // delete CachedCards[i][k];
-        }
-    }
-
 }
 char GetPrintValue(CardValue value)
 {
