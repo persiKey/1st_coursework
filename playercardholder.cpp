@@ -149,6 +149,17 @@ void PlayerCardHolder::CardChoosen(int index)
     {
         VisibleCards[index].unprintSelection();
         ChoosenCardsIndexes.erase(pos);
+        if(ChoosenCardsIndexes.size() == 1)
+        {
+            if((*AllCards)[ChoosenCardsIndexes[0]]->Suit == *DequeSuit)
+            {
+                PlayerCardDisplayer Card;
+                Card.updatePix(cardMaker->GetCard(*(*AllCards)[ChoosenCardsIndexes[0]]));
+                Card.unprintSelection();
+                ChoosenCardsIndexes.pop_back();
+                this->update();
+            }
+        }
     }
 
 }

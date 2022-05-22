@@ -20,7 +20,6 @@ Game::Game(QObject *parent) : QObject(parent)
 void Game::setWnd(QWidget *wnd)
 {
     this->Wnd = wnd;
-    qDebug() << this->Wnd;
 }
 
 void Game::GenerateCards()
