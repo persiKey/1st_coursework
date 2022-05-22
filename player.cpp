@@ -15,7 +15,7 @@ vector<Card *> Player::PlaceCards()
     return vector<Card*>{};
 }
 
-void Player::SetDequeSuit(CardSuit)
+void Player::SetDequeSuit(CardSuit*)
 {
 
 }
@@ -55,8 +55,9 @@ vector<Card *> MainPlayer::PlaceCards()
     return ExtractedCards;
 }
 
-void MainPlayer::SetDequeSuit(CardSuit suit)
+void MainPlayer::SetDequeSuit(CardSuit *suit)
 {
+    Player::OpenSuit = suit;
     Holder->UpdateDequeSuit(suit);
 }
 
@@ -81,7 +82,7 @@ vector<Card *> Enemy::PlaceCards()
     return vector<Card*>{res};
 }
 
-void Enemy::SetDequeSuit(CardSuit suit)
+void Enemy::SetDequeSuit(CardSuit *suit)
 {
-    last = suit;
+    Player::OpenSuit = suit;
 }

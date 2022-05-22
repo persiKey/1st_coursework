@@ -23,7 +23,7 @@ Card *c = new Card;
 //    Hld->AddCard(c);
 //    Hld->AddCard(c);
 //    Hld->AddCard(c);
-    Hld->UpdateDequeSuit(CardSuit::TILES);
+    //Hld->UpdateDequeSuit(CardSuit::TILES);
     Hld->show();
     EnHld->show();
     dis->show();

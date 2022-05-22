@@ -122,7 +122,7 @@ void PlayerCardHolder::ExtractCards()
     ChoosenCardsIndexes.clear();
 }
 
-void PlayerCardHolder::UpdateDequeSuit(CardSuit suit)
+void PlayerCardHolder::UpdateDequeSuit(CardSuit *suit)
 {
     DequeSuit = suit;
 }
@@ -133,7 +133,7 @@ void PlayerCardHolder::CardChoosen(int index)
     auto pos = std::find(ChoosenCardsIndexes.begin(), ChoosenCardsIndexes.end(),allCardIndex);
     if(pos == ChoosenCardsIndexes.end() )
     {
-        if(ChoosenCardsIndexes.size() == 0 && (*AllCards)[allCardIndex]->Suit != DequeSuit)
+        if(ChoosenCardsIndexes.size() == 0 && (*AllCards)[allCardIndex]->Suit != *DequeSuit)
         {
             VisibleCards[index].printSelection();
             ChoosenCardsIndexes.push_back(allCardIndex);

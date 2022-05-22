@@ -91,7 +91,9 @@ void Game::Init(int pl, int dif)
     std::thread a(&Game::MainLoop,std::ref(*this));
     a.detach();
     GiveCardsToPlayers();
-
+    last  = CardSuit(-1);
+    Player->SetDequeSuit(&last);
+    for(int i =0; i < players-1;++i) Enemies[i]->SetDequeSuit(&last);
 }
 
 bool Game::CheckMovesAvailable(class Player* pl)
@@ -126,7 +128,6 @@ bool Game::CheckIfWin(class Player *pl)
 
 void Game::RenewDeque()
 {
-
     Card* last_open = OpenDeque->Cards.back();
     OpenDeque->Cards.pop_back();
 
@@ -141,16 +142,15 @@ void Game::RenewDeque()
     OpenDeque->PlaceCard(last_open);
 }
 
-bool Game::OnePlayerTact(class Player *pl)
+int Game::OnePlayerTact(class Player *pl)
 {
-    pl->SetDequeSuit(last);
     if(!CheckMovesAvailable(pl))
     {
         TakeAllOpenCards(pl);
-        return false;
+        return -2;
     }
     vector<Card*> moveCards = pl->PlaceCards();
-    if(moveCards.empty()) return false;
+    if(moveCards.empty()) return -1;
     OpenDeque->PlaceCards(moveCards);
     last = moveCards.back()->Suit;
     if(CheckIfWin(pl)) return true;
@@ -161,12 +161,12 @@ bool Game::OnePlayerTact(class Player *pl)
     return false;
 }
 
-
 void Game::OneGameTact()
 {
-    if(OnePlayerTact(Player))
-    {
-        qDebug() << "Player won";
+
+    switch (OnePlayerTact(Player)) {
+    case true: qDebug() << "Player won";break;
+    case -1: return;
     }
     for(int i = 0; i < players-1;++i)
     {
@@ -175,5 +175,4 @@ void Game::OneGameTact()
             qDebug() << "Bot " << i + 1 << " won";
         }
     }
-    Player->SetDequeSuit(last);
 }

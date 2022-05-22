@@ -26,7 +26,7 @@ class PlayerCardHolder : public QWidget
 
     vector<Card*>* AllCards;
     vector<int> ChoosenCardsIndexes;
-    CardSuit DequeSuit;
+    CardSuit *DequeSuit;
     CardValue SelectedValue;
 
     void UpdateVisibleCards();
@@ -40,7 +40,7 @@ public:
 
     void ExtractCards();
     vector<int> GetIndexes();
-    void UpdateDequeSuit(CardSuit suit);
+    void UpdateDequeSuit(CardSuit *suit);
 
 private slots:
     void CheckLeft();
