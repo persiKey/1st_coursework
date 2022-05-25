@@ -1,6 +1,8 @@
 #include "carddeque.h"
 #include <QDebug>
 
+void ProcessAndPause(int msec);
+
 CardDeque::CardDeque(QWidget *wnd, Card Cards[])
 {
     Displayer = new DequeDisplayer(wnd);
@@ -92,6 +94,8 @@ void OpenCardDeque::PlaceCards(vector<Card *> &cards)
     {
         Cards.push_back(card);
         Displayer->PrintCardOver(card);
+        Displayer->update();
+        ProcessAndPause(500);
     }
     Counter->setText(QString::number(this->Cards.size()));
 }

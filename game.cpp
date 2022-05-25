@@ -45,7 +45,7 @@ void Game::GiveCardsToPlayers()
             Enemies[k]->AddCard(Deque->TakeCard());
         }
     }
-
+    GiveOneCardFromDequeToPlayer(Player);
 }
 
 
@@ -138,9 +138,14 @@ void Game::RenewDeque()
     OpenDeque->Clear();
     OpenDeque->PlaceCard(last_open);
 }
-
+void Game::GiveOneCardFromDequeToPlayer(class Player* pl)
+{
+    if(Deque->Cards.empty()) RenewDeque();
+    pl->AddCard(Deque->TakeCard());
+}
 int Game::OnePlayerTact(class Player *pl)
 {
+
     if(!CheckMovesAvailable(pl))
     {
         TakeAllOpenCards(pl);
@@ -152,8 +157,6 @@ int Game::OnePlayerTact(class Player *pl)
     last = moveCards.back()->Suit;
     if(CheckIfWin(pl)) return 1;
 
-    if(Deque->Cards.empty()) RenewDeque();
-    pl->AddCard(Deque->TakeCard());
     ProcessAndPause(1000);
     return false;
 }
@@ -167,10 +170,12 @@ void Game::OneGameTact()
     }
     for(int i = 0; i < players-1;++i)
     {
+        GiveOneCardFromDequeToPlayer(Enemies[i]);
         if(OnePlayerTact(Enemies[i]) == 1)
         {
             ProcessAndPause(2000);
             DisplayWinLoose("Ви програли!");
         }
     }
+    GiveOneCardFromDequeToPlayer(Player);
 }

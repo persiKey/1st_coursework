@@ -4,11 +4,12 @@
 #include <QWidget>
 #include <QtWidgets>
 #include "constants.h"
-
+#include "playerstat.h"
 
 class Menu : public QObject
 {
     Q_OBJECT
+    LoginWidget* Login;
     QWidget* Wnd;
     QLabel Title;
     QGridLayout Layout;
@@ -17,15 +18,18 @@ class Menu : public QObject
     QPushButton FuncButton2;
     int players;
     int difficulty;
+    PlayerStat Profile;
 
 private slots:
-    void StartMenu();
     void PlayersMenu();
     void DifficultyMenu();
     void Exit();
     void SetPlayers();
     void SetDifficulty();
 
+public slots:
+    void MainMenu();
+    void Start(PlayerStat);
 signals:
     void StartGame(int pl, int dif);
 

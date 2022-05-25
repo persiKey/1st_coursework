@@ -127,7 +127,7 @@ vector<Card *> Enemy::PlaceCards()
     vector<Card*> result;
     for(size_t i = 0; i < indexes.size();++i)
     {
-        if(Hand.size() < VISIBLE_CARDS_IN_HAND)
+        if(Hand.size() <= VISIBLE_CARDS_IN_HAND)
             Holder->ExtractCard();
         result.push_back(Hand[indexes[i]]);
         Hand[indexes[i]] = nullptr;

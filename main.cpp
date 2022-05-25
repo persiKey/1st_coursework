@@ -6,6 +6,7 @@
 
 #include "cardmaker.h"
 #include "test.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -16,7 +17,7 @@ int main(int argc, char *argv[])
     Game game;
     game.setWnd(&MainWnd);
     QObject::connect(&menu,SIGNAL(StartGame(int, int)),&game,SLOT(Init(int, int)));
-    QObject::connect(&game,SIGNAL(MainMenu()),&menu,SLOT(StartMenu()));
+    QObject::connect(&game,SIGNAL(MainMenu()),&menu,SLOT(MainMenu()));
     //CardMaker test;
     QFontDatabase::addApplicationFont("F:\\Projects\\Qt\\Chicken\\src\\Hoyle Playing Cards.ttf");
 //    Test tes(&MainWnd);

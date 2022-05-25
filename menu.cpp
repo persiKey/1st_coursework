@@ -10,13 +10,15 @@ Menu::Menu(QWidget* parent) : QObject(parent)
 void Menu::setWnd(QWidget *wnd)
 {
     this->Wnd = wnd;
-    Wnd->setLayout(&Layout);
-    StartMenu();
+    Login = new LoginWidget(wnd);
+    QObject::connect(Login,SIGNAL(ProfileEntered(PlayerStat)),this,SLOT(Start(PlayerStat)));
     Wnd->show();
+
 }
 
-void Menu::StartMenu()
+void Menu::MainMenu()
 {
+
     Title.setText("Головне меню");
     FuncButton1.setText("Start");
     FuncButton1.setFixedSize(200,100);
@@ -109,4 +111,12 @@ void Menu::SetDifficulty()
     FuncButton3.hide();
     FuncButton2.hide();
     emit StartGame(players, difficulty);
+}
+
+void Menu::Start(PlayerStat prof)
+{
+    delete Login;
+    Profile = prof;
+    Wnd->setLayout(&Layout);
+    MainMenu();
 }

@@ -37,8 +37,8 @@ class Game : public QObject
 
 private:
     void GenerateCards();
-    void MainLoop();
     void GiveCardsToPlayers();
+    void GiveOneCardFromDequeToPlayer(class Player* pl);
     bool CheckMovesAvailable(class Player* pl);
     void TakeAllOpenCards(class Player*pl);
     bool CheckIfWin(class Player* pl);
