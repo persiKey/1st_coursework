@@ -43,5 +43,5 @@ public:
 signals:
     void ProfileEntered(PlayerStat player);
 };
-
+void saveStat(PlayerStat*);
 #endif // PLAYERSTAT_H

@@ -49,8 +49,9 @@ void Game::GiveCardsToPlayers()
 }
 
 
-void Game::Init(int pl, int dif)
+void Game::Init(int pl, int dif, PlayerStat *Prof)
 {
+    Profile = Prof;
     Move = new QPushButton("Зробити хід", Wnd);
     Move->move(800,400);
     QObject::connect(Move,SIGNAL(clicked()),this,SLOT(OneGameTact()));
@@ -79,7 +80,7 @@ void Game::Init(int pl, int dif)
     }
     Deque = new CardDeque(Wnd,Cards);
     OpenDeque = new OpenCardDeque(Wnd,Maker);
-
+    game_started = clock();
     GiveCardsToPlayers();
     last  = CardSuit(-1);
     Player->SetDequeSuit(&last);
@@ -115,7 +116,15 @@ void Game::TakeAllOpenCards(class Player *pl)
     OpenDeque->Clear();
 
 }
-
+void Game::FillPlayerStat(bool win)
+{
+    Profile->last_game_duration = (clock() - game_started)/CLOCKS_PER_SEC;
+    int games_won = Profile->win_rate * Profile->games_played;
+    Profile->games_played++;
+    Profile->last_game_win = win;
+    Profile->win_rate = float(games_won + win)/Profile->games_played;
+    saveStat(Profile);
+}
 bool Game::CheckIfWin(class Player *pl)
 {
     if(pl->Hand.empty())
@@ -163,9 +172,8 @@ int Game::OnePlayerTact(class Player *pl)
 
 void Game::OneGameTact()
 {
-
     switch (OnePlayerTact(Player)) {
-    case 1: DisplayWinLoose("Ви виграли!");return;
+    case 1: FillPlayerStat(true); DisplayWinLoose("Ви виграли!");return;
     case -1: return;
     }
     for(int i = 0; i < players-1;++i)
@@ -173,7 +181,8 @@ void Game::OneGameTact()
         GiveOneCardFromDequeToPlayer(Enemies[i]);
         if(OnePlayerTact(Enemies[i]) == 1)
         {
-            ProcessAndPause(2000);
+            FillPlayerStat(false);
+            ProcessAndPause(1000);
             DisplayWinLoose("Ви програли!");
         }
     }

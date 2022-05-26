@@ -4,10 +4,12 @@
 #include <QObject>
 #include <QLabel>
 #include <QGridLayout>
+#include <time.h>
 
 #include "player.h"
 #include "carddeque.h"
 #include "cardmaker.h"
+#include "playerstat.h" // will change to constants
 
 using std::vector;
 class Game : public QObject
@@ -23,8 +25,10 @@ class Game : public QObject
     QPushButton* RestartButton;
     QPushButton* MainMenuButton;
 
+    PlayerStat* Profile;
     int players;
     int difficulty;
+    clock_t game_started;
 
     CardSuit last;
     Card Cards[NUM_OF_SUITS*NUM_OF_VALUES];
@@ -51,6 +55,7 @@ private:
     void ShowMenuElements();
     void FreeResourses();
     void Restart();
+    void FillPlayerStat(bool win);
     void DisplayWinLoose(QString msg);
 
     void InitMenuElements();
@@ -66,7 +71,7 @@ private slots:
     void RestartGame();
     void EnterMainMenu();
 public slots:
-    void Init(int pl, int dif);
+    void Init(int pl, int dif, PlayerStat*);
 signals:
     void MainMenu();
 };

@@ -13,6 +13,7 @@ class Menu : public QObject
     QWidget* Wnd;
     QLabel Title;
     QGridLayout Layout;
+    QTextBrowser* StatInfo;
     QPushButton FuncButton1;
     QPushButton FuncButton3;
     QPushButton FuncButton2;
@@ -21,17 +22,18 @@ class Menu : public QObject
     PlayerStat Profile;
 
 private slots:
+    void StatMenu();
     void PlayersMenu();
     void DifficultyMenu();
     void Exit();
     void SetPlayers();
     void SetDifficulty();
-
+    void Back();
 public slots:
     void MainMenu();
     void Start(PlayerStat);
 signals:
-    void StartGame(int pl, int dif);
+    void StartGame(int pl, int dif, PlayerStat*);
 
 public:
     Menu(QWidget* parent = nullptr);

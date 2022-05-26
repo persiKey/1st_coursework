@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     menu.setWnd(&MainWnd);
     Game game;
     game.setWnd(&MainWnd);
-    QObject::connect(&menu,SIGNAL(StartGame(int, int)),&game,SLOT(Init(int, int)));
+    QObject::connect(&menu,SIGNAL(StartGame(int, int, PlayerStat*)),&game,SLOT(Init(int, int, PlayerStat*)));
     QObject::connect(&game,SIGNAL(MainMenu()),&menu,SLOT(MainMenu()));
     //CardMaker test;
     QFontDatabase::addApplicationFont("F:\\Projects\\Qt\\Chicken\\src\\Hoyle Playing Cards.ttf");

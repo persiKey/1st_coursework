@@ -1,4 +1,6 @@
 #include "menu.h"
+#include <sstream>
+#include <iomanip>
 
 Menu::Menu(QWidget* parent) : QObject(parent)
 {
@@ -22,15 +24,18 @@ void Menu::MainMenu()
     Title.setText("Головне меню");
     FuncButton1.setText("Start");
     FuncButton1.setFixedSize(200,100);
-    FuncButton2.setText("Exit");
+    FuncButton2.setText("Переглянути статистику");
     FuncButton2.setFixedSize(200,100);
-
+    FuncButton3.setText("Exit");
+    FuncButton3.setFixedSize(200,100);
     Layout.addWidget(&Title,0,0); Title.show();
     Layout.addWidget(&FuncButton1,1,0); FuncButton1.show();
     Layout.addWidget(&FuncButton2,2,0); FuncButton2.show();
+    Layout.addWidget(&FuncButton3,3,0); FuncButton3.show();
 
     QObject::connect(&FuncButton1,SIGNAL(clicked()),this,SLOT(PlayersMenu()));
-    QObject::connect(&FuncButton2, SIGNAL(clicked()),this, SLOT(Exit()));
+    QObject::connect(&FuncButton2,SIGNAL(clicked()),this,SLOT(StatMenu()));
+    QObject::connect(&FuncButton3,SIGNAL(clicked()),this, SLOT(Exit()));
 }
 
 void Menu::Exit()
@@ -38,21 +43,57 @@ void Menu::Exit()
     QApplication::quit();
 }
 
+void Menu::StatMenu()
+{
+    QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(StatMenu()));
+    Title.setText("Статистика");
+    FuncButton1.hide();
+    FuncButton3.hide();
+    FuncButton2.setText("Назад");
+    QObject::connect(&FuncButton2,SIGNAL(clicked()),this,SLOT(Back()));
+
+    QFont f1;
+    f1.setPointSize(20);
+    std::wstringstream InSt;
+    InSt << L"Ім'я: " << Profile.name;
+    InSt << L"<br/>Зіграно ігор: " << Profile.games_played
+        << L"<br/>Відсоток виграшу: " << std::setprecision(3) << std::showpoint << Profile.win_rate
+        << L"<br/>Остання гра виграна: " << (Profile.last_game_win ? L"Так" : L"Ні")
+        << L"<br/>Тривалість останньої гри(с): " << Profile.last_game_duration;
+    StatInfo = new QTextBrowser;
+    StatInfo->setText(QString::fromStdWString(InSt.str()));
+    StatInfo->setFont(f1);
+    StatInfo->setAlignment(Qt::AlignHCenter);
+    StatInfo->setFixedSize(600,400);
+    Layout.addWidget(StatInfo,1,0);
+    Layout.addWidget(&FuncButton2,2,0,Qt::AlignCenter);
+
+}
+
+void Menu::Back()
+{
+    QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(Back()));
+    Layout.removeWidget(StatInfo);
+    delete StatInfo;
+    MainMenu();
+}
+
 void Menu::PlayersMenu()
 {
     QObject::disconnect(&FuncButton1,SIGNAL(clicked()),this,SLOT(PlayersMenu()));
-    QObject::disconnect(&FuncButton2, SIGNAL(clicked()),this, SLOT(Exit()));
+    QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(StatMenu()));
+    QObject::disconnect(&FuncButton3, SIGNAL(clicked()),this, SLOT(Exit()));
 
     Title.setText("Виберіть кількість гравців");
     FuncButton1.setText("2");
     FuncButton2.setText("3");
     FuncButton3.setText("4");
-    FuncButton3.setFixedSize(200,100);
+
 
     Layout.addWidget(&Title,0,0,1,3);
     Layout.addWidget(&FuncButton1,1,0);
     Layout.addWidget(&FuncButton2,1,1);
-    Layout.addWidget(&FuncButton3,1,2); FuncButton3.show();
+    Layout.addWidget(&FuncButton3,1,2);
 
     QObject::connect(&FuncButton1,SIGNAL(clicked()),this,SLOT(SetPlayers()));
     QObject::connect(&FuncButton2,SIGNAL(clicked()),this,SLOT(SetPlayers()));
@@ -110,7 +151,7 @@ void Menu::SetDifficulty()
     FuncButton1.hide();
     FuncButton3.hide();
     FuncButton2.hide();
-    emit StartGame(players, difficulty);
+    emit StartGame(players, difficulty, &Profile);
 }
 
 void Menu::Start(PlayerStat prof)

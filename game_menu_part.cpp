@@ -62,6 +62,7 @@ void Game::Restart()
     last = CardSuit(-1);
     GiveCardsToPlayers();
 }
+
 void Game::InitMenuElements()
 {
     Layout = dynamic_cast<QGridLayout*>(Wnd->layout());

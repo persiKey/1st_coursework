@@ -72,7 +72,7 @@ void LoginWidget::ChooseProfileClicked()
 {
     if(profileSelector->currentText().isEmpty())
         return;
-    ifstream file(SAVES_DIR_NAME + string("//") + profileSelector->currentText().toStdString(), std::ios_base::binary);
+    ifstream file(SAVES_DIR_NAME + string("\\") + profileSelector->currentText().toStdString() + string(".save"), std::ios_base::binary);
     PlayerStat player;
     file.read((char*)&player, sizeof(PlayerStat));
     emit ProfileEntered(player);
@@ -113,12 +113,12 @@ bool LoginWidget::ValidateName(QString name)
 void LoginWidget::CreateProfile()
 {
     if(profileNameEdit->text().size() > 20 || !ValidateName(profileNameEdit->text())) return;
-    std::string path = SAVES_DIR_NAME + string("//") + profileNameEdit->text().toStdString() + string(".save");
+    std::string path = SAVES_DIR_NAME + string("\\") + profileNameEdit->text().toStdString() + string(".save");
     if(ifstream(path).is_open()) return;
     if(CreateDirectoryA(SAVES_DIR_NAME, NULL) || GetLastError() == ERROR_ALREADY_EXISTS)
     {
         ofstream file(path, std::ios_base::binary);
-        PlayerStat player;
+        PlayerStat player; std::fill(player.name,player.name+20,0);
         profileNameEdit->text().toWCharArray(player.name);
         player.games_played = 0;
         player.win_rate = 0;
@@ -126,5 +126,15 @@ void LoginWidget::CreateProfile()
         player.last_game_duration = 0;
         file.write((char*)&player, sizeof(player));
         emit ProfileEntered(player);
+        file.close();
     }
+}
+
+void saveStat(PlayerStat *stat)
+{
+    std::wstring Name(stat->name);
+    std::string path = SAVES_DIR_NAME + string("\\")+ string(Name.begin(),Name.end()) + string(".save");
+    ofstream file(path, std::ios_base::binary);
+    file.write((char*)stat, sizeof(*stat));
+    file.close();
 }
