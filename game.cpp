@@ -113,6 +113,7 @@ void Game::TakeAllOpenCards(class Player *pl)
         ProcessAndPause(80);
         OpenDeque->Cards.pop_back();
     }
+    last = CardSuit(-1);
     OpenDeque->Clear();
 
 }
