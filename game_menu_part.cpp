@@ -61,6 +61,9 @@ void Game::Restart()
     Deque->RandomCardGen(Cards);
     last = CardSuit(-1);
     GiveCardsToPlayers();
+    game_started = clock();
+    GiveOneCardFromDequeToPlayer(Player);
+    active_player = 0;
 }
 
 void Game::InitMenuElements()

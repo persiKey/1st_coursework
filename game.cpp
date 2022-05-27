@@ -45,7 +45,6 @@ void Game::GiveCardsToPlayers()
             Enemies[k]->AddCard(Deque->TakeCard());
         }
     }
-    GiveOneCardFromDequeToPlayer(Player);
 }
 
 
@@ -64,7 +63,7 @@ void Game::Init(int pl, int dif, PlayerStat *Prof)
     this->difficulty = dif;
     qDebug() << players << " " << difficulty << "\n";
     Maker = new CardMaker;
-    Player = new MainPlayer(Wnd,Maker);
+    Player = new MainPlayer(Wnd,Maker,difficulty == 3);
 
     Enemies = new Enemy*[players-1];
     int counter = players-2;
@@ -82,12 +81,14 @@ void Game::Init(int pl, int dif, PlayerStat *Prof)
     OpenDeque = new OpenCardDeque(Wnd,Maker);
     game_started = clock();
     GiveCardsToPlayers();
+    GiveOneCardFromDequeToPlayer(Player);
+    active_player = 0;
     last  = CardSuit(-1);
     Player->SetDequeSuit(&last);
     for(int i =0; i < players-1;++i)
     {
         Enemies[i]->SetDequeSuit(&last);
-        Enemies[i]->dif = difficulty;
+        Enemies[i]->SetDifficulty(difficulty);
     }
 
     ShowGameElements();
@@ -147,6 +148,23 @@ void Game::RenewDeque()
     }
     OpenDeque->Clear();
     OpenDeque->PlaceCard(last_open);
+
+    class Player** E = new class Player*[players];
+    for(int i = 0; i < players; ++i)
+    {
+        if((active_player + i) % players == 0 )
+            E[i] = Player;
+        else
+            E[i] = Enemies[(active_player + i) % players - 1];
+
+        E[i]->NextCards.clear();
+    }
+
+    for(int i = Deque->Cards.size() - 1, p_i = 0; i >= 0;--i)
+    {
+        E[p_i]->NextCards.push_back(Deque->Cards[i]);
+        p_i = (p_i +1) % players;
+    }
 }
 void Game::GiveOneCardFromDequeToPlayer(class Player* pl)
 {
@@ -155,7 +173,6 @@ void Game::GiveOneCardFromDequeToPlayer(class Player* pl)
 }
 int Game::OnePlayerTact(class Player *pl)
 {
-
     if(!CheckMovesAvailable(pl))
     {
         TakeAllOpenCards(pl);
@@ -166,6 +183,7 @@ int Game::OnePlayerTact(class Player *pl)
     OpenDeque->PlaceCards(moveCards);
     last = moveCards.back()->Suit;
     if(CheckIfWin(pl)) return 1;
+    active_player = (active_player + 1) % players;
 
     ProcessAndPause(1000);
     return false;
@@ -173,6 +191,7 @@ int Game::OnePlayerTact(class Player *pl)
 
 void Game::OneGameTact()
 {
+    qDebug() << "Player's move Activ: " << active_player;
     switch (OnePlayerTact(Player)) {
     case 1: FillPlayerStat(true); DisplayWinLoose("Ви виграли!");return;
     case -1: return;
@@ -180,12 +199,20 @@ void Game::OneGameTact()
     for(int i = 0; i < players-1;++i)
     {
         GiveOneCardFromDequeToPlayer(Enemies[i]);
+        Enemies[i]->NextCards.pop_front();
+            qDebug() << "Enemy's "<< i <<" move Activ: " << active_player;
         if(OnePlayerTact(Enemies[i]) == 1)
         {
             FillPlayerStat(false);
             ProcessAndPause(1000);
             DisplayWinLoose("Ви програли!");
+            return;
         }
     }
     GiveOneCardFromDequeToPlayer(Player);
+    if(Player->NextCards.size() > 0)
+    {
+        Player->NextCards.pop_front();
+        Player->UpdateHint();
+    }
 }

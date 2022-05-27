@@ -29,6 +29,7 @@ class Game : public QObject
     int players;
     int difficulty;
     clock_t game_started;
+    int active_player;
 
     CardSuit last;
     Card Cards[NUM_OF_SUITS*NUM_OF_VALUES];

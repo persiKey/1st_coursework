@@ -3,14 +3,17 @@
 
 #include <QLabel>
 #include <vector>
+#include <deque>
 #include "playercardholder.h"
 #include "enemycardholder.h"
-
+#include <nextcardsdisplayer.h>
+using std::deque;
 class Player
 {
     friend class Game;
 protected:
     vector<Card*> Hand;
+    deque<Card*> NextCards;
     CardSuit* OpenSuit;
     QLabel* Counter;
 public:
@@ -27,22 +30,27 @@ public:
 
 class MainPlayer : public Player
 {
-    friend class Game;
+    Q_OBJECT
+    //friend class Game;
 private:
+    QPushButton* HintButton;
     PlayerCardHolder* Holder;
+    NextCardsDisplayer* Hint;
 public:
-    MainPlayer(QWidget* wnd,CardMaker* maker);
+    MainPlayer(QWidget* wnd,CardMaker* maker, bool is_hard);
+    void UpdateHint();
     void AddCard(Card* card) override;
     vector<Card *> PlaceCards() override;
     void SetDequeSuit(CardSuit*) override;
     void Clear() override;
     void Show() override;
     void Hide() override;
+    ~MainPlayer();
 };
 
 class Enemy : public Player
 {
-    friend class Game;
+    //friend class Game;
     int dif;
 private:
     EnemyCardHolder* Holder;
@@ -54,6 +62,7 @@ public:
     void Clear() override;
     void Show() override;
     void Hide() override;
+    void SetDifficulty(int dif);
     vector<int> EasyThink();
     //vector<int> MediumThink();
     //vector<int> HardThink();

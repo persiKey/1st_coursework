@@ -27,8 +27,8 @@ void Player::UpdateCounter()
 
 Player::~Player(){delete Counter;}
 
-
-MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker)
+#include <QDebug>
+MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker, bool is_hard)
 {
     Holder = new PlayerCardHolder(wnd,maker,&Hand);
     Holder->move(190,720-170);
@@ -37,7 +37,23 @@ MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker)
     Counter->setFixedSize(20,20);
     Counter->move(1300/2,720-170-30);
     Counter->show();
+    Hint = nullptr;
+    if(!is_hard)
+    {
+        Hint = new NextCardsDisplayer(&NextCards,maker);
+        Hint->show();
+        HintButton = new QPushButton("?",wnd);
+        HintButton->setFixedSize(30,30);
+        HintButton->move(950,400);
+        HintButton->show();
+    }
     Player::UpdateCounter();
+}
+
+void MainPlayer::UpdateHint()
+{
+    if(Hint != nullptr)
+        Hint->UpdateNextCards();
 }
 
 void MainPlayer::AddCard(Card *card)
@@ -79,6 +95,8 @@ void MainPlayer::Clear()
 {
     Holder->GetIndexes();
     Hand.clear();
+    NextCards.clear();
+    Hint->UpdateNextCards();
     Holder->ExtractCards();
     Player::UpdateCounter();
 }
@@ -87,12 +105,21 @@ void MainPlayer::Show()
 {
     Holder->show();
     Counter->show();
+    HintButton->show();
+    Hint->show();
 }
 
 void MainPlayer::Hide()
 {
     Holder->hide();
     Counter->hide();
+    HintButton->hide();
+    Hint->hide();
+}
+
+MainPlayer::~MainPlayer()
+{
+    delete Hint;
 }
 
 Enemy::Enemy(QWidget *wnd, CardOrientation orient, int x, int y)
@@ -167,6 +194,11 @@ void Enemy::Hide()
 {
     Holder->hide();
     Counter->hide();
+}
+
+void Enemy::SetDifficulty(int dif)
+{
+    this->dif = dif;
 }
 #include <map>
 vector<int> Enemy::EasyThink()
