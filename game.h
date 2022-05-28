@@ -30,6 +30,7 @@ class Game : public QObject
     int difficulty;
     clock_t game_started;
     int active_player;
+    bool was_renew;
 
     CardSuit last;
     Card Cards[NUM_OF_SUITS*NUM_OF_VALUES];
@@ -45,7 +46,10 @@ private:
     void GiveCardsToPlayers();
     void GiveOneCardFromDequeToPlayer(class Player* pl);
     bool CheckMovesAvailable(class Player* pl);
-    void TakeAllOpenCards(class Player*pl);
+    void TakeAllOpenCards(class Player* pl);
+    void UpdatePosibleNextCards(class Player* pl);
+    void UpdateNextCards();
+    void UpdateNextCards(class Player* pl);
     bool CheckIfWin(class Player* pl);
     void RenewDeque();
     int OnePlayerTact(class Player *pl);

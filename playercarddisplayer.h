@@ -16,7 +16,7 @@ public:
     void setIndex(int ind);
     void paintEvent(QPaintEvent *e);
     void mousePressEvent(QMouseEvent *e);
-    void printSelection();
+    void printSelection(QColor color = Qt::green);
     void unprintSelection();
 signals:
     void Choosen(int);

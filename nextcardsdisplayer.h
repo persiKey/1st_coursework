@@ -14,11 +14,12 @@ class NextCardsDisplayer : public QWidget
 {
     Q_OBJECT
     deque<Card*>* NextCards;
+    deque<Card*>* PossibleNextCards;
     QHBoxLayout Layout;
     PlayerCardDisplayer Cards[13];
-    CardMaker* Maker;
+    CardMaker Maker;
 public:
-    explicit NextCardsDisplayer(deque<Card*>* DisplCards,CardMaker* maker,QWidget *parent = nullptr);
+    explicit NextCardsDisplayer(deque<Card*>* DisplCards,deque<Card*>* PossibleCards,QWidget *parent = nullptr);
     void UpdateNextCards();
 signals:
 

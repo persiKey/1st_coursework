@@ -40,7 +40,7 @@ MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker, bool is_hard)
     Hint = nullptr;
     if(!is_hard)
     {
-        Hint = new NextCardsDisplayer(&NextCards,maker);
+        Hint = new NextCardsDisplayer(&NextCards,&PossibleNextCards);
         Hint->show();
         HintButton = new QPushButton("?",wnd);
         HintButton->setFixedSize(30,30);

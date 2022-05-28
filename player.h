@@ -13,6 +13,7 @@ class Player
     friend class Game;
 protected:
     vector<Card*> Hand;
+    deque<Card*> PossibleNextCards;
     deque<Card*> NextCards;
     CardSuit* OpenSuit;
     QLabel* Counter;
@@ -30,7 +31,7 @@ public:
 
 class MainPlayer : public Player
 {
-    Q_OBJECT
+    //Q_OBJECT
     //friend class Game;
 private:
     QPushButton* HintButton;

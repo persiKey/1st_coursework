@@ -35,10 +35,10 @@ void PlayerCardDisplayer::mousePressEvent(QMouseEvent *e)
     }
 }
 
-void PlayerCardDisplayer::printSelection()
+void PlayerCardDisplayer::printSelection(QColor color)
 {
     QPainter painter(PixCard);
-    painter.setPen(Qt::green);
+    painter.setPen(color);
     DrawCardBorder(painter);
     painter.end();
     this->update();
