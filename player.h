@@ -7,6 +7,8 @@
 #include "playercardholder.h"
 #include "enemycardholder.h"
 #include <nextcardsdisplayer.h>
+#include <ai.h>
+
 using std::deque;
 class Player
 {
@@ -52,10 +54,10 @@ public:
 
 class Enemy : public Player
 {
-    //friend class Game;
     int dif;
 private:
     EnemyCardHolder* Holder;
+    AI Ai;
 public:
     Enemy(QWidget* wnd, CardOrientation, int x, int y);
     void AddCard(Card* card) override;
@@ -65,9 +67,6 @@ public:
     void Show() override;
     void Hide() override;
     void SetDifficulty(int dif);
-    vector<int> EasyThink();
-    //vector<int> MediumThink();
-    //vector<int> HardThink();
 };
 
 #endif // PLAYER_H

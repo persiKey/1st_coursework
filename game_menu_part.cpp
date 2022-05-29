@@ -3,7 +3,7 @@
 void Game::ShowGameElements()
 {
     PauseButton->show();
-    HintButton->show();
+    if(difficulty < 3) HintButton->show();
     Move->show();
     Player->Show();
     for(int i = 0; i < players-1;++i)
@@ -15,7 +15,7 @@ void Game::ShowGameElements()
 void Game::HideGameElements()
 {
     PauseButton->hide();
-    HintButton->hide();
+    if(difficulty < 3) HintButton->hide();
     Move->hide();
     Player->Hide();
     for(int i = 0; i < players-1;++i)
@@ -43,7 +43,7 @@ void Game::ShowMenuElements()
 void Game::FreeResourses()
 {
     delete PauseButton;
-    if(HintButton != nullptr) {delete HintButton; delete  Helper;}
+    if(difficulty < 3) {delete HintButton; delete  Helper;}
     delete Move;
     delete Player;
     for(int i = 0; i < players-1;++i)
@@ -67,6 +67,7 @@ void Game::Restart()
     game_started = clock();
     GiveOneCardFromDequeToPlayer(Player);
     active_player = 0;
+    ClearHintCards();
 }
 
 void Game::InitMenuElements()

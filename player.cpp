@@ -113,14 +113,14 @@ void MainPlayer::Show()
 {
     Holder->show();
     Counter->show();
-    Hint->show();
+    if(Hint != nullptr) Hint->show();
 }
 
 void MainPlayer::Hide()
 {
     Holder->hide();
     Counter->hide();
-    Hint->hide();
+    if(Hint != nullptr) Hint->hide();
 }
 
 MainPlayer::~MainPlayer()
@@ -154,8 +154,13 @@ vector<Card *> Enemy::PlaceCards()
 {
     vector<int> indexes;
     switch (dif) {
-    case 1: indexes = EasyThink();break;
+    case 1: indexes = Ai.PrimitveDecide(Hand,*OpenSuit);break;
+    default: indexes = Ai.Decide(&Hand,&NextCards,&PossibleNextCards,*OpenSuit);
 
+    }
+    if(Hand[indexes[0]]->Suit == *OpenSuit)
+    {
+        std::swap(indexes[0], indexes[1]);
     }
     vector<Card*> result;
     for(size_t i = 0; i < indexes.size();++i)
@@ -207,55 +212,4 @@ void Enemy::Hide()
 void Enemy::SetDifficulty(int dif)
 {
     this->dif = dif;
-}
-#include <map>
-vector<int> Enemy::EasyThink()
-{
-    std::map<CardValue,int> rep;
-    for(auto Card : Hand)
-    {
-        if(!rep.insert(std::make_pair(Card->Value,1)).second)
-        {
-            rep[Card->Value]++;
-        }
-    }
-    int max=1;
-    CardValue Cardvalue;
-
-    for(auto i : rep)
-    {
-        if(max < i.second)
-        {
-            max = i.second;
-            Cardvalue = i.first;
-        }
-    }
-
-    if(max == 1)
-    {
-        for(int i = 0; i < Hand.size();++i)
-        {
-            if(Hand[i]->Suit != *OpenSuit)
-            {
-                return vector<int>{i};
-            }
-        }
-    }
-    vector<int> indexes;
-    for(int i = 0; i < Hand.size();++i)
-    {
-        if(Hand[i]->Value == Cardvalue)
-        {
-            indexes.push_back(i);
-        }
-    }
-    if(Hand[indexes[0]]->Suit == *OpenSuit)
-    {
-        std::swap(indexes[0], indexes[1]);
-    }
-
-
-    return indexes;
-    // find avilable
-    // find repeatable
 }

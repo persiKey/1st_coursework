@@ -45,6 +45,7 @@ void Game::GiveCardsToPlayers()
             Enemies[k]->AddCard(Deque->TakeCard());
         }
     }
+    moves_offset = Deque->Cards.size() % players;
 }
 
 
@@ -158,7 +159,8 @@ void Game::UpdateNextCards(class Player *pl)
 void Game::UpdatePosibleNextCards(class Player *pl)
 {
     pl->PossibleNextCards.clear();
-    for(int i = Deque->Cards.size() % (active_player+1); i < OpenDeque->Cards.size(); i+= players)
+
+    for(int i = (moves_offset + active_player) % players; i < OpenDeque->Cards.size(); i+= players)
     {
         pl->PossibleNextCards.push_back(OpenDeque->Cards[i]);
     }
@@ -181,6 +183,7 @@ bool Game::CheckIfWin(class Player *pl)
 
 void Game::RenewDeque()
 {
+    if(OpenDeque->Cards.size() == 0) return;
     Card* last_open = OpenDeque->Cards.back();
     OpenDeque->Cards.pop_back();
 
@@ -194,6 +197,7 @@ void Game::RenewDeque()
     OpenDeque->Clear();
     OpenDeque->PlaceCard(last_open);
 
+    moves_offset = (moves_offset + Deque->Cards.size() % players) % players;
     UpdateNextCards();
 }
 void Game::GiveOneCardFromDequeToPlayer(class Player* pl)
@@ -206,6 +210,7 @@ int Game::OnePlayerTact(class Player *pl)
     UpdatePosibleNextCards(pl);
     if(!CheckMovesAvailable(pl))
     {
+        active_player = (active_player + 1) % players;
         TakeAllOpenCards(pl);
         return -2;
     }
@@ -220,7 +225,7 @@ int Game::OnePlayerTact(class Player *pl)
     return false;
 }
 
-void Game::OneGameTact()
+void Game::ClearHintCards()
 {
     for(int i = 0 ; i < lastHintIndexes.size();++i)
     {
@@ -229,7 +234,11 @@ void Game::OneGameTact()
         card.unprintSelection();
     }
     lastHintIndexes.clear();
-    qDebug() << "Player's move Activ: " << active_player;
+}
+
+void Game::OneGameTact()
+{
+    ClearHintCards();
     switch (OnePlayerTact(Player)) {
     case 1: FillPlayerStat(true); DisplayWinLoose("Ви виграли!");return;
     case -1: return;
@@ -240,7 +249,6 @@ void Game::OneGameTact()
     {
         GiveOneCardFromDequeToPlayer(Enemies[i]);
         UpdateNextCards(Enemies[i]);
-            qDebug() << "Enemy's "<< i <<" move Activ: " << active_player;
         if(OnePlayerTact(Enemies[i]) == 1)
         {
             FillPlayerStat(false);
@@ -251,13 +259,14 @@ void Game::OneGameTact()
     }
     GiveOneCardFromDequeToPlayer(Player);
     UpdateNextCards(Player);
+
     UpdatePosibleNextCards(Player);
     Player->UpdateHint();
-
 }
 
 void Game::DisplayHint()
 {
+    if(!CheckMovesAvailable(Player)) return;
     Player->ResetChoosenCards();
     lastHintIndexes = Helper->Decide(&Player->Hand,&Player->NextCards,&Player->PossibleNextCards,last);
     PlayerCardDisplayer card;

@@ -32,6 +32,7 @@ class Game : public QObject
     int difficulty;
     clock_t game_started;
     int active_player;
+    int moves_offset;
     bool was_renew;
 
     AI* Helper;
@@ -57,7 +58,7 @@ private:
     bool CheckIfWin(class Player* pl);
     void RenewDeque();
     int OnePlayerTact(class Player *pl);
-
+    void ClearHintCards();
     void HideGameElements();
     void ShowGameElements();
     void HideMenuElements();

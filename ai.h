@@ -27,7 +27,7 @@ class AI
 public:
     AI();
     vector<int> Decide(vector<Card*>* Hand, deque<Card*>* NextCards,deque<Card*>* PossibleNextCards, CardSuit OpenSuit);
-
+    vector<int> PrimitveDecide(vector<Card*>& Hand, CardSuit OpenSuit);
 };
 
 #endif // AI_H

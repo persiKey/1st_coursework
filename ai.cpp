@@ -2,6 +2,7 @@
 #include <limits.h>
 #include <algorithm>
 #include <map>
+
 AI::AI()
 {
 
@@ -78,17 +79,6 @@ Element AI::FindBetter(vector<Element> &Elements,int comp_el_index, CardSuit Ope
         }
     }
     return Suitable[min_index];
-//    for(int k = comp_el_index+1; k < Elements.size();++k )
-//    {
-//        int el_suit = DetermineSuitIndex(Elements[k].Slots[0]->Suit,PopularSuits);
-//        if( el_suit < min_suit)
-//        {
-//            min_index = k;
-//            min_suit = el_suit;
-//        }
-
-//    }
-
 }
 
 Element AI::GetChoosenElement(vector<Element> &Elements, CardSuit OpenSuit)
@@ -153,10 +143,44 @@ vector<int> AI::Decide(vector<Card *> *Hand, deque<Card *> *NextCards, deque<Car
     {
         choosenIndexes.push_back(std::find(Hand->begin(),Hand->end(),choosenEl.Slots[i]) - Hand->begin());
     }
-//    if((*Hand)[choosenIndexes[0]]->Suit == OpenSuit)
-//        std::swap(choosenIndexes[0], choosenIndexes[1]);
 
     return choosenIndexes;
-    //Розкидати по пріоритетам
-    //На кожному рівні подивитися, чи можна викинути карту
+}
+
+vector<int> AI::PrimitveDecide(vector<Card *> &Hand, CardSuit OpenSuit)
+{
+    std::map<CardValue,int> freq;
+    for(auto Card : Hand)
+      freq[Card->Value]++;
+
+    int max = 0;
+    CardValue Cardvalue;
+
+    for(auto i : freq)
+    {
+        if(max < i.second)
+        {
+            max = i.second;
+            Cardvalue = i.first;
+        }
+    }
+
+    if(max == 1)
+    {
+        for(int i = 0; i < Hand.size();++i)
+        {
+            if(Hand[i]->Suit != OpenSuit)
+            {
+                return vector<int>{i};
+            }
+        }
+    }
+    vector<int> indexes;
+    for(int i = 0; i < Hand.size();++i)
+    {
+        if(Hand[i]->Value == Cardvalue)
+            indexes.push_back(i);
+    }
+
+    return indexes;
 }
