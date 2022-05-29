@@ -10,6 +10,7 @@
 #include "carddeque.h"
 #include "cardmaker.h"
 #include "playerstat.h" // will change to constants
+#include "ai.h"
 
 using std::vector;
 class Game : public QObject
@@ -18,6 +19,7 @@ class Game : public QObject
     QWidget* Wnd;
     QPushButton* Move;
     QPushButton* PauseButton;
+    QPushButton* HintButton;
 
     QLabel* Text;
     QGridLayout* Layout;
@@ -32,6 +34,8 @@ class Game : public QObject
     int active_player;
     bool was_renew;
 
+    AI* Helper;
+    vector<int> lastHintIndexes;
     CardSuit last;
     Card Cards[NUM_OF_SUITS*NUM_OF_VALUES];
     CardMaker* Maker;
@@ -71,6 +75,7 @@ public:
 private slots:
     void OneGameTact();
 
+    void DisplayHint();
     void PauseGame();
     void ResumeGame();
     void RestartGame();

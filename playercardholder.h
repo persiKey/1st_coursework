@@ -40,6 +40,7 @@ public:
 
     void ExtractCards();
     vector<int> GetIndexes();
+    void ClearIndexes();
     void UpdateDequeSuit(CardSuit *suit);
 
 private slots:

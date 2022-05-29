@@ -3,6 +3,7 @@
 void Game::ShowGameElements()
 {
     PauseButton->show();
+    HintButton->show();
     Move->show();
     Player->Show();
     for(int i = 0; i < players-1;++i)
@@ -14,6 +15,7 @@ void Game::ShowGameElements()
 void Game::HideGameElements()
 {
     PauseButton->hide();
+    HintButton->hide();
     Move->hide();
     Player->Hide();
     for(int i = 0; i < players-1;++i)
@@ -41,6 +43,7 @@ void Game::ShowMenuElements()
 void Game::FreeResourses()
 {
     delete PauseButton;
+    if(HintButton != nullptr) {delete HintButton; delete  Helper;}
     delete Move;
     delete Player;
     for(int i = 0; i < players-1;++i)

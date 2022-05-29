@@ -42,10 +42,6 @@ MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker, bool is_hard)
     {
         Hint = new NextCardsDisplayer(&NextCards,&PossibleNextCards);
         Hint->show();
-        HintButton = new QPushButton("?",wnd);
-        HintButton->setFixedSize(30,30);
-        HintButton->move(950,400);
-        HintButton->show();
     }
     Player::UpdateCounter();
 }
@@ -54,6 +50,17 @@ void MainPlayer::UpdateHint()
 {
     if(Hint != nullptr)
         Hint->UpdateNextCards();
+}
+
+void MainPlayer::UpdateHolder()
+{
+    Holder->update();
+}
+
+void MainPlayer::ResetChoosenCards()
+{
+    Holder->GetIndexes();
+    Holder->ClearIndexes();
 }
 
 void MainPlayer::AddCard(Card *card)
@@ -96,6 +103,7 @@ void MainPlayer::Clear()
     Holder->GetIndexes();
     Hand.clear();
     NextCards.clear();
+    PossibleNextCards.clear();
     Hint->UpdateNextCards();
     Holder->ExtractCards();
     Player::UpdateCounter();
@@ -105,7 +113,6 @@ void MainPlayer::Show()
 {
     Holder->show();
     Counter->show();
-    HintButton->show();
     Hint->show();
 }
 
@@ -113,7 +120,6 @@ void MainPlayer::Hide()
 {
     Holder->hide();
     Counter->hide();
-    HintButton->hide();
     Hint->hide();
 }
 
@@ -180,6 +186,8 @@ void Enemy::SetDequeSuit(CardSuit *suit)
 void Enemy::Clear()
 {
     Holder->ExtractAllCards();
+    NextCards.clear();
+    PossibleNextCards.clear();
     Hand.clear();
     Player::UpdateCounter();
 }

@@ -34,12 +34,13 @@ class MainPlayer : public Player
     //Q_OBJECT
     //friend class Game;
 private:
-    QPushButton* HintButton;
     PlayerCardHolder* Holder;
     NextCardsDisplayer* Hint;
 public:
     MainPlayer(QWidget* wnd,CardMaker* maker, bool is_hard);
     void UpdateHint();
+    void UpdateHolder();
+    void ResetChoosenCards();
     void AddCard(Card* card) override;
     vector<Card *> PlaceCards() override;
     void SetDequeSuit(CardSuit*) override;

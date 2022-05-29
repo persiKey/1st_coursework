@@ -116,6 +116,11 @@ vector<int> PlayerCardHolder::GetIndexes()
     }
     return ChoosenCardsIndexes;
 }
+
+void PlayerCardHolder::ClearIndexes()
+{
+    ChoosenCardsIndexes.clear();
+}
 void PlayerCardHolder::ExtractCards()
 {
     UpdateExtractedCards();

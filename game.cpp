@@ -50,6 +50,9 @@ void Game::GiveCardsToPlayers()
 
 void Game::Init(int pl, int dif, PlayerStat *Prof)
 {
+    this->players = pl;
+    this->difficulty = dif;
+
     Profile = Prof;
     Move = new QPushButton("Зробити хід", Wnd);
     Move->move(800,400);
@@ -59,8 +62,16 @@ void Game::Init(int pl, int dif, PlayerStat *Prof)
     PauseButton->move(900,400); PauseButton->setFixedSize(30,30);
     QObject::connect(PauseButton,SIGNAL(clicked()),this,SLOT(PauseGame()));
 
-    this->players = pl;
-    this->difficulty = dif;
+    if(difficulty < 3)
+    {
+        Helper = new AI;
+        HintButton = new QPushButton("?",Wnd);
+        HintButton->setFixedSize(30,30);
+        HintButton->move(950,400);
+        HintButton->show();
+        QObject::connect(HintButton,SIGNAL(clicked()), this,SLOT(DisplayHint()));
+    }
+
     qDebug() << players << " " << difficulty << "\n";
     Maker = new CardMaker;
     Player = new MainPlayer(Wnd,Maker,difficulty == 3);
@@ -211,6 +222,13 @@ int Game::OnePlayerTact(class Player *pl)
 
 void Game::OneGameTact()
 {
+    for(int i = 0 ; i < lastHintIndexes.size();++i)
+    {
+        PlayerCardDisplayer card;
+        card.updatePix(Maker->GetCard(*Player->Hand[lastHintIndexes[i]]));
+        card.unprintSelection();
+    }
+    lastHintIndexes.clear();
     qDebug() << "Player's move Activ: " << active_player;
     switch (OnePlayerTact(Player)) {
     case 1: FillPlayerStat(true); DisplayWinLoose("Ви виграли!");return;
@@ -236,4 +254,17 @@ void Game::OneGameTact()
     UpdatePosibleNextCards(Player);
     Player->UpdateHint();
 
+}
+
+void Game::DisplayHint()
+{
+    Player->ResetChoosenCards();
+    lastHintIndexes = Helper->Decide(&Player->Hand,&Player->NextCards,&Player->PossibleNextCards,last);
+    PlayerCardDisplayer card;
+    for(int i = 0 ; i < lastHintIndexes.size();++i)
+    {
+        card.updatePix(Maker->GetCard(*Player->Hand[lastHintIndexes[i]]));
+        card.printSelection(Qt::red);
+    }
+    Player->UpdateHolder();
 }
