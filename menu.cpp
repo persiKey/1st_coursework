@@ -18,64 +18,33 @@ void Menu::setWnd(QWidget *wnd)
 
 }
 
+void Menu::Start(PlayerStat prof)
+{
+    delete Login;
+    Profile = prof;
+    Wnd->setLayout(&Layout);
+    MainMenu();
+}
+
 void Menu::MainMenu()
 {
 
     Title.setText("Головне меню");
-    FuncButton1.setText("Start");
+    Title.setStyleSheet("font: 50px;");
+    FuncButton1.setText("Почати");
     FuncButton1.setFixedSize(200,100);
-    FuncButton2.setText("Переглянути статистику");
+    FuncButton2.setText("Переглянути\nстатистику");
     FuncButton2.setFixedSize(200,100);
-    FuncButton3.setText("Exit");
+    FuncButton3.setText("Вихід");
     FuncButton3.setFixedSize(200,100);
-    Layout.addWidget(&Title,0,0); Title.show();
-    Layout.addWidget(&FuncButton1,1,0); FuncButton1.show();
-    Layout.addWidget(&FuncButton2,2,0); FuncButton2.show();
-    Layout.addWidget(&FuncButton3,3,0); FuncButton3.show();
+    Layout.addWidget(&Title,0,0,1,3); Title.show();
+    Layout.addWidget(&FuncButton1,1,1); FuncButton1.show();
+    Layout.addWidget(&FuncButton2,2,1); FuncButton2.show();
+    Layout.addWidget(&FuncButton3,3,1); FuncButton3.show();
 
     QObject::connect(&FuncButton1,SIGNAL(clicked()),this,SLOT(PlayersMenu()));
     QObject::connect(&FuncButton2,SIGNAL(clicked()),this,SLOT(StatMenu()));
     QObject::connect(&FuncButton3,SIGNAL(clicked()),this, SLOT(Exit()));
-}
-
-void Menu::Exit()
-{
-    QApplication::quit();
-}
-
-void Menu::StatMenu()
-{
-    QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(StatMenu()));
-    Title.setText("Статистика");
-    FuncButton1.hide();
-    FuncButton3.hide();
-    FuncButton2.setText("Назад");
-    QObject::connect(&FuncButton2,SIGNAL(clicked()),this,SLOT(Back()));
-
-    QFont f1;
-    f1.setPointSize(20);
-    std::wstringstream InSt;
-    InSt << L"Ім'я: " << Profile.name;
-    InSt << L"<br/>Зіграно ігор: " << Profile.games_played
-        << L"<br/>Відсоток виграшу: " << std::setprecision(2) << std::showpoint << Profile.win_rate
-        << L"<br/>Остання гра виграна: " << (Profile.last_game_win ? L"Так" : L"Ні")
-        << L"<br/>Тривалість останньої гри(с): " << Profile.last_game_duration;
-    StatInfo = new QTextBrowser;
-    StatInfo->setText(QString::fromStdWString(InSt.str()));
-    StatInfo->setFont(f1);
-    StatInfo->setAlignment(Qt::AlignHCenter);
-    StatInfo->setFixedSize(600,400);
-    Layout.addWidget(StatInfo,1,0);
-    Layout.addWidget(&FuncButton2,2,0,Qt::AlignCenter);
-
-}
-
-void Menu::Back()
-{
-    QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(Back()));
-    Layout.removeWidget(StatInfo);
-    delete StatInfo;
-    MainMenu();
 }
 
 void Menu::PlayersMenu()
@@ -118,10 +87,10 @@ void Menu::DifficultyMenu()
     FuncButton2.setText("Середній");
     FuncButton3.setText("Важкий");
 
-    Layout.addWidget(&Title,0,0);
-    Layout.addWidget(&FuncButton1,1,0);
-    Layout.addWidget(&FuncButton2,2,0);
-    Layout.addWidget(&FuncButton3,3,0);
+    Layout.addWidget(&Title,0,0,1,3);
+    Layout.addWidget(&FuncButton1,1,1);
+    Layout.addWidget(&FuncButton2,2,1);
+    Layout.addWidget(&FuncButton3,3,1);
 
     QObject::connect(&FuncButton1,SIGNAL(clicked()),this,SLOT(SetDifficulty()));
     QObject::connect(&FuncButton2,SIGNAL(clicked()),this,SLOT(SetDifficulty()));
@@ -154,10 +123,42 @@ void Menu::SetDifficulty()
     emit StartGame(players, difficulty, &Profile);
 }
 
-void Menu::Start(PlayerStat prof)
+void Menu::StatMenu()
 {
-    delete Login;
-    Profile = prof;
-    Wnd->setLayout(&Layout);
+    QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(StatMenu()));
+    Title.setText("Статистика");
+    FuncButton1.hide();
+    FuncButton3.hide();
+    FuncButton2.setText("Назад");
+    QObject::connect(&FuncButton2,SIGNAL(clicked()),this,SLOT(Back()));
+
+    QFont f1;
+    f1.setPointSize(20);
+    std::wstringstream InSt;
+    InSt << L"Ім'я: " << Profile.name;
+    InSt << L"<br/>Зіграно ігор: " << Profile.games_played
+        << L"<br/>Відсоток виграшу: " << std::setprecision(2) << std::showpoint << Profile.win_rate
+        << L"<br/>Остання гра виграна: " << (Profile.last_game_win ? L"Так" : L"Ні")
+        << L"<br/>Тривалість останньої гри(с): " << Profile.last_game_duration;
+    StatInfo = new QTextBrowser;
+    StatInfo->setText(QString::fromStdWString(InSt.str()));
+    StatInfo->setFont(f1);
+    StatInfo->setAlignment(Qt::AlignHCenter);
+    StatInfo->setFixedSize(Constants::WINDOW_WIDTH/2,Constants::WINDOW_HEIGHT/3.5);
+    Layout.addWidget(StatInfo,1,1);
+    Layout.addWidget(&FuncButton2,2,1,Qt::AlignCenter);
+
+}
+
+void Menu::Back()
+{
+    QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(Back()));
+    Layout.removeWidget(StatInfo);
+    delete StatInfo;
     MainMenu();
+}
+
+void Menu::Exit()
+{
+    QApplication::quit();
 }

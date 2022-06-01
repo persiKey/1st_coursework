@@ -22,13 +22,13 @@ class Menu : public QObject
     PlayerStat Profile;
 
 private slots:
-    void StatMenu();
     void PlayersMenu();
     void DifficultyMenu();
-    void Exit();
     void SetPlayers();
     void SetDifficulty();
+    void StatMenu();
     void Back();
+    void Exit();
 public slots:
     void MainMenu();
     void Start(PlayerStat);

@@ -36,8 +36,10 @@ void GetFileList(vector<string> &file_list)
 LoginWidget::LoginWidget(QWidget* parent) : QWidget(parent)
 {
     mainLayout = new QVBoxLayout;
+    mainLayout->setContentsMargins(Constants::WINDOW_WIDTH/4,0, Constants::WINDOW_WIDTH/4,0);
 
     mainText = new QLabel("Вітаю!");
+    mainText->setStyleSheet("font: 30px;");
     mainText->setAlignment(Qt::AlignmentFlag::AlignCenter);
 
     subLayout = new QHBoxLayout;
@@ -49,6 +51,7 @@ LoginWidget::LoginWidget(QWidget* parent) : QWidget(parent)
         profileSelector->addItem(file.substr(0,file.rfind('.')).c_str());
 
     funcButton1 = new QPushButton("Вибрати профіль");
+    funcButton1->setMinimumWidth(135);
     QObject::connect(funcButton1,SIGNAL(clicked()),this,SLOT(ChooseProfileClicked()));
 
     subLayout->addWidget(profileSelector);
@@ -100,6 +103,7 @@ void LoginWidget::CreateNewProfileClicked()
 
 bool LoginWidget::ValidateName(QString name)
 {
+    if(name.isEmpty()){return false;}
     for (int i = 0; i < name.size() ; ++i)
     {
         if(!((name[i] >= '0' && name[i] < '0' + 10) ||

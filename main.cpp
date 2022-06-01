@@ -7,7 +7,13 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     PrepareAppToStart();
-
+    a.setStyleSheet("QPushButton{"
+                    "font: 16px;"
+                    "background-color:lightgray;"
+                    "border-radius:15%;"
+                    "border: 1.5px solid black;}"
+                    "QPushButton:hover{background-color:white;"
+                    "border: 2px dashed gray}");
     QWidget MainWnd;
     SetUpWnd(&MainWnd);
 

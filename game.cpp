@@ -12,6 +12,15 @@ using namespace Constants;
 
 Game::Game(QObject *parent) : QObject(parent)
 {
+    Wnd = Desk = Move = PauseButton = HintButton = nullptr;
+    Text = nullptr;
+    ResumeButton = RestartButton = MainMenuButton = nullptr;
+    Helper = nullptr;
+    Maker = nullptr;
+    Player = nullptr;
+    Enemies = nullptr;
+    Deque = nullptr;
+    OpenDeque = nullptr;
     GenerateCards();
 }
 
@@ -19,6 +28,7 @@ void Game::setWnd(QWidget *wnd)
 {
     this->Wnd = wnd;
 }
+
 
 void Game::GenerateCards()
 {
@@ -247,6 +257,7 @@ void Game::ClearHintCards()
 void Game::OneGameTact()
 {
     ClearHintCards();
+    qDebug() << "First" << active_player;
     switch (OnePlayerTact(Player)) {
     case 1: FillPlayerStat(true); DisplayWinLoose("Ви виграли!");return;
     case -1: return;
@@ -266,8 +277,8 @@ void Game::OneGameTact()
         }
     }
     GiveOneCardFromDequeToPlayer(Player);
+    qDebug() << "second" << active_player;
     UpdateNextCards(Player);
-
     UpdatePosibleNextCards(Player);
     Player->UpdateHint();
 }
@@ -284,4 +295,9 @@ void Game::DisplayHint()
         card.printSelection(Qt::red);
     }
     Player->UpdateHolder();
+}
+
+Game::~Game()
+{
+    FreeResourses();
 }

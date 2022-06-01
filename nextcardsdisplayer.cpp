@@ -6,7 +6,6 @@ NextCardsDisplayer::NextCardsDisplayer(deque<Card*>* DisplCards,deque<Card*>* Po
 {
     Layout.setAlignment(Qt::AlignRight);
     Layout.setMargin(0);
-
     this->setLayout(&Layout);
     this->setWindowTitle("Наступні карти");
     this->setWindowFlags(Qt::Window | Qt::Tool);
@@ -22,6 +21,7 @@ NextCardsDisplayer::NextCardsDisplayer(deque<Card*>* DisplCards,deque<Card*>* Po
 
 void NextCardsDisplayer::UpdateNextCards()
 {
+    this->update();
     if(NextCards->size() == 0 && PossibleNextCards->size() == 0)
     {
         this->hide();
@@ -43,6 +43,7 @@ void NextCardsDisplayer::UpdateNextCards()
     }
     for(size_t i = NextCards->size()+PossibleNextCards->size(); i < 13;++i)
         Cards[i].hide();
+    this->adjustSize();
     this->move((QGuiApplication::primaryScreen()->geometry().width()-this->size().width())/2,0);
     this->update();
 }

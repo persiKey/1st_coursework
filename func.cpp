@@ -32,8 +32,8 @@ void Check(const QString& str)
     if(!QFile::exists(str))
     {
         char message[50] = "File not found: ";
-        strcpy(message,str.toStdString().c_str());
-        MessageBoxA(GetActiveWindow(),"Error!",message,MB_ICONERROR);
+        strcat_s(message,str.toStdString().c_str());
+        MessageBoxA(GetActiveWindow(),message,"Error!",MB_ICONERROR);
         exit(-1);
     }
 }
@@ -43,7 +43,7 @@ void PrepareAppToStart()
 {
     if(QFontDatabase::addApplicationFont("src\\Hoyle Playing Cards.ttf" ) == -1)
     {
-        MessageBoxA(GetActiveWindow(),"Error!","Font not found",MB_ICONERROR);
+        MessageBoxA(GetActiveWindow(),"Font not found","Error!",MB_ICONERROR);
         exit(-1);
     }
 
@@ -57,6 +57,7 @@ void PrepareAppToStart()
 
 void SetUpWnd(QWidget* Wnd)
 {
+    Wnd->setObjectName("Back");
     Wnd->move((QGuiApplication::primaryScreen()->geometry().width() - Constants::WINDOW_WIDTH)/2,
                  QGuiApplication::primaryScreen()->geometry().height() - Constants::WINDOW_HEIGHT - 40);
     Wnd->setFixedSize(Constants::WINDOW_WIDTH,Constants::WINDOW_HEIGHT);

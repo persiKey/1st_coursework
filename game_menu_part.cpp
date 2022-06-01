@@ -44,16 +44,21 @@ void Game::ShowMenuElements()
 
 void Game::FreeResourses()
 {
-    delete Desk;
-    delete PauseButton;
-    if(difficulty < 3) {delete HintButton; delete  Helper;}
-    delete Move;
-    delete Player;
-    for(int i = 0; i < players-1;++i)
-        delete Enemies[i];
-    delete Deque;
-    delete OpenDeque;
-    delete Maker;
+    if( Desk != nullptr) {delete  Desk; Desk = nullptr;}
+    if( PauseButton != nullptr) {delete  PauseButton; PauseButton = nullptr;}
+    if( HintButton != nullptr) {delete  HintButton; HintButton = nullptr;}
+    if (Helper != nullptr) {delete Helper; Helper = nullptr;}
+    if (Move != nullptr){ delete Move; Move = nullptr;}
+    if( Player != nullptr ) {delete Player; Player = nullptr;}
+    if(Enemies != nullptr)
+    {
+        for(int i = 0; i < players-1;++i)
+            delete Enemies[i];
+        delete[] Enemies; Enemies = nullptr;
+    }
+    if (Deque != nullptr){ delete Deque; Deque = nullptr;}
+    if(OpenDeque != nullptr) {delete OpenDeque; OpenDeque = nullptr;}
+    if(Maker != nullptr){ delete Maker; Maker = nullptr;}
     DeleteMenuElements();
 }
 
@@ -68,8 +73,8 @@ void Game::Restart()
     last = CardSuit(-1);
     GiveCardsToPlayers();
     game_started = clock();
-    GiveOneCardFromDequeToPlayer(Player);
     active_player = 0;
+    GiveOneCardFromDequeToPlayer(Player);
     ClearHintCards();
 }
 
@@ -78,6 +83,7 @@ void Game::InitMenuElements()
     Layout = dynamic_cast<QGridLayout*>(Wnd->layout());
     Text = new QLabel;
     Text->setAlignment(Qt::AlignmentFlag::AlignCenter | Qt::AlignmentFlag::AlignTop);
+    Text->setStyleSheet("font: 50px;");
     ResumeButton = new QPushButton("Продовжити");
     ResumeButton->setFixedSize(200,100);
     QObject::connect(ResumeButton,SIGNAL(clicked()),this,SLOT(ResumeGame()));
@@ -87,20 +93,20 @@ void Game::InitMenuElements()
     MainMenuButton = new QPushButton("Головне меню");
     QObject::connect(MainMenuButton,SIGNAL(clicked()),this,SLOT(EnterMainMenu()));
     MainMenuButton->setFixedSize(200,100);
-    Layout->addWidget(Text,0,0);
-    Layout->addWidget(ResumeButton,1,0);
-    Layout->addWidget(RestartButton,2,0);
-    Layout->addWidget(MainMenuButton,3,0);
+    Layout->addWidget(Text,0,0,1,3);
+    Layout->addWidget(ResumeButton,1,1);
+    Layout->addWidget(RestartButton,2,1);
+    Layout->addWidget(MainMenuButton,3,1);
 
     HideMenuElements();
 }
 
 void Game::DeleteMenuElements()
 {
-    delete Text;
-    delete ResumeButton;
-    delete RestartButton;
-    delete MainMenuButton;
+    if(Text != nullptr){ delete Text; Text = nullptr;}
+    if(ResumeButton != nullptr){ delete ResumeButton; ResumeButton = nullptr;}
+    if(RestartButton != nullptr){ delete RestartButton; RestartButton = nullptr;}
+    if(MainMenuButton != nullptr){ delete MainMenuButton; MainMenuButton = nullptr;}
 }
 
 void Game::PauseGame()

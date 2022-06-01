@@ -1,5 +1,5 @@
 #include "player.h"
-
+#include <QDebug>
 using namespace Constants;
 Player::Player(){ }
 
@@ -26,9 +26,9 @@ void Player::UpdateCounter()
     Counter->setText(QString::number(Hand.size()));
 }
 
-Player::~Player(){delete Counter;}
+Player::~Player(){}
 
-#include <QDebug>
+
 MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker, bool is_hard)
 {
     Holder = new PlayerCardHolder(wnd,maker,&Hand);
@@ -104,7 +104,7 @@ void MainPlayer::Clear()
     Hand.clear();
     NextCards.clear();
     PossibleNextCards.clear();
-    Hint->UpdateNextCards();
+    if(Hint != nullptr) Hint->UpdateNextCards();
     Holder->ExtractCards();
     Player::UpdateCounter();
 }
@@ -113,7 +113,11 @@ void MainPlayer::Show()
 {
     Holder->show();
     Counter->show();
-    if(Hint != nullptr) Hint->show();
+    if(Hint != nullptr)
+    {
+        if(!NextCards.empty() || !PossibleNextCards.empty())
+            Hint->show();
+    }
 }
 
 void MainPlayer::Hide()
@@ -122,10 +126,10 @@ void MainPlayer::Hide()
     Counter->hide();
     if(Hint != nullptr) Hint->hide();
 }
-
+#include <windows.h>
 MainPlayer::~MainPlayer()
 {
-    delete Hint;
+    if(Hint != nullptr) delete Hint;
 }
 
 Enemy::Enemy(QWidget *wnd, CardOrientation orient, int x, int y)

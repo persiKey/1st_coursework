@@ -62,6 +62,7 @@ private:
     bool CheckIfWin(class Player* pl);
     void RenewDeque();
     int OnePlayerTact(class Player *pl);
+
     void ClearHintCards();
     void HideGameElements();
     void ShowGameElements();
@@ -77,6 +78,7 @@ private:
 public:
     explicit Game(QObject *parent = nullptr);
     void setWnd(QWidget* wnd);
+    ~Game();
 private slots:
     void OneGameTact();
 
