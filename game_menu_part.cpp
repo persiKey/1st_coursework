@@ -2,6 +2,7 @@
 
 void Game::ShowGameElements()
 {
+    Desk->show();
     PauseButton->show();
     if(difficulty < 3) HintButton->show();
     Move->show();
@@ -14,6 +15,7 @@ void Game::ShowGameElements()
 
 void Game::HideGameElements()
 {
+    Desk->hide();
     PauseButton->hide();
     if(difficulty < 3) HintButton->hide();
     Move->hide();
@@ -42,6 +44,7 @@ void Game::ShowMenuElements()
 
 void Game::FreeResourses()
 {
+    delete Desk;
     delete PauseButton;
     if(difficulty < 3) {delete HintButton; delete  Helper;}
     delete Move;

@@ -3,16 +3,12 @@
 
 #include "constants.h"
 #include "playerstat.h"
-#include <thread>
+#include "func.h"
+
 #include <QApplication>
 
 using namespace Constants;
 
-void ProcessAndPause(int msec)
-{
-    QApplication::processEvents();
-    std::this_thread::sleep_for(std::chrono::milliseconds(msec));
-}
 
 Game::Game(QObject *parent) : QObject(parent)
 {
@@ -57,6 +53,15 @@ void Game::Init(int pl, int dif, PlayerStat *Prof)
     this->difficulty = dif;
 
     Profile = Prof;
+
+    Desk = new QWidget(Wnd);
+    Desk->setFixedSize(PLAYER_HOLDER_WIDTH+CARD_WIDTH/2,WINDOW_HEIGHT/2.5);
+    Desk->move((WINDOW_WIDTH - PLAYER_HOLDER_WIDTH - CARD_WIDTH/2)/2, CARD_HEIGHT * 1.5 );
+    Desk->setStyleSheet("background-color:green;"
+                        "border: 10px solid #CD853F;"
+                        "border-radius: 20%;");
+    Desk->show();
+
     Move = new QPushButton("Зробити хід", Wnd);
     Move->move((WINDOW_WIDTH - Move->size().width())/2,WINDOW_HEIGHT - CARD_HEIGHT - COUNTER_SIZE - 10 - SMALL_BUT_SIZE);
     QObject::connect(Move,SIGNAL(clicked()),this,SLOT(OneGameTact()));

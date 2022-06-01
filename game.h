@@ -47,6 +47,7 @@ class Game : public QObject
     Enemy** Enemies;
     CardDeque* Deque;
     OpenCardDeque* OpenDeque;
+    QWidget* Desk;
 
 
 private:

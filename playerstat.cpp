@@ -129,12 +129,3 @@ void LoginWidget::CreateProfile()
         file.close();
     }
 }
-
-void saveStat(PlayerStat *stat)
-{
-    std::wstring Name(stat->name);
-    std::string path = SAVES_DIR_NAME + string("\\")+ string(Name.begin(),Name.end()) + string(".save");
-    ofstream file(path, std::ios_base::binary);
-    file.write((char*)stat, sizeof(*stat));
-    file.close();
-}
