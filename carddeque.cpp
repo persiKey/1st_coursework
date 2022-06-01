@@ -18,6 +18,7 @@ CardDeque::CardDeque(QWidget *wnd, Card Cards[])
     Counter->move((WINDOW_WIDTH-PLAYER_HOLDER_WIDTH + Displayer->size().width())/2,WINDOW_HEIGHT/2.5 + Displayer->size().height());
     Counter->setText(QString::number(this->Cards.size()));
     Counter->show();
+    Counter->setStyleSheet("font: 20px; color: #FFA62F;");
     Displayer->show();
 }
 
@@ -82,6 +83,7 @@ OpenCardDeque::OpenCardDeque(QWidget *wnd, CardMaker *maker)
     Displayer->move((WINDOW_WIDTH-PLAYER_HOLDER_WIDTH)/2 + PLAYER_HOLDER_WIDTH - Displayer->size().width(),WINDOW_HEIGHT/2.5);
     Counter->move((WINDOW_WIDTH-PLAYER_HOLDER_WIDTH + Displayer->size().width())/2 + PLAYER_HOLDER_WIDTH - Displayer->size().width(),WINDOW_HEIGHT/2.5 + Displayer->size().height());
     Counter->setText(QString::number(this->Cards.size()));
+    Counter->setStyleSheet("font: 20px; color: #FFA62F;");
     Displayer->show();
     Counter->show();
 }
@@ -100,9 +102,9 @@ void OpenCardDeque::PlaceCards(vector<Card *> &cards)
         Cards.push_back(card);
         Displayer->PrintCardOver(card);
         Displayer->update();
-        ProcessAndPause(500);
+        Counter->setText(QString::number(this->Cards.size()));
+        ProcessAndPause(Constants::PLACE_DELAY);
     }
-    Counter->setText(QString::number(this->Cards.size()));
 }
 
 void OpenCardDeque::Clear()

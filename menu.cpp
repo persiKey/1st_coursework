@@ -137,7 +137,7 @@ void Menu::StatMenu()
     std::wstringstream InSt;
     InSt << L"Ім'я: " << Profile.name;
     InSt << L"<br/>Зіграно ігор: " << Profile.games_played
-        << L"<br/>Відсоток виграшу: " << std::setprecision(2) << std::showpoint << Profile.win_rate
+        << L"<br/>Коефіцієнт виграшу: " << std::setprecision(2) << std::showpoint << Profile.win_rate
         << L"<br/>Остання гра виграна: " << (Profile.last_game_win ? L"Так" : L"Ні")
         << L"<br/>Тривалість останньої гри(с): " << Profile.last_game_duration;
     StatInfo = new QTextBrowser;

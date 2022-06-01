@@ -29,6 +29,7 @@ public:
     virtual void Clear();
     virtual void Show();
     virtual void Hide();
+    virtual void SetFocus(bool);
     void UpdateCounter();
     virtual ~Player();
 };

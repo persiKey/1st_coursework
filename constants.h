@@ -26,13 +26,16 @@ namespace Constants {
     constexpr int MAX_DEQUE_DISPLAYING_CARDS = 4;
 
     constexpr int SMALL_BUT_SIZE = 30;
-    constexpr int COUNTER_SIZE = 20;
+    constexpr int COUNTER_SIZE = 25;
     constexpr int PLAYER_HOLDER_WIDTH = (CARD_WIDTH + VISIBLE_CARDS_SPACING) * VISIBLE_CARDS_IN_HAND + CARD_WIDTH/2 + VISIBLE_CARDS_SPACING ;
     constexpr int ENEMY_HOLDER_SIZE_VALUE = (CARD_WIDTH + VISIBLE_CARDS_SPACING) * VISIBLE_CARDS_IN_HAND - VISIBLE_CARDS_SPACING;
 
     constexpr char SAVES_DIR_NAME[] = "saves";
 
     constexpr int MAX_NEXT_CARDS = 13;
+
+    constexpr int TACT_DELAY = 700;
+    constexpr int PLACE_DELAY = 300;
 }
 
 namespace Types {

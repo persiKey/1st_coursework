@@ -113,6 +113,7 @@ void Game::Init(int pl, int dif, PlayerStat *Prof)
     GiveCardsToPlayers();
     GiveOneCardFromDequeToPlayer(Player);
     active_player = 0;
+    Player->SetFocus(true);
     last  = CardSuit(-1);
     Player->SetDequeSuit(&last);
     for(int i =0; i < players-1;++i)
@@ -152,21 +153,18 @@ void Game::TakeAllOpenCards(class Player *pl)
 void Game::UpdateNextCards()
 {
     class Player** E = new class Player*[players];
-    for(int i = 0; i < players; ++i)
+    E[0] = Player;
+    for(int i = 0; i < players-1;++i)
     {
-        if((active_player + i) % players == 0 )
-            E[i] = Player;
-        else
-            E[i] = Enemies[(active_player + i) % players - 1];
-
-        E[i]->NextCards.clear();
+        E[i+1] = Enemies[i];
     }
 
-    for(int i = Deque->Cards.size() - 1, p_i = 0; i >= 0;--i)
+    for(int i = Deque->Cards.size() - 1, p_i = active_player; i >= 0;--i)
     {
         E[p_i]->NextCards.push_back(Deque->Cards[i]);
-        p_i = (p_i +1) % players;
+        p_i = (p_i + 1) % players;
     }
+    delete[] E;
 }
 void Game::UpdateNextCards(class Player *pl)
 {
@@ -177,8 +175,8 @@ void Game::UpdateNextCards(class Player *pl)
 void Game::UpdatePosibleNextCards(class Player *pl)
 {
     pl->PossibleNextCards.clear();
-
-    for(int i = (moves_offset + active_player) % players; i < OpenDeque->Cards.size(); i+= players)
+    int val = active_player-moves_offset;
+    for(int i = val >= 0 ? val : val + players; i < OpenDeque->Cards.size(); i+= players)
     {
         pl->PossibleNextCards.push_back(OpenDeque->Cards[i]);
     }
@@ -256,8 +254,9 @@ void Game::ClearHintCards()
 
 void Game::OneGameTact()
 {
+    Player->SetFocus(false);
+    PauseButton->setEnabled(false);
     ClearHintCards();
-    qDebug() << "First" << active_player;
     switch (OnePlayerTact(Player)) {
     case 1: FillPlayerStat(true); DisplayWinLoose("Ви виграли!");return;
     case -1: return;
@@ -266,21 +265,24 @@ void Game::OneGameTact()
     Player->UpdateHint();
     for(int i = 0; i < players-1;++i)
     {
+        Enemies[i]->SetFocus(true);
         GiveOneCardFromDequeToPlayer(Enemies[i]);
         UpdateNextCards(Enemies[i]);
         if(OnePlayerTact(Enemies[i]) == 1)
         {
             FillPlayerStat(false);
-            ProcessAndPause(1000);
+            ProcessAndPause(Constants::TACT_DELAY);
             DisplayWinLoose("Ви програли!");
             return;
         }
+        Enemies[i]->SetFocus(false);
     }
     GiveOneCardFromDequeToPlayer(Player);
-    qDebug() << "second" << active_player;
     UpdateNextCards(Player);
     UpdatePosibleNextCards(Player);
     Player->UpdateHint();
+    PauseButton->setEnabled(true);
+    Player->SetFocus(true);
 }
 
 void Game::DisplayHint()

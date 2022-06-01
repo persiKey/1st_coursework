@@ -1,5 +1,6 @@
 #include "player.h"
 #include <QDebug>
+#include "func.h"
 using namespace Constants;
 Player::Player(){ }
 
@@ -20,6 +21,15 @@ void Player::Clear(){}
 void Player::Show(){}
 
 void Player::Hide(){}
+
+void Player::SetFocus(bool f)
+{
+    if(f)
+        Counter->setStyleSheet("font: 20px; color: #52D017;");
+    else
+        Counter->setStyleSheet("font: 13px; color: black;");
+    ProcessAndPause(25);
+}
 
 void Player::UpdateCounter()
 {
@@ -50,6 +60,7 @@ void MainPlayer::UpdateHint()
 {
     if(Hint != nullptr)
         Hint->UpdateNextCards();
+    ProcessAndPause(20);
 }
 
 void MainPlayer::UpdateHolder()
