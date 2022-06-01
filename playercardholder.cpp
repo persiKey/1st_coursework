@@ -2,14 +2,17 @@
 #include <QVBoxLayout>
 
 #include <QDebug>
+
+using namespace Constants;
+
 PlayerCardHolder::PlayerCardHolder(QWidget *parent, CardMaker *maker, vector<Card*>* Cards) : QWidget(parent), cardMaker(maker), AllCards(Cards)
 {
-    this->setFixedSize(900,CARD_HEIGHT);
+    this->setFixedSize(PLAYER_HOLDER_WIDTH,CARD_HEIGHT);
     this->show();
     display_pos = 0;
 
     Layout = new QHBoxLayout;
-    Layout->setSpacing(10);
+    Layout->setSpacing(VISIBLE_CARDS_SPACING);
     Layout->setContentsMargins(0,0,0,0);
     CtrlLeft.setText("<");
     CtrlRight.setText(">");

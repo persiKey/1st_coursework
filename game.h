@@ -9,10 +9,13 @@
 #include "player.h"
 #include "carddeque.h"
 #include "cardmaker.h"
-#include "playerstat.h" // will change to constants
 #include "ai.h"
 
 using std::vector;
+using Constants::NUM_OF_SUITS;
+using Constants::NUM_OF_VALUES;
+using Types::PlayerStat;
+
 class Game : public QObject
 {
     Q_OBJECT

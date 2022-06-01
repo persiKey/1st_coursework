@@ -11,7 +11,10 @@
 #include <vector>
 using std::vector;
 
-
+using Constants::VISIBLE_CARDS_IN_HAND;
+using Types::Card;
+using Types::CardSuit;
+using Types::CardValue;
 
 class PlayerCardHolder : public QWidget
 {

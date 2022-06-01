@@ -5,6 +5,9 @@
 #include "constants.h"
 #include "cardmaker.h"
 
+using Constants::CARD_WIDTH;
+using Constants::CARD_HEIGHT;
+
 PlayerCardDisplayer::PlayerCardDisplayer(QWidget *parent) : QWidget(parent)
 {
     this->setFixedSize(CARD_WIDTH,CARD_HEIGHT);

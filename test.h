@@ -10,7 +10,7 @@
 #include "playercardholder.h"
 #include "enemycardholder.h"
 #include "dequedisplayer.h"
-
+using namespace Constants;
 class Test : public QWidget
 {
     Q_OBJECT

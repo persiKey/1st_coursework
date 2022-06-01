@@ -10,6 +10,8 @@
 #include <ai.h>
 
 using std::deque;
+using Types::CardOrientation;
+
 class Player
 {
     friend class Game;
@@ -33,8 +35,7 @@ public:
 
 class MainPlayer : public Player
 {
-    //Q_OBJECT
-    //friend class Game;
+
 private:
     PlayerCardHolder* Holder;
     NextCardsDisplayer* Hint;

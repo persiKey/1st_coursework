@@ -7,7 +7,7 @@
 
 using std::vector;
 using std::deque;
-
+using namespace Types;
 
 struct Element
 {

@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <map>
 
+using Constants::NUM_OF_SUITS;
+
 AI::AI()
 {
 

@@ -1,15 +1,15 @@
 #include "playerstat.h"
 #include <string>
 #include <vector>
-#include "windows.h"
 #include <fstream>
+#include "windows.h"
 
 using std::string;
 using std::vector;
 using std::ifstream;
 using std::ofstream;
 
-constexpr char SAVES_DIR_NAME[] = "saves";
+using Constants::SAVES_DIR_NAME;
 
 void GetFileList(vector<string> &file_list)
 {
@@ -93,7 +93,7 @@ void LoginWidget::CreateNewProfileClicked()
     subLayout->addWidget(profileNameEdit);
     subLayout->addWidget(funcButton1);
 
-    subText = new QLabel("*ім'я не може бути довшим за 20 символів та містити щось окрім букв");
+    subText = new QLabel("*ім'я не може бути довшим за 20 символів та містити щось окрім латинських букв та цифр");
 
     mainLayout->addWidget(subText);
 }

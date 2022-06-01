@@ -1,5 +1,6 @@
 #include "player.h"
 
+using namespace Constants;
 Player::Player(){ }
 
 void Player::AddCard(Card * card)
@@ -31,17 +32,16 @@ Player::~Player(){delete Counter;}
 MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker, bool is_hard)
 {
     Holder = new PlayerCardHolder(wnd,maker,&Hand);
-    Holder->move(190,720-170);
+    Holder->move((WINDOW_WIDTH - PLAYER_HOLDER_WIDTH) /2,WINDOW_HEIGHT - CARD_HEIGHT);
     Holder->show();
     Counter = new QLabel(wnd);
-    Counter->setFixedSize(20,20);
-    Counter->move(1300/2,720-170-30);
+    Counter->setFixedSize(COUNTER_SIZE,COUNTER_SIZE);
+    Counter->move(WINDOW_WIDTH/2,WINDOW_HEIGHT-CARD_HEIGHT-COUNTER_SIZE - 10);
     Counter->show();
     Hint = nullptr;
     if(!is_hard)
     {
         Hint = new NextCardsDisplayer(&NextCards,&PossibleNextCards);
-        Hint->show();
     }
     Player::UpdateCounter();
 }
@@ -134,10 +134,10 @@ Enemy::Enemy(QWidget *wnd, CardOrientation orient, int x, int y)
     Holder->move(x,y);
     Holder->show();
     Counter = new QLabel(wnd);
-    Counter->setFixedSize(20,20);
+    Counter->setFixedSize(COUNTER_SIZE,COUNTER_SIZE);
     switch (orient) {
-    case CardOrientation::HOR: Counter->move(x,y+710+20);break;
-    case CardOrientation::VER: Counter->move(x,y+170+20);break;
+    case CardOrientation::HOR: Counter->move(x+Holder->size().width()/2,y+ENEMY_HOLDER_SIZE_VALUE+COUNTER_SIZE);break;
+    case CardOrientation::VER: Counter->move(x+Holder->size().width()/2,y+CARD_HEIGHT+COUNTER_SIZE);break;
     }
     Counter->show();
     Player::UpdateCounter();

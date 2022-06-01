@@ -11,7 +11,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QWidget MainWnd;
-    MainWnd.setFixedSize(1280,800);
+    MainWnd.move((QGuiApplication::primaryScreen()->geometry().width() - Constants::WINDOW_WIDTH)/2,
+                 QGuiApplication::primaryScreen()->geometry().height() - Constants::WINDOW_HEIGHT - 40);
+    MainWnd.setFixedSize(Constants::WINDOW_WIDTH,Constants::WINDOW_HEIGHT);
     Menu menu;
     menu.setWnd(&MainWnd);
     Game game;

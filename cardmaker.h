@@ -5,6 +5,10 @@
 #include <QPixmap>
 #include <QPainter>
 
+using Types::CardValue;
+using Types::CardSuit;
+using Types::Card;
+
 class CardMaker
 {
     QPixmap*** CachedCards;

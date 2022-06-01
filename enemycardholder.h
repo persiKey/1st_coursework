@@ -4,6 +4,10 @@
 #include "constants.h"
 #include <QWidget>
 #include <QPixmap>
+
+using Types::CardOrientation;
+using Constants::VISIBLE_CARDS_IN_HAND;
+
 class EnemyCardDisplayer : public QWidget
 {
     Q_OBJECT

@@ -2,9 +2,11 @@
 #include "QDebug"
 
 #include "constants.h"
-
+#include "playerstat.h"
 #include <thread>
 #include <QApplication>
+
+using namespace Constants;
 
 void ProcessAndPause(int msec)
 {
@@ -56,19 +58,20 @@ void Game::Init(int pl, int dif, PlayerStat *Prof)
 
     Profile = Prof;
     Move = new QPushButton("Зробити хід", Wnd);
-    Move->move(800,400);
+    Move->move((WINDOW_WIDTH - Move->size().width())/2,WINDOW_HEIGHT - CARD_HEIGHT - COUNTER_SIZE - 10 - SMALL_BUT_SIZE);
     QObject::connect(Move,SIGNAL(clicked()),this,SLOT(OneGameTact()));
 
     PauseButton = new QPushButton("||", Wnd);
-    PauseButton->move(900,400); PauseButton->setFixedSize(30,30);
+    PauseButton->move((WINDOW_WIDTH - PLAYER_HOLDER_WIDTH)/2,WINDOW_HEIGHT - CARD_HEIGHT - COUNTER_SIZE - 10 - SMALL_BUT_SIZE);
+    PauseButton->setFixedSize(SMALL_BUT_SIZE,SMALL_BUT_SIZE);
     QObject::connect(PauseButton,SIGNAL(clicked()),this,SLOT(PauseGame()));
 
     if(difficulty < 3)
     {
         Helper = new AI;
         HintButton = new QPushButton("?",Wnd);
-        HintButton->setFixedSize(30,30);
-        HintButton->move(950,400);
+        HintButton->setFixedSize(SMALL_BUT_SIZE,SMALL_BUT_SIZE);
+        HintButton->move((WINDOW_WIDTH - PLAYER_HOLDER_WIDTH)/2 + PLAYER_HOLDER_WIDTH - SMALL_BUT_SIZE,WINDOW_HEIGHT - CARD_HEIGHT - COUNTER_SIZE - 10 - SMALL_BUT_SIZE);
         HintButton->show();
         QObject::connect(HintButton,SIGNAL(clicked()), this,SLOT(DisplayHint()));
     }

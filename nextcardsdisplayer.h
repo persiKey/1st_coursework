@@ -16,7 +16,7 @@ class NextCardsDisplayer : public QWidget
     deque<Card*>* NextCards;
     deque<Card*>* PossibleNextCards;
     QHBoxLayout Layout;
-    PlayerCardDisplayer Cards[13];
+    PlayerCardDisplayer Cards[Constants::MAX_NEXT_CARDS];
     CardMaker Maker;
 public:
     explicit NextCardsDisplayer(deque<Card*>* DisplCards,deque<Card*>* PossibleCards,QWidget *parent = nullptr);

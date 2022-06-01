@@ -5,6 +5,7 @@
 #include <random>
 #include <time.h>
 
+using namespace Constants;
 
 DequeDisplayer::DequeDisplayer(QWidget *parent) : QWidget(parent), deque(DEQUE_WIDTH, DEQUE_HEIGHT)
 {

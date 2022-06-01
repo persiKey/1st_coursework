@@ -3,6 +3,8 @@
 
 QPixmap* CardMaker::CachedCover;
 
+using namespace Constants;
+
 CardMaker::CardMaker() : Font("Hoyle Playing Cards", VALUE_FONT, QFont::Normal)
 {
     CachedCards = new QPixmap**[NUM_OF_SUITS];

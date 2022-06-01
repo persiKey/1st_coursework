@@ -1,6 +1,11 @@
 #include "carddeque.h"
 #include <QDebug>
 
+using Constants::MAX_DEQUE_DISPLAYING_CARDS;
+using Constants::NUM_OF_SUITS;
+using Constants::NUM_OF_VALUES;
+using Constants::COUNTER_SIZE;
+using namespace Constants;
 void ProcessAndPause(int msec);
 
 CardDeque::CardDeque(QWidget *wnd, Card Cards[])
@@ -8,9 +13,9 @@ CardDeque::CardDeque(QWidget *wnd, Card Cards[])
     Displayer = new DequeDisplayer(wnd);
     RandomCardGen(Cards);
     Counter = new QLabel(wnd);
-    Counter->setFixedSize(20,20);
-    Displayer->move(300,300);
-    Counter->move(300,507);
+    Counter->setFixedSize(COUNTER_SIZE,COUNTER_SIZE);
+    Displayer->move((WINDOW_WIDTH-PLAYER_HOLDER_WIDTH)/2,WINDOW_HEIGHT/2.5);
+    Counter->move((WINDOW_WIDTH-PLAYER_HOLDER_WIDTH + Displayer->size().width())/2,WINDOW_HEIGHT/2.5 + Displayer->size().height());
     Counter->setText(QString::number(this->Cards.size()));
     Counter->show();
     Displayer->show();
@@ -72,12 +77,12 @@ void CardDeque::RandomCardGen(Card Cards[])
 OpenCardDeque::OpenCardDeque(QWidget *wnd, CardMaker *maker)
 {
     Displayer = new OpenDequeDisplayer(wnd,maker);
-    Displayer->move(600,300);
-    Displayer->show();
     Counter = new QLabel(wnd);
-    Counter->setFixedSize(20,20);
-    Counter->move(600,507);
+    Counter->setFixedSize(COUNTER_SIZE,COUNTER_SIZE);
+    Displayer->move((WINDOW_WIDTH-PLAYER_HOLDER_WIDTH)/2 + PLAYER_HOLDER_WIDTH - Displayer->size().width(),WINDOW_HEIGHT/2.5);
+    Counter->move((WINDOW_WIDTH-PLAYER_HOLDER_WIDTH + Displayer->size().width())/2 + PLAYER_HOLDER_WIDTH - Displayer->size().width(),WINDOW_HEIGHT/2.5 + Displayer->size().height());
     Counter->setText(QString::number(this->Cards.size()));
+    Displayer->show();
     Counter->show();
 }
 

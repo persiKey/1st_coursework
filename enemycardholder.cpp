@@ -5,6 +5,10 @@
 
 #include "cardmaker.h"
 
+using Constants::CARD_HEIGHT;
+using Constants::CARD_WIDTH;
+using Constants::VISIBLE_CARDS_SPACING;
+using Constants::ENEMY_HOLDER_SIZE_VALUE;
 EnemyCardDisplayer::EnemyCardDisplayer(CardOrientation orient, QWidget *parent) : QWidget(parent), Orientation(orient)
 {
     SetOrientation(orient);
@@ -37,11 +41,11 @@ EnemyCardHolder::EnemyCardHolder(CardOrientation orient, QWidget *parent) : Orie
     switch (Orientation) {
     case CardOrientation::HOR :
         Layout = new QVBoxLayout;
-        this->setFixedSize(CARD_HEIGHT,(CARD_WIDTH+VISIBLE_CARDS_SPACING)*VISIBLE_CARDS_IN_HAND-VISIBLE_CARDS_SPACING);
+        this->setFixedSize(CARD_HEIGHT,ENEMY_HOLDER_SIZE_VALUE);
         break;
     case CardOrientation::VER :
         Layout = new QHBoxLayout;
-        this->setFixedSize((CARD_WIDTH+VISIBLE_CARDS_SPACING)*VISIBLE_CARDS_IN_HAND-VISIBLE_CARDS_SPACING, CARD_HEIGHT);
+        this->setFixedSize(ENEMY_HOLDER_SIZE_VALUE, CARD_HEIGHT);
         break;
     }
 

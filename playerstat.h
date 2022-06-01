@@ -8,15 +8,9 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLineEdit>
+#include "constants.h"
 
-struct PlayerStat
-{
-    wchar_t name[20];
-    int games_played;
-    float win_rate;
-    bool last_game_win;
-    int last_game_duration;
-};
+using Types::PlayerStat;
 
 class LoginWidget : public QWidget
 {
