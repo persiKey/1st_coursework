@@ -134,14 +134,16 @@ void Menu::StatMenu()
 
     QFont f1;
     f1.setPointSize(20);
-    std::wstringstream InSt;
-    InSt << L"Ім'я: " << Profile.name;
-    InSt << L"<br/>Зіграно ігор: " << Profile.games_played
-        << L"<br/>Коефіцієнт виграшу: " << std::setprecision(2) << std::showpoint << Profile.win_rate
-        << L"<br/>Остання гра виграна: " << (Profile.last_game_win ? L"Так" : L"Ні")
-        << L"<br/>Тривалість останньої гри(с): " << Profile.last_game_duration;
+    std::wstring name(Profile.name);
+    std::stringstream InSt;
+    InSt << "Ім'я: " << std::string(name.begin(), name.end());
+    InSt << "<br/>Зіграно ігор: " << Profile.games_played
+        << "<br/>Коефіцієнт виграшу: " << std::setprecision(2) << std::showpoint << Profile.win_rate
+        << "<br/>Остання гра виграна: " << (Profile.last_game_win ? "Так" : "Ні")
+        << "<br/>Тривалість останньої гри(с): " << Profile.last_game_duration;
     StatInfo = new QTextBrowser;
-    StatInfo->setText(QString::fromStdWString(InSt.str()));
+
+    StatInfo->setText(QString::fromStdString(InSt.str()));
     StatInfo->setFont(f1);
     StatInfo->setAlignment(Qt::AlignHCenter);
     StatInfo->setFixedSize(Constants::WINDOW_WIDTH/2,Constants::WINDOW_HEIGHT/3.5);

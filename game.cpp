@@ -53,6 +53,8 @@ void Game::GiveCardsToPlayers()
             Enemies[k]->AddCard(Deque->TakeCard());
         }
     }
+    OpenDeque->PlaceCard(Deque->TakeCard());
+    last  = OpenDeque->Cards.back()->Suit;
     moves_offset = Deque->Cards.size() % players;
 }
 
@@ -99,10 +101,10 @@ void Game::Init(int pl, int dif, PlayerStat *Prof)
     int counter = players-2;
     switch (players) {
     case 4:
-        Enemies[counter] = new Enemy(Wnd,CardOrientation::HOR,1280-170,5);
+        Enemies[counter] = new Enemy(Wnd,CardOrientation::HOR,WINDOW_WIDTH-CARD_HEIGHT,5);
         --counter;
     case 3:
-        Enemies[counter] = new Enemy(Wnd,CardOrientation::VER,285,0);
+        Enemies[counter] = new Enemy(Wnd,CardOrientation::VER,(WINDOW_WIDTH - ENEMY_HOLDER_SIZE_VALUE)/2,0);
         --counter;
     case 2:
         Enemies[counter] = new Enemy(Wnd,CardOrientation::HOR,0,5);
@@ -114,7 +116,6 @@ void Game::Init(int pl, int dif, PlayerStat *Prof)
     GiveOneCardFromDequeToPlayer(Player);
     active_player = 0;
     Player->SetFocus(true);
-    last  = CardSuit(-1);
     Player->SetDequeSuit(&last);
     for(int i =0; i < players-1;++i)
     {

@@ -26,7 +26,7 @@ void ProcessAndPause(int msec)
     QApplication::processEvents();
     std::this_thread::sleep_for(std::chrono::milliseconds(msec));
 }
-
+#pragma comment(lib, "user32.lib")
 void Check(const QString& str)
 {
     if(!QFile::exists(str))

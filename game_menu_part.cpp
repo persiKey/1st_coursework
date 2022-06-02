@@ -70,7 +70,6 @@ void Game::Restart()
     OpenDeque->Clear();
     Deque->Clear();
     Deque->RandomCardGen(Cards);
-    last = CardSuit(-1);
     GiveCardsToPlayers();
     game_started = clock();
     active_player = 0;

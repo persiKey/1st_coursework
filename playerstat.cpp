@@ -107,8 +107,8 @@ bool LoginWidget::ValidateName(QString name)
     for (int i = 0; i < name.size() ; ++i)
     {
         if(!((name[i] >= '0' && name[i] < '0' + 10) ||
-                (name[i] > 'a' && name[i] < 'a' + 26) ||
-                (name[i] > 'A' && name[i] < 'A' + 26)))
+                (name[i] >= 'a' && name[i] <= 'a' + 26) ||
+                (name[i] >= 'A' && name[i] <= 'A' + 26)))
             return false;
     }
     return true;
