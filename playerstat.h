@@ -24,6 +24,8 @@ class LoginWidget : public QWidget
     QPushButton* funcButton1;
     QPushButton* funcButton2;
 private:
+    void DisplayError(const QString&);
+    bool ValidAll(std::string& );
     bool ValidateName(QString );
 
 private slots:

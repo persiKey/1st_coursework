@@ -101,9 +101,41 @@ void LoginWidget::CreateNewProfileClicked()
     mainLayout->addWidget(subText);
 }
 
+void LoginWidget::DisplayError(const QString &msg)
+{
+    subText->setText(msg);
+    subText->setStyleSheet("font: 20px;color: red;");
+}
+
+bool LoginWidget::ValidAll(std::string &path)
+{
+    if(profileNameEdit->text().isEmpty())
+    {
+        DisplayError("*нічого не введено");
+        return false;
+    }
+    if(profileNameEdit->text().size() > 20)
+    {
+        DisplayError("*ім'я профілю не може бути довшим за 20 символів");
+        return false;
+    }
+    if(!ValidateName(profileNameEdit->text()))
+    {
+        DisplayError("*ім'я профілю має містити лише латинські літери та цифри");
+        return false;
+    }
+    ifstream try_file(path);
+    if(try_file.is_open())
+    {
+        try_file.close();
+        DisplayError("*такий профіль вже існує");
+        return false;
+    }
+    return true;
+}
+
 bool LoginWidget::ValidateName(QString name)
 {
-    if(name.isEmpty()){return false;}
     for (int i = 0; i < name.size() ; ++i)
     {
         if(!((name[i] >= '0' && name[i] < '0' + 10) ||
@@ -116,9 +148,8 @@ bool LoginWidget::ValidateName(QString name)
 
 void LoginWidget::CreateProfile()
 {
-    if(profileNameEdit->text().size() > 20 || !ValidateName(profileNameEdit->text())) return;
     std::string path = SAVES_DIR_NAME + string("\\") + profileNameEdit->text().toStdString() + string(".save");
-    if(ifstream(path).is_open()) return;
+    if(!ValidAll(path)) return;
     if(CreateDirectoryA(SAVES_DIR_NAME, NULL) || GetLastError() == ERROR_ALREADY_EXISTS)
     {
         ofstream file(path, std::ios_base::binary);
