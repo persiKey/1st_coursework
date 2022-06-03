@@ -6,11 +6,12 @@
 #include <deque>
 #include "playercardholder.h"
 #include "enemycardholder.h"
-#include <nextcardsdisplayer.h>
-#include <ai.h>
+#include "nextcardsdisplayer.h"
+#include "ai.h"
 
 using std::deque;
 using Types::CardOrientation;
+using Types::Difficulty;
 
 class Player
 {
@@ -56,7 +57,7 @@ public:
 
 class Enemy : public Player
 {
-    int dif;
+    Difficulty dif;
 private:
     EnemyCardHolder* Holder;
     AI Ai;
@@ -68,7 +69,7 @@ public:
     void Clear() override;
     void Show() override;
     void Hide() override;
-    void SetDifficulty(int dif);
+    void SetDifficulty(Difficulty dif);
 };
 
 #endif // PLAYER_H

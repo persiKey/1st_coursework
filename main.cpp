@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     Game game;
     game.setWnd(&MainWnd);
 
-    QObject::connect(&menu,SIGNAL(StartGame(int, int, PlayerStat*)),&game,SLOT(Init(int, int, PlayerStat*)));
+    QObject::connect(&menu,SIGNAL(StartGame(int, Difficulty, PlayerStat*)),&game,SLOT(Init(int, Difficulty, PlayerStat*)));
     QObject::connect(&game,SIGNAL(MainMenu()),&menu,SLOT(MainMenu()));
 
     return a.exec();

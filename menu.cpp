@@ -104,14 +104,14 @@ void Menu::SetDifficulty()
     QString dif = s->text();
 
     if(dif == "Легкий")
-        difficulty = 1;
+        Diff = Difficulty::EASY;
     else if(dif == "Середній")
-        difficulty = 2;
+        Diff = Difficulty::NORM;
     else
-        difficulty = 3;
+        Diff = Difficulty::HARD;
 
 
-    qDebug() << dif << ' ' << difficulty;
+    qDebug() << dif << ' ' << (int)Diff;
     QObject::disconnect(&FuncButton1,SIGNAL(clicked()),this,SLOT(SetDifficulty()));
     QObject::disconnect(&FuncButton2,SIGNAL(clicked()),this,SLOT(SetDifficulty()));
     QObject::disconnect(&FuncButton3,SIGNAL(clicked()),this,SLOT(SetDifficulty()));
@@ -120,7 +120,7 @@ void Menu::SetDifficulty()
     FuncButton1.hide();
     FuncButton3.hide();
     FuncButton2.hide();
-    emit StartGame(players, difficulty, &Profile);
+    emit StartGame(players, Diff, &Profile);
 }
 
 void Menu::StatMenu()

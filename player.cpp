@@ -169,7 +169,7 @@ vector<Card *> Enemy::PlaceCards()
 {
     vector<int> indexes;
     switch (dif) {
-    case 1: indexes = Ai.PrimitveDecide(Hand,*OpenSuit);break;
+    case Difficulty::EASY: indexes = Ai.PrimitveDecide(Hand,*OpenSuit);break;
     default: indexes = Ai.Decide(&Hand,&NextCards,&PossibleNextCards,*OpenSuit);
 
     }
@@ -224,7 +224,7 @@ void Enemy::Hide()
     Counter->hide();
 }
 
-void Enemy::SetDifficulty(int dif)
+void Enemy::SetDifficulty(Difficulty dif)
 {
     this->dif = dif;
 }

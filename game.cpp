@@ -59,7 +59,7 @@ void Game::GiveCardsToPlayers()
 }
 
 
-void Game::Init(int pl, int dif, PlayerStat *Prof)
+void Game::Init(int pl, Difficulty dif, PlayerStat *Prof)
 {
     this->players = pl;
     this->difficulty = dif;
@@ -83,7 +83,7 @@ void Game::Init(int pl, int dif, PlayerStat *Prof)
     PauseButton->setFixedSize(SMALL_BUT_SIZE,SMALL_BUT_SIZE);
     QObject::connect(PauseButton,SIGNAL(clicked()),this,SLOT(PauseGame()));
 
-    if(difficulty < 3)
+    if(difficulty != Difficulty::HARD)
     {
         Helper = new AI;
         HintButton = new QPushButton("?",Wnd);
@@ -93,9 +93,9 @@ void Game::Init(int pl, int dif, PlayerStat *Prof)
         QObject::connect(HintButton,SIGNAL(clicked()), this,SLOT(DisplayHint()));
     }
 
-    qDebug() << players << " " << difficulty << "\n";
+    qDebug() << players << " " << (int)difficulty << "\n";
     Maker = new CardMaker;
-    Player = new MainPlayer(Wnd,Maker,difficulty == 3);
+    Player = new MainPlayer(Wnd,Maker,difficulty == Difficulty::HARD);
 
     Enemies = new Enemy*[players-1];
     int counter = players-2;
@@ -260,7 +260,7 @@ void Game::OneGameTact()
     ClearHintCards();
     switch (OnePlayerTact(Player)) {
     case 1: FillPlayerStat(true); DisplayWinLoose("Ви виграли!");return;
-    case -1: return;
+    case -1: Player->SetFocus(true);return;
     }
 
     Player->UpdateHint();

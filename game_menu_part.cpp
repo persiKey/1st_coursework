@@ -4,7 +4,7 @@ void Game::ShowGameElements()
 {
     Desk->show();
     PauseButton->show();
-    if(difficulty < 3) HintButton->show();
+    if(difficulty != Difficulty::HARD) HintButton->show();
     Move->show();
     Player->Show();
     for(int i = 0; i < players-1;++i)
@@ -17,7 +17,7 @@ void Game::HideGameElements()
 {
     Desk->hide();
     PauseButton->hide();
-    if(difficulty < 3) HintButton->hide();
+    if(difficulty != Difficulty::HARD) HintButton->hide();
     Move->hide();
     Player->Hide();
     for(int i = 0; i < players-1;++i)

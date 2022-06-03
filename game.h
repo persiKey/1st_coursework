@@ -15,7 +15,7 @@ using std::vector;
 using Constants::NUM_OF_SUITS;
 using Constants::NUM_OF_VALUES;
 using Types::PlayerStat;
-
+using Types::Difficulty;
 class Game : public QObject
 {
     Q_OBJECT
@@ -32,7 +32,7 @@ class Game : public QObject
 
     PlayerStat* Profile;
     int players;
-    int difficulty;
+    Difficulty difficulty;
     clock_t game_started;
     int active_player;
     int moves_offset;
@@ -88,7 +88,7 @@ private slots:
     void RestartGame();
     void EnterMainMenu();
 public slots:
-    void Init(int pl, int dif, PlayerStat*);
+    void Init(int pl, Difficulty dif, PlayerStat*);
 signals:
     void MainMenu();
 };

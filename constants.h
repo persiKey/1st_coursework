@@ -40,6 +40,13 @@ namespace Constants {
 
 namespace Types {
 
+    enum class Difficulty
+    {
+        EASY,
+        NORM,
+        HARD
+    };
+
     enum class CardSuit
     {
         HEARTS = 0,

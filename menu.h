@@ -6,6 +6,8 @@
 #include "constants.h"
 #include "playerstat.h"
 
+using Types::Difficulty;
+
 class Menu : public QObject
 {
     Q_OBJECT
@@ -18,7 +20,7 @@ class Menu : public QObject
     QPushButton FuncButton3;
     QPushButton FuncButton2;
     int players;
-    int difficulty;
+    Difficulty Diff;
     PlayerStat Profile;
 
 private slots:
@@ -33,7 +35,7 @@ public slots:
     void MainMenu();
     void Start(PlayerStat);
 signals:
-    void StartGame(int pl, int dif, PlayerStat*);
+    void StartGame(int pl, Difficulty dif, PlayerStat*);
 
 public:
     Menu(QWidget* parent = nullptr);
