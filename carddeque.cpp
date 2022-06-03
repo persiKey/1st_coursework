@@ -61,7 +61,7 @@ void CardDeque::RandomCardGen(const Card Cards[])
     this->Cards.clear();
     srand(time(NULL));
     vector<int> indexes;
-    for(int i =0; i < NUM_OF_SUITS*NUM_OF_VALUES;++i)
+    for(int i = 0; i < NUM_OF_SUITS*NUM_OF_VALUES;++i)
     {
         indexes.push_back(i);
     }

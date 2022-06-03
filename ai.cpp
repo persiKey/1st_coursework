@@ -7,7 +7,7 @@ using Constants::NUM_OF_SUITS;
 
 AI::AI(){}
 
-int AI::GetLenght(deque<const Card *> &Cards, CardValue Value)
+int AI::GetLenght(const deque<const Card *> &Cards, CardValue Value)
 {
     for(int i = 0; i < Cards.size();++i)
     {
@@ -46,7 +46,7 @@ int AI::DetermineSuitIndex(CardSuit value, CardSuit Popularity[])
     return  suit;
 }
 
-Element AI::FindBetter(vector<Element> &Elements,int comp_el_index, CardSuit OpenSuit)
+Element AI::FindBetter(const vector<Element> &Elements,int comp_el_index, CardSuit OpenSuit)
 {
     vector<Element> Suitable;
     if(Elements[comp_el_index].Slots.size() == 1) Suitable.push_back(Elements[comp_el_index]);
@@ -80,7 +80,7 @@ Element AI::FindBetter(vector<Element> &Elements,int comp_el_index, CardSuit Ope
     return Suitable[min_index];
 }
 
-Element AI::GetChoosenElement(vector<Element> &Elements, CardSuit OpenSuit)
+Element AI::GetChoosenElement(const vector<Element> &Elements, CardSuit OpenSuit, bool is_real)
 {
 
     for(int i = 0; i < Elements.size();++i)
@@ -96,8 +96,33 @@ Element AI::GetChoosenElement(vector<Element> &Elements, CardSuit OpenSuit)
         }
         else
         {
+            if(Elements.size() == 2 && Elements[(i+1) % 2].Slots.size() == 1 && Elements[(i+1) % 2].Slots[0]->Suit != OpenSuit && is_real && Elements[(i+1) % 2].lenght)
+                    return Elements[(i+1) % 2];
+
             return FindBetter(Elements,i,OpenSuit);
         }
+    }
+}
+
+void AI::FindElementsInHand(vector<Element> &Elements, vector<const Card *> Hand)
+{
+    Element el;
+    for(int i = 0; i < Hand.size(); ++i)
+    {
+        el.Slots.clear();
+        el.Slots.push_back(Hand[i]);
+        for(int k = i + 1; k < Hand.size();++k)
+        {
+            if(Hand[i]->Value == Hand[k]->Value)
+            {
+                el.Slots.push_back(Hand[k]);
+                Hand.erase(Hand.begin()+k);
+                --k;
+            }
+        }
+        Hand.erase(Hand.begin()+i);
+        --i;
+        Elements.push_back(el);
     }
 }
 
@@ -108,26 +133,7 @@ vector<int> AI::Decide(const vector<const Card *> *Hand,const deque<const Card *
     AllNextCards.assign(NextCards->begin(),NextCards->end());
     AllNextCards.insert(AllNextCards.end(), PossibleNextCards->begin(),PossibleNextCards->end());
 
-    vector<const Card*> HandCopy = *Hand;
-
-    Element el;
-    for(int i = 0; i < HandCopy.size(); ++i)
-    {
-        el.Slots.clear();
-        el.Slots.push_back(HandCopy[i]);
-        for(int k = i + 1; k < HandCopy.size();++k)
-        {
-            if(HandCopy[i]->Value == HandCopy[k]->Value)
-            {
-                el.Slots.push_back(HandCopy[k]);
-                HandCopy.erase(HandCopy.begin()+k);
-                --k;
-            }
-        }
-        HandCopy.erase(HandCopy.begin()+i);
-        --i;
-        Elements.push_back(el);
-    }
+    FindElementsInHand(Elements,*Hand);
 
     for(int i = 0; i < Elements.size();++i)
     {
@@ -135,7 +141,7 @@ vector<int> AI::Decide(const vector<const Card *> *Hand,const deque<const Card *
     }
     std::sort(Elements.begin(),Elements.end(),[](Element &A, Element &B){return A.lenght > B.lenght;});
 
-    Element choosenEl = GetChoosenElement(Elements,OpenSuit);
+    Element choosenEl = GetChoosenElement(Elements,OpenSuit, !NextCards->empty());
 
     vector<int> choosenIndexes;
     for(int i = 0; i < choosenEl.Slots.size();++i)

@@ -260,7 +260,7 @@ void Game::OneGameTact()
     ClearHintCards();
     switch (OnePlayerTact(Player)) {
     case 1: FillPlayerStat(true); DisplayWinLoose("Ви виграли!");return;
-    case -1: Player->SetFocus(true);return;
+    case -1: SetEnabledControlElements(true);Player->SetFocus(true);return;
     }
 
     Player->UpdateHint();

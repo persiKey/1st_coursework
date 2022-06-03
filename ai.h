@@ -19,11 +19,12 @@ struct Element
 
 class AI
 {
-    int GetLenght(deque<const Card*> &Cards, CardValue Value);
+    int GetLenght(const deque<const Card*> &Cards, CardValue Value);
     void GetPopularSuits(CardSuit *res, const vector<Element> &Suitable);
     int DetermineSuitIndex(CardSuit value,CardSuit Popularity[2]);
-    Element FindBetter(vector<Element>& Elements,int el_index, CardSuit OpenSuit);
-    Element GetChoosenElement(vector<Element>& Elements, CardSuit OpenSuit);
+    Element FindBetter(const vector<Element>& Elements,int el_index, CardSuit OpenSuit);
+    Element GetChoosenElement(const vector<Element>& Elements, CardSuit OpenSuitm,bool is_real);
+    void FindElementsInHand(vector<Element>& Elements, vector<const Card *> Hand);
 public:
     AI();
     vector<int> Decide(const vector<const Card*>* Hand,const deque<const Card*>* NextCards,const deque<const Card*>* PossibleNextCards, CardSuit OpenSuit);
