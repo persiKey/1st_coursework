@@ -36,7 +36,6 @@ class Game : public QObject
     clock_t game_started;
     int active_player;
     int moves_offset;
-    bool was_renew;
 
     AI* Helper;
     vector<int> lastHintIndexes;

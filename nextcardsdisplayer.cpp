@@ -2,7 +2,7 @@
 #include <QApplication>
 #include <QGuiApplication>
 #include <QScreen>
-NextCardsDisplayer::NextCardsDisplayer(deque<const Card*>* DisplCards,deque<const Card*>* PossibleCards, QWidget *parent) : QWidget(parent)
+NextCardsDisplayer::NextCardsDisplayer(const deque<const Card*>* DisplCards,const deque<const Card*>* PossibleCards, QWidget *parent) : QWidget(parent)
 {
     Layout.setAlignment(Qt::AlignRight);
     Layout.setMargin(0);

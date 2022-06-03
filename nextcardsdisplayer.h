@@ -13,13 +13,13 @@ using std::deque;
 class NextCardsDisplayer : public QWidget
 {
     Q_OBJECT
-    deque<const Card*>* NextCards;
-    deque<const Card*>* PossibleNextCards;
+    const deque<const Card*>* NextCards;
+    const deque<const Card*>* PossibleNextCards;
     QHBoxLayout Layout;
     PlayerCardDisplayer Cards[Constants::MAX_NEXT_CARDS];
     CardMaker Maker;
 public:
-    explicit NextCardsDisplayer(deque<const Card*>* DisplCards,deque<const Card*>* PossibleCards,QWidget *parent = nullptr);
+    explicit NextCardsDisplayer(const deque<const Card*>* DisplCards,const deque<const Card*>* PossibleCards,QWidget *parent = nullptr);
     void UpdateNextCards();
 signals:
 
