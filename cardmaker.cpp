@@ -152,7 +152,7 @@ QPixmap* CardMaker::GetCard(CardSuit suit, CardValue value)
     }
 }
 
-QPixmap *CardMaker::GetCard(Card &card)
+QPixmap *CardMaker::GetCard(const Card &card)
 {
     return GetCard(card.Suit, card.Value);
 }

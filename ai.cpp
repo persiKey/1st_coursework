@@ -5,12 +5,9 @@
 
 using Constants::NUM_OF_SUITS;
 
-AI::AI()
-{
+AI::AI(){}
 
-}
-
-int AI::GetLenght(deque<Card *> &Cards, CardValue Value)
+int AI::GetLenght(deque<const Card *> &Cards, CardValue Value)
 {
     for(int i = 0; i < Cards.size();++i)
     {
@@ -20,7 +17,7 @@ int AI::GetLenght(deque<Card *> &Cards, CardValue Value)
     return INT_MAX;
 }
 
-void AI::GetPopularSuits(CardSuit *res, vector<Element> &Suitable)
+void AI::GetPopularSuits(CardSuit *res,const vector<Element> &Suitable)
 {
     typedef std::pair<const CardSuit,int> SuitFrequense ;
 
@@ -104,14 +101,14 @@ Element AI::GetChoosenElement(vector<Element> &Elements, CardSuit OpenSuit)
     }
 }
 
-vector<int> AI::Decide(vector<Card *> *Hand, deque<Card *> *NextCards, deque<Card*>* PossibleNextCards, CardSuit OpenSuit)
+vector<int> AI::Decide(const vector<const Card *> *Hand,const deque<const Card *> *NextCards,const deque<const Card*>* PossibleNextCards, CardSuit OpenSuit)
 {
     vector<Element> Elements;
-    deque<Card*> AllNextCards;
+    deque<const Card*> AllNextCards;
     AllNextCards.assign(NextCards->begin(),NextCards->end());
     AllNextCards.insert(AllNextCards.end(), PossibleNextCards->begin(),PossibleNextCards->end());
 
-    vector<Card*> HandCopy = *Hand;
+    vector<const Card*> HandCopy = *Hand;
 
     Element el;
     for(int i = 0; i < HandCopy.size(); ++i)
@@ -149,7 +146,7 @@ vector<int> AI::Decide(vector<Card *> *Hand, deque<Card *> *NextCards, deque<Car
     return choosenIndexes;
 }
 
-vector<int> AI::PrimitveDecide(vector<Card *> &Hand, CardSuit OpenSuit)
+vector<int> AI::PrimitveDecide(const vector<const Card *> &Hand, CardSuit OpenSuit)
 {
     std::map<CardValue,int> freq;
     for(auto Card : Hand)

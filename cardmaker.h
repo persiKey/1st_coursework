@@ -20,7 +20,7 @@ public:
     ~CardMaker();
 
     QPixmap* GetCard(CardSuit suit, CardValue value);
-    QPixmap* GetCard(Card &card);
+    QPixmap* GetCard(const Card &card);
     static QPixmap* GetCover();
 };
 void DrawCardBorder(QPainter&);

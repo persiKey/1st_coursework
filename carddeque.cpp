@@ -8,7 +8,7 @@ using Constants::COUNTER_SIZE;
 using namespace Constants;
 void ProcessAndPause(int msec);
 
-CardDeque::CardDeque(QWidget *wnd, Card Cards[])
+CardDeque::CardDeque(QWidget *wnd, const Card Cards[])
 {
     Displayer = new DequeDisplayer(wnd);
     RandomCardGen(Cards);
@@ -22,9 +22,9 @@ CardDeque::CardDeque(QWidget *wnd, Card Cards[])
     Displayer->show();
 }
 
-Card *CardDeque::TakeCard()
+const Card *CardDeque::TakeCard()
 {
-    Card* card = Cards.back();
+    const Card* card = Cards.back();
     Cards.pop_back();
     Counter->setText(QString::number(this->Cards.size()));
     if(Cards.size() < MAX_DEQUE_DISPLAYING_CARDS)
@@ -56,7 +56,7 @@ CardDeque::~CardDeque()
     delete Counter;
 }
 
-void CardDeque::RandomCardGen(Card Cards[])
+void CardDeque::RandomCardGen(const Card Cards[])
 {
     this->Cards.clear();
     srand(time(NULL));
@@ -88,14 +88,14 @@ OpenCardDeque::OpenCardDeque(QWidget *wnd, CardMaker *maker)
     Counter->show();
 }
 
-void OpenCardDeque::PlaceCard(Card* card)
+void OpenCardDeque::PlaceCard(const Card* card)
 {
     Cards.push_back(card);
     Displayer->PrintCardOver(card);
     Counter->setText(QString::number(this->Cards.size()));
 }
 
-void OpenCardDeque::PlaceCards(vector<Card *> &cards)
+void OpenCardDeque::PlaceCards(const vector<const Card *> &cards)
 {
     for(auto card : cards)
     {

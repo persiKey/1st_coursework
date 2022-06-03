@@ -201,7 +201,7 @@ bool Game::CheckIfWin(class Player *pl)
 void Game::RenewDeque()
 {
     if(OpenDeque->Cards.size() == 0) return;
-    Card* last_open = OpenDeque->Cards.back();
+    const Card* last_open = OpenDeque->Cards.back();
     OpenDeque->Cards.pop_back();
 
     for(size_t i = 0; i < OpenDeque->Cards.size();++i)
@@ -231,7 +231,7 @@ int Game::OnePlayerTact(class Player *pl)
         TakeAllOpenCards(pl);
         return -2;
     }
-    vector<Card*> moveCards = pl->PlaceCards();
+    vector<const Card*> moveCards = pl->PlaceCards();
     if(moveCards.empty()) return -1;
     OpenDeque->PlaceCards(moveCards);
     last = moveCards.back()->Suit;
@@ -255,8 +255,8 @@ void Game::ClearHintCards()
 
 void Game::OneGameTact()
 {
+    SetEnabledControlElements(false);
     Player->SetFocus(false);
-    PauseButton->setEnabled(false);
     ClearHintCards();
     switch (OnePlayerTact(Player)) {
     case 1: FillPlayerStat(true); DisplayWinLoose("Ви виграли!");return;
@@ -282,8 +282,8 @@ void Game::OneGameTact()
     UpdateNextCards(Player);
     UpdatePosibleNextCards(Player);
     Player->UpdateHint();
-    PauseButton->setEnabled(true);
     Player->SetFocus(true);
+    SetEnabledControlElements(true);
 }
 
 void Game::DisplayHint()

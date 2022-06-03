@@ -83,7 +83,7 @@ void OpenDequeDisplayer::ClearDeque()
     this->update();
 }
 
-void OpenDequeDisplayer::PrintCardOver(Card *card)
+void OpenDequeDisplayer::PrintCardOver(const Card *card)
 {
     QPixmap* PixCard = maker->GetCard(*card);
     QPainter painter(&deque);

@@ -64,6 +64,7 @@ private:
     int OnePlayerTact(class Player *pl);
 
     void ClearHintCards();
+    void SetEnabledControlElements(bool);
     void HideGameElements();
     void ShowGameElements();
     void HideMenuElements();

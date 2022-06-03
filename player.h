@@ -17,15 +17,15 @@ class Player
 {
     friend class Game;
 protected:
-    vector<Card*> Hand;
-    deque<Card*> PossibleNextCards;
-    deque<Card*> NextCards;
+    vector<const Card*> Hand;
+    deque<const Card*> PossibleNextCards;
+    deque<const Card*> NextCards;
     CardSuit* OpenSuit;
     QLabel* Counter;
 public:
     Player();
-    virtual void AddCard(Card*);
-    virtual vector<Card *> PlaceCards();
+    virtual void AddCard(const Card*);
+    virtual vector<const Card *> PlaceCards();
     virtual void SetDequeSuit(CardSuit*);
     virtual void Clear();
     virtual void Show();
@@ -46,8 +46,8 @@ public:
     void UpdateHint();
     void UpdateHolder();
     void ResetChoosenCards();
-    void AddCard(Card* card) override;
-    vector<Card *> PlaceCards() override;
+    void AddCard(const Card* card) override;
+    vector<const Card *> PlaceCards() override;
     void SetDequeSuit(CardSuit*) override;
     void Clear() override;
     void Show() override;
@@ -63,8 +63,8 @@ private:
     AI Ai;
 public:
     Enemy(QWidget* wnd, CardOrientation, int x, int y);
-    void AddCard(Card* card) override;
-    vector<Card *> PlaceCards() override;
+    void AddCard(const Card* card) override;
+    vector<const Card *> PlaceCards() override;
     void SetDequeSuit(CardSuit*) override;
     void Clear() override;
     void Show() override;

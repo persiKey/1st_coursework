@@ -8,14 +8,14 @@ using std::vector;
 class CardDeque
 {
     friend class Game;
-    vector<Card*> Cards;
+    vector<const Card*> Cards;
     DequeDisplayer* Displayer;
     QLabel* Counter;
 
 public:
-    CardDeque(QWidget* wnd, Card Cards[]);
-    void RandomCardGen(Card[]);
-    Card *TakeCard();
+    CardDeque(QWidget* wnd,const Card Cards[]);
+    void RandomCardGen(const Card[]);
+    const Card *TakeCard();
     void Clear();
     void Show();
     void Hide();
@@ -25,13 +25,13 @@ public:
 class OpenCardDeque
 {
     friend class Game;
-    vector<Card*> Cards;
+    vector<const Card*> Cards;
     OpenDequeDisplayer* Displayer;
     QLabel* Counter;
 public:
     OpenCardDeque(QWidget* wnd, CardMaker* maker);
-    void PlaceCard(Card*);
-    void PlaceCards(vector<Card*>&);
+    void PlaceCard(const Card*);
+    void PlaceCards(const vector<const Card*>&);
     void Clear();
     void Show();
     void Hide();

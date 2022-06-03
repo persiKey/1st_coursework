@@ -4,14 +4,14 @@
 using namespace Constants;
 Player::Player(){ }
 
-void Player::AddCard(Card * card)
+void Player::AddCard(const Card * card)
 {
     Hand.push_back(card);
 }
 
-vector<Card *> Player::PlaceCards()
+vector<const Card *> Player::PlaceCards()
 {
-    return vector<Card*>{};
+    return vector<const Card*>{};
 }
 
 void Player::SetDequeSuit(CardSuit*){}
@@ -74,17 +74,17 @@ void MainPlayer::ResetChoosenCards()
     Holder->ClearIndexes();
 }
 
-void MainPlayer::AddCard(Card *card)
+void MainPlayer::AddCard(const Card *card)
 {
     Player::AddCard(card);
     Holder->AddCard();
     Player::UpdateCounter();
 }
 
-vector<Card *> MainPlayer::PlaceCards()
+vector<const Card *> MainPlayer::PlaceCards()
 {
     vector<int> CardsIndexes = Holder->GetIndexes();
-    vector<Card*> ExtractedCards;
+    vector<const Card*> ExtractedCards;
     for(size_t i = 0; i < CardsIndexes.size();++i)
     {
         ExtractedCards.push_back(Hand[CardsIndexes[i]]);
@@ -158,14 +158,14 @@ Enemy::Enemy(QWidget *wnd, CardOrientation orient, int x, int y)
     Player::UpdateCounter();
 }
 
-void Enemy::AddCard(Card *card)
+void Enemy::AddCard(const Card *card)
 {
     Enemy::Player::AddCard(card);
     Holder->AddCard();
     Player::UpdateCounter();
 }
 
-vector<Card *> Enemy::PlaceCards()
+vector<const Card *> Enemy::PlaceCards()
 {
     vector<int> indexes;
     switch (dif) {
@@ -177,7 +177,7 @@ vector<Card *> Enemy::PlaceCards()
     {
         std::swap(indexes[0], indexes[1]);
     }
-    vector<Card*> result;
+    vector<const Card*> result;
     for(size_t i = 0; i < indexes.size();++i)
     {
         if(Hand.size() <= VISIBLE_CARDS_IN_HAND)

@@ -5,7 +5,7 @@
 
 using namespace Constants;
 
-PlayerCardHolder::PlayerCardHolder(QWidget *parent, CardMaker *maker, vector<Card*>* Cards) : QWidget(parent), cardMaker(maker), AllCards(Cards)
+PlayerCardHolder::PlayerCardHolder(QWidget *parent, CardMaker *maker,const vector<const Card*>* Cards) : QWidget(parent), cardMaker(maker), HandCards(Cards)
 {
     this->setFixedSize(PLAYER_HOLDER_WIDTH,CARD_HEIGHT);
     this->show();
@@ -36,15 +36,15 @@ PlayerCardHolder::PlayerCardHolder(QWidget *parent, CardMaker *maker, vector<Car
 
 void PlayerCardHolder::AddCard()
 {
-    if(AllCards->size() > VISIBLE_CARDS_IN_HAND)
+    if(HandCards->size() > VISIBLE_CARDS_IN_HAND)
     {
         ShowCtrlButtons();
         CheckRight();
     }
     else
     {
-        VisibleCards[AllCards->size()-1].updatePix(cardMaker->GetCard(*(*AllCards).back()));
-        VisibleCards[AllCards->size()-1].show();
+        VisibleCards[HandCards->size()-1].updatePix(cardMaker->GetCard(*(*HandCards).back()));
+        VisibleCards[HandCards->size()-1].show();
     }
 }
 
@@ -52,7 +52,7 @@ void PlayerCardHolder::UpdateVisibleCards()
 {
     for(int i = 0;i < VISIBLE_CARDS_IN_HAND;++i)
     {
-        VisibleCards[i].updatePix(cardMaker->GetCard(*(*AllCards)[i+display_pos]));
+        VisibleCards[i].updatePix(cardMaker->GetCard(*(*HandCards)[i+display_pos]));
         VisibleCards[i].update();
     }
 }
@@ -78,19 +78,19 @@ void PlayerCardHolder::CheckLeft()
 
 void PlayerCardHolder::CheckRight()
 {
-    if(display_pos +1 > AllCards->size()-VISIBLE_CARDS_IN_HAND) return;
+    if(display_pos +1 > HandCards->size()-VISIBLE_CARDS_IN_HAND) return;
     display_pos++;
     UpdateVisibleCards();
 }
 
 void PlayerCardHolder::UpdateExtractedCards()
 {
-    int size = AllCards->size();
+    int size = HandCards->size();
     if(size <= VISIBLE_CARDS_IN_HAND)
     {
         for(int i = 0; i < size;++i)
         {
-            VisibleCards[i].updatePix(cardMaker->GetCard(*(*AllCards)[i]));
+            VisibleCards[i].updatePix(cardMaker->GetCard(*(*HandCards)[i]));
             VisibleCards[i].update();
         }
         for(int i = size; i < VISIBLE_CARDS_IN_HAND;++i)
@@ -114,7 +114,7 @@ vector<int> PlayerCardHolder::GetIndexes()
     for(size_t i = 0; i < ChoosenCardsIndexes.size();++i)
     {
         PlayerCardDisplayer Card;
-        Card.updatePix(cardMaker->GetCard(*(*AllCards)[ChoosenCardsIndexes[i]]));
+        Card.updatePix(cardMaker->GetCard(*(*HandCards)[ChoosenCardsIndexes[i]]));
         Card.unprintSelection();
     }
     return ChoosenCardsIndexes;
@@ -141,15 +141,15 @@ void PlayerCardHolder::CardChoosen(int index)
     auto pos = std::find(ChoosenCardsIndexes.begin(), ChoosenCardsIndexes.end(),allCardIndex);
     if(pos == ChoosenCardsIndexes.end() )
     {
-        if(ChoosenCardsIndexes.size() == 0 && (*AllCards)[allCardIndex]->Suit != *DequeSuit)
+        if(ChoosenCardsIndexes.size() == 0 && (*HandCards)[allCardIndex]->Suit != *DequeSuit)
         {
             VisibleCards[index].printSelection();
             ChoosenCardsIndexes.push_back(allCardIndex);
-            SelectedValue = (*AllCards)[allCardIndex]->Value;
+            SelectedValue = (*HandCards)[allCardIndex]->Value;
         }
-        else if(SelectedValue == (*AllCards)[allCardIndex]->Value)
+        else if(SelectedValue == (*HandCards)[allCardIndex]->Value)
         {
-            if(ChoosenCardsIndexes.size() == 0 && (*AllCards)[allCardIndex]->Suit == *DequeSuit) return;
+            if(ChoosenCardsIndexes.size() == 0 && (*HandCards)[allCardIndex]->Suit == *DequeSuit) return;
             VisibleCards[index].printSelection();
             ChoosenCardsIndexes.push_back(allCardIndex);
         }
@@ -160,10 +160,10 @@ void PlayerCardHolder::CardChoosen(int index)
         ChoosenCardsIndexes.erase(pos);
         if(ChoosenCardsIndexes.size() == 1)
         {
-            if((*AllCards)[ChoosenCardsIndexes[0]]->Suit == *DequeSuit)
+            if((*HandCards)[ChoosenCardsIndexes[0]]->Suit == *DequeSuit)
             {
                 PlayerCardDisplayer Card;
-                Card.updatePix(cardMaker->GetCard(*(*AllCards)[ChoosenCardsIndexes[0]]));
+                Card.updatePix(cardMaker->GetCard(*(*HandCards)[ChoosenCardsIndexes[0]]));
                 Card.unprintSelection();
                 ChoosenCardsIndexes.pop_back();
                 this->update();
@@ -171,5 +171,4 @@ void PlayerCardHolder::CardChoosen(int index)
             }
         }
     }
-
 }

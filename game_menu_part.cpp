@@ -42,6 +42,13 @@ void Game::ShowMenuElements()
     MainMenuButton->show();
 }
 
+void Game::SetEnabledControlElements(bool f)
+{
+    PauseButton->setEnabled(f);
+    Move->setEnabled(f);
+    if(HintButton != nullptr) HintButton->setEnabled(f);
+}
+
 void Game::FreeResourses()
 {
     if( Desk != nullptr) {delete  Desk; Desk = nullptr;}
@@ -75,6 +82,7 @@ void Game::Restart()
     active_player = 0;
     GiveOneCardFromDequeToPlayer(Player);
     ClearHintCards();
+    SetEnabledControlElements(true);
 }
 
 void Game::InitMenuElements()
