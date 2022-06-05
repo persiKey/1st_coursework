@@ -21,7 +21,7 @@ class AI
     int GetLenght(const deque<const Card*> &Cards, CardValue Value);
     CardSuit GetPopularSuits(const vector<Element> &Suitable);
     Element FindBetter(const vector<Element>& Elements,int el_index, CardSuit OpenSuit);
-    Element GetChoosenElement(const vector<Element>& Elements, CardSuit OpenSuitm,bool is_real);
+    Element GetChoosenElement(const vector<Element>& Elements, CardSuit OpenSuit,bool is_real);
     void FindElementsInHand(vector<Element>& Elements, vector<const Card *> Hand);
 public:
     AI();
