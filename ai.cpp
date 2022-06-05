@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <map>
 
-using Constants::NUM_OF_SUITS;
-
 AI::AI(){}
 
 int AI::GetLenght(const deque<const Card *> &Cards, CardValue Value)

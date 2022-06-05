@@ -13,7 +13,7 @@ using std::deque;
 using Types::CardOrientation;
 using Types::Difficulty;
 
-class Player
+class Person
 {
     friend class Game;
 protected:
@@ -23,7 +23,7 @@ protected:
     CardSuit* OpenSuit;
     QLabel* Counter;
 public:
-    Player();
+    Person ();
     virtual void AddCard(const Card*);
     virtual vector<const Card *> PlaceCards();
     virtual void SetDequeSuit(CardSuit*);
@@ -32,10 +32,10 @@ public:
     virtual void Hide();
     virtual void SetFocus(bool);
     void UpdateCounter();
-    virtual ~Player();
+    virtual ~Person ();
 };
 
-class MainPlayer : public Player
+class MainPlayer : public Person
 {
 
 private:
@@ -55,7 +55,7 @@ public:
     ~MainPlayer();
 };
 
-class Enemy : public Player
+class Enemy : public Person
 {
     Difficulty dif;
 private:

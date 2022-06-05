@@ -52,15 +52,15 @@ class Game : public QObject
 private:
     void GenerateCards();
     void GiveCardsToPlayers();
-    void GiveOneCardFromDequeToPlayer(class Player* pl);
-    bool CheckMovesAvailable(class Player* pl);
-    void TakeAllOpenCards(class Player* pl);
-    void UpdatePosibleNextCards(class Player* pl);
+    void GiveOneCardFromDequeToPlayer( Person * pl);
+    bool CheckMovesAvailable( Person * pl);
+    void TakeAllOpenCards( Person * pl);
+    void UpdatePosibleNextCards( Person * pl);
     void UpdateNextCards();
-    void UpdateNextCards(class Player* pl);
-    bool CheckIfWin(class Player* pl);
+    void UpdateNextCards( Person * pl);
+    bool CheckIfWin( Person * pl);
     void RenewDeque();
-    int OnePlayerTact(class Player *pl);
+    int OnePlayerTact( Person  *pl);
 
     void ClearHintCards();
     void SetEnabledControlElements(bool);

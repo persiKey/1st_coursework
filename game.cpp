@@ -127,7 +127,7 @@ void Game::Init(int pl, Difficulty dif, PlayerStat *Prof)
     InitMenuElements();
 }
 
-bool Game::CheckMovesAvailable(class Player* pl)
+bool Game::CheckMovesAvailable(Person * pl)
 {
     for(auto card : pl->Hand)
     {
@@ -137,7 +137,7 @@ bool Game::CheckMovesAvailable(class Player* pl)
     return false;
 }
 
-void Game::TakeAllOpenCards(class Player *pl)
+void Game::TakeAllOpenCards(Person  *pl)
 {
 
     while(!OpenDeque->Cards.empty())
@@ -153,7 +153,7 @@ void Game::TakeAllOpenCards(class Player *pl)
 
 void Game::UpdateNextCards()
 {
-    class Player** E = new class Player*[players];
+    class Person ** E = new class Person *[players];
     E[0] = Player;
     for(int i = 0; i < players-1;++i)
     {
@@ -167,13 +167,13 @@ void Game::UpdateNextCards()
     }
     delete[] E;
 }
-void Game::UpdateNextCards(class Player *pl)
+void Game::UpdateNextCards(Person  *pl)
 {
     if(pl->NextCards.size() > 0)
         pl->NextCards.pop_front();
 }
 
-void Game::UpdatePosibleNextCards(class Player *pl)
+void Game::UpdatePosibleNextCards(Person  *pl)
 {
     pl->PossibleNextCards.clear();
     int val = active_player-moves_offset;
@@ -191,7 +191,7 @@ void Game::FillPlayerStat(bool win)
     Profile->win_rate = float(games_won + win)/Profile->games_played;
     saveStat(Profile);
 }
-bool Game::CheckIfWin(class Player *pl)
+bool Game::CheckIfWin( Person  *pl)
 {
     if(pl->Hand.empty())
         return true;
@@ -217,12 +217,12 @@ void Game::RenewDeque()
     moves_offset = (moves_offset + Deque->Cards.size() % players) % players;
     UpdateNextCards();
 }
-void Game::GiveOneCardFromDequeToPlayer(class Player* pl)
+void Game::GiveOneCardFromDequeToPlayer(Person * pl)
 {
     if(Deque->Cards.empty()) RenewDeque();
     pl->AddCard(Deque->TakeCard());
 }
-int Game::OnePlayerTact(class Player *pl)
+int Game::OnePlayerTact( Person  *pl)
 {
     UpdatePosibleNextCards(pl);
     if(!CheckMovesAvailable(pl))

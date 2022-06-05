@@ -2,27 +2,27 @@
 #include <QDebug>
 #include "func.h"
 using namespace Constants;
-Player::Player(){ }
+Person::Person(){ }
 
-void Player::AddCard(const Card * card)
+void Person::AddCard(const Card * card)
 {
     Hand.push_back(card);
 }
 
-vector<const Card *> Player::PlaceCards()
+vector<const Card *> Person::PlaceCards()
 {
     return vector<const Card*>{};
 }
 
-void Player::SetDequeSuit(CardSuit*){}
+void Person::SetDequeSuit(CardSuit*){}
 
-void Player::Clear(){}
+void Person::Clear(){}
 
-void Player::Show(){}
+void Person::Show(){}
 
-void Player::Hide(){}
+void Person::Hide(){}
 
-void Player::SetFocus(bool f)
+void Person::SetFocus(bool f)
 {
     if(f)
         Counter->setStyleSheet("font: 20px; color: #52D017;");
@@ -31,12 +31,12 @@ void Player::SetFocus(bool f)
     ProcessAndPause(25);
 }
 
-void Player::UpdateCounter()
+void Person::UpdateCounter()
 {
     Counter->setText(QString::number(Hand.size()));
 }
 
-Player::~Player(){}
+Person::~Person(){}
 
 
 MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker, bool is_hard)
@@ -53,7 +53,7 @@ MainPlayer::MainPlayer(QWidget *wnd, CardMaker *maker, bool is_hard)
     {
         Hint = new NextCardsDisplayer(&NextCards,&PossibleNextCards);
     }
-    Player::UpdateCounter();
+    Person::UpdateCounter();
 }
 
 void MainPlayer::UpdateHint()
@@ -76,9 +76,9 @@ void MainPlayer::ResetChoosenCards()
 
 void MainPlayer::AddCard(const Card *card)
 {
-    Player::AddCard(card);
+    Person::AddCard(card);
     Holder->AddCard();
-    Player::UpdateCounter();
+    Person::UpdateCounter();
 }
 
 vector<const Card *> MainPlayer::PlaceCards()
@@ -99,13 +99,13 @@ vector<const Card *> MainPlayer::PlaceCards()
         }
     }
     Holder->ExtractCards();
-    Player::UpdateCounter();
+    Person::UpdateCounter();
     return ExtractedCards;
 }
 
 void MainPlayer::SetDequeSuit(CardSuit *suit)
 {
-    Player::OpenSuit = suit;
+    Person::OpenSuit = suit;
     Holder->UpdateDequeSuit(suit);
 }
 
@@ -117,7 +117,7 @@ void MainPlayer::Clear()
     PossibleNextCards.clear();
     if(Hint != nullptr) Hint->UpdateNextCards();
     Holder->ExtractCards();
-    Player::UpdateCounter();
+    Person::UpdateCounter();
 }
 
 void MainPlayer::Show()
@@ -155,14 +155,14 @@ Enemy::Enemy(QWidget *wnd, CardOrientation orient, int x, int y)
     case CardOrientation::VER: Counter->move(x+Holder->size().width()/2,y+CARD_HEIGHT+COUNTER_SIZE);break;
     }
     Counter->show();
-    Player::UpdateCounter();
+    Person::UpdateCounter();
 }
 
 void Enemy::AddCard(const Card *card)
 {
-    Enemy::Player::AddCard(card);
+    Enemy::Person::AddCard(card);
     Holder->AddCard();
-    Player::UpdateCounter();
+    Person::UpdateCounter();
 }
 
 vector<const Card *> Enemy::PlaceCards()
@@ -194,13 +194,13 @@ vector<const Card *> Enemy::PlaceCards()
         }
     }
 
-    Player::UpdateCounter();
+    Person::UpdateCounter();
     return result;
 }
 
 void Enemy::SetDequeSuit(CardSuit *suit)
 {
-    Player::OpenSuit = suit;
+    Person::OpenSuit = suit;
 }
 
 void Enemy::Clear()
@@ -209,7 +209,7 @@ void Enemy::Clear()
     NextCards.clear();
     PossibleNextCards.clear();
     Hand.clear();
-    Player::UpdateCounter();
+    Person::UpdateCounter();
 }
 
 void Enemy::Show()
