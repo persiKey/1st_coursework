@@ -12,7 +12,6 @@ using namespace Types;
 struct Element
 {
     vector<const Card*> Slots;
-    vector<int> indexes;
     size_t lenght;
 };
 
@@ -20,8 +19,7 @@ struct Element
 class AI
 {
     int GetLenght(const deque<const Card*> &Cards, CardValue Value);
-    void GetPopularSuits(CardSuit *res, const vector<Element> &Suitable);
-    int DetermineSuitIndex(CardSuit value,CardSuit Popularity[2]);
+    CardSuit GetPopularSuits(const vector<Element> &Suitable);
     Element FindBetter(const vector<Element>& Elements,int el_index, CardSuit OpenSuit);
     Element GetChoosenElement(const vector<Element>& Elements, CardSuit OpenSuitm,bool is_real);
     void FindElementsInHand(vector<Element>& Elements, vector<const Card *> Hand);

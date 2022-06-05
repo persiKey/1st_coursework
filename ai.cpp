@@ -17,33 +17,24 @@ int AI::GetLenght(const deque<const Card *> &Cards, CardValue Value)
     return INT_MAX;
 }
 
-void AI::GetPopularSuits(CardSuit *res,const vector<Element> &Suitable)
+CardSuit AI::GetPopularSuits(const vector<Element> &Suitable)
 {
-    typedef std::pair<const CardSuit,int> SuitFrequense ;
-
     std::map<CardSuit,int> freq;
     for(int i = 0; i < Suitable.size();++i)
     {
         freq[Suitable[i].Slots[0]->Suit]++;
     }
-    CardSuit max_el;
-    for(int i = 0; i < freq.size() && i < 2;++i)
+    int max = 0;
+    CardSuit max_suit;
+    for(auto i : freq)
     {
-        max_el = std::max_element(freq.begin(), freq.end(),
-                [](SuitFrequense& A, SuitFrequense &B){return A.second < B.second;})->first;
-        res[i] = max_el;
-        freq.erase(max_el);
+        if(i.second > max)
+        {
+            max = i.second;
+            max_suit = i.first;
+        }
     }
-}
-
-int AI::DetermineSuitIndex(CardSuit value, CardSuit Popularity[])
-{
-    int suit = 2;
-    if(value == Popularity[0])
-        suit = 0;
-    else if(value == Popularity[1] )
-        suit = 1;
-    return  suit;
+    return max_suit;
 }
 
 Element AI::FindBetter(const vector<Element> &Elements,int comp_el_index, CardSuit OpenSuit)
@@ -62,22 +53,13 @@ Element AI::FindBetter(const vector<Element> &Elements,int comp_el_index, CardSu
     else if (Suitable.size() == 1)
         return Suitable[0];
 
-    CardSuit PopularSuits[2];
-    GetPopularSuits(PopularSuits,Suitable);
-    int min_index = 0;
-    int min_suit;
-    if(Elements[comp_el_index].Slots.size() == 1) min_suit = DetermineSuitIndex(Elements[comp_el_index].Slots[0]->Suit,PopularSuits);
-    else min_suit = NUM_OF_SUITS+1;
-    for(int k = 0; k < Suitable.size();++k)
+    CardSuit PopularSuit = GetPopularSuits(Suitable);
+    Element test_el;
+    for(auto el : Suitable)
     {
-        int el_suit = DetermineSuitIndex(Suitable[k].Slots[0]->Suit,PopularSuits);
-        if( el_suit < min_suit)
-        {
-            min_index = k;
-            min_suit = el_suit;
-        }
+        if(el.Slots[0]->Suit == PopularSuit)
+            return el;
     }
-    return Suitable[min_index];
 }
 
 Element AI::GetChoosenElement(const vector<Element> &Elements, CardSuit OpenSuit, bool is_real)
