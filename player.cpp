@@ -9,19 +9,6 @@ void Person::AddCard(const Card * card)
     Hand.push_back(card);
 }
 
-vector<const Card *> Person::PlaceCards()
-{
-    return vector<const Card*>{};
-}
-
-void Person::SetDequeSuit(CardSuit*){}
-
-void Person::Clear(){}
-
-void Person::Show(){}
-
-void Person::Hide(){}
-
 void Person::SetFocus(bool f)
 {
     if(f)

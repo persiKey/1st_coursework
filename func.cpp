@@ -39,7 +39,7 @@ void Check(const QString& str)
 }
 
 
-void PrepareAppToStart()
+void PrepareAppToStart(QApplication(&a))
 {
     if(QFontDatabase::addApplicationFont("src\\Hoyle Playing Cards.ttf" ) == -1)
     {
@@ -52,7 +52,13 @@ void PrepareAppToStart()
     Check("src\\clovers.png");
     Check("src\\pikes.png");
     Check("src\\cover.png");
-
+    a.setStyleSheet("QPushButton{"
+                    "font: 16px;"
+                    "background-color:lightgray;"
+                    "border-radius:15%;"
+                    "border: 1.5px solid black;}"
+                    "QPushButton:hover{background-color:white;"
+                    "border: 2px dashed gray}");
 }
 
 void SetUpWnd(QWidget* Wnd)

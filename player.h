@@ -25,11 +25,11 @@ protected:
 public:
     Person ();
     virtual void AddCard(const Card*);
-    virtual vector<const Card *> PlaceCards();
-    virtual void SetDequeSuit(CardSuit*);
-    virtual void Clear();
-    virtual void Show();
-    virtual void Hide();
+    virtual vector<const Card *> PlaceCards() = 0;
+    virtual void SetDequeSuit(CardSuit*)  = 0;
+    virtual void Clear() = 0;
+    virtual void Show() = 0;
+    virtual void Hide() = 0;
     virtual void SetFocus(bool);
     void UpdateCounter();
     virtual ~Person ();
