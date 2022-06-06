@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QtWidgets>
 #include "constants.h"
-#include "playerstat.h"
+#include "login.h"
 
 using Types::Difficulty;
 

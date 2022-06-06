@@ -1,4 +1,4 @@
-#include "playerstat.h"
+#include "login.h"
 #include <string>
 #include <vector>
 #include <fstream>
@@ -160,7 +160,7 @@ void LoginWidget::CreateProfile()
         player.last_game_win = false;
         player.last_game_duration = 0;
         file.write((char*)&player, sizeof(player));
-        emit ProfileEntered(player);
         file.close();
+        emit ProfileEntered(player);
     }
 }

@@ -1,5 +1,5 @@
-#ifndef PLAYERSTAT_H
-#define PLAYERSTAT_H
+#ifndef LOGIN_H
+#define LOGIN_H
 
 #include <QWidget>
 #include <QComboBox>
@@ -40,4 +40,4 @@ signals:
     void ProfileEntered(PlayerStat player);
 };
 
-#endif // PLAYERSTAT_H
+#endif // LOGIN_H
