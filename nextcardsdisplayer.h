@@ -20,6 +20,7 @@ class NextCardsDisplayer : public QWidget
     CardMaker Maker;
 public:
     explicit NextCardsDisplayer(const deque<const Card*>* DisplCards,const deque<const Card*>* PossibleCards,QWidget *parent = nullptr);
+    //Оновити наступні та можливі наступні карти
     void UpdateNextCards();
 signals:
 

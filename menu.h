@@ -24,21 +24,31 @@ class Menu : public QObject
     PlayerStat Profile;
 
 private slots:
+    //Меню вибору гравців
     void PlayersMenu();
+    //Меню вибору складності
     void DifficultyMenu();
+    //Встановлює кількість вибраних гравців
     void SetPlayers();
+    //Встановлює обрану складність
     void SetDifficulty();
+    //Відображає статистику профілю
     void StatMenu();
+    //Обробник кнопки "Назад"
     void Back();
+    //Обробник кнопки "Вихід"
     void Exit();
 public slots:
+    // Пустий обробник, що може бути викликаний щоб відобразити голвне меню
     void MainMenu();
+    //Обробник події, коли створено або вибрано профіль
     void Start(PlayerStat);
 signals:
     void StartGame(int pl, Difficulty dif, PlayerStat*);
 
 public:
     Menu(QWidget* parent = nullptr);
+    //Встановлює вікно на якому буде відображатися меню
     void setWnd(QWidget* wnd);
 
 };

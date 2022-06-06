@@ -72,11 +72,6 @@ OpenDequeDisplayer::OpenDequeDisplayer(QWidget *parent, CardMaker *maker) : QWid
     ClearDeque();
 }
 
-void OpenDequeDisplayer::SetCardMaker(CardMaker *maker)
-{
-    this->maker = maker;
-}
-
 void OpenDequeDisplayer::ClearDeque()
 {
     deque.fill(Qt::darkGreen);

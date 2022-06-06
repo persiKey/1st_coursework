@@ -11,13 +11,19 @@ class DequeDisplayer : public QWidget
     QPixmap deque;
     int DisplayedCardsCount;
 
+    //Очистити текстуру колоди
     void ClearDeque();
+    //Намалювати карти в колоді один на одному
     void DrawCoverCards();
 public:
     explicit DequeDisplayer(QWidget *parent = nullptr);
+    //Візуально додати карту в колоду
     void AddCard();
+    //Візуально видалити карту з колоди
     void ExtractCard();
+    //Очистити від карт
     void Clear();
+    //Подія, що викликається при малюванні колоди
     void paintEvent(QPaintEvent *e);
 signals:
 
@@ -30,9 +36,11 @@ class OpenDequeDisplayer : public QWidget
     CardMaker* maker;
 public:
     explicit OpenDequeDisplayer(QWidget *parent = nullptr, CardMaker* maker = nullptr);
-    void SetCardMaker(CardMaker* maker);
+    //Очистити текстуру відкритої колоди
     void ClearDeque();
+    //Намалювати карту поверх відкритої колоди
     void PrintCardOver(const Card* card);
+    //Подія, що викликається при малюванні колоди
     void paintEvent(QPaintEvent *e);
 };
 

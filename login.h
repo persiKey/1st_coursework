@@ -24,13 +24,19 @@ class LoginWidget : public QWidget
     QPushButton* funcButton1;
     QPushButton* funcButton2;
 private:
+    //Відобразити помилку
     void DisplayError(const QString&);
+    //Перевірити логічну допустимість імені та існування вже такого профілю
     bool ValidAll(std::string& );
+    //Перевірити ім'я на доупустимі символи
     bool ValidateName(QString );
 
 private slots:
+    //Натиснуто на кнопку "Обрати профіль"
     void ChooseProfileClicked();
+    //Натиснуто на кнопку "Створити новий профіль"
     void CreateNewProfileClicked();
+    //Натиснуто на кнопку "Створити" у вікні сворення
     void CreateProfile();
 
 public:

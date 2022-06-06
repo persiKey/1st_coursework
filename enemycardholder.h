@@ -15,7 +15,9 @@ class EnemyCardDisplayer : public QWidget
 
 public:
     EnemyCardDisplayer(CardOrientation orient = CardOrientation::VER, QWidget *parent = nullptr );
+    //Подія, що викликається при малюванні карти ворога
     void paintEvent(QPaintEvent *e);
+    //Встановити орієнтацію карти
     void SetOrientation(CardOrientation orient);
 };
 
@@ -29,10 +31,11 @@ class EnemyCardHolder : public QWidget
 
 public:
     explicit EnemyCardHolder(CardOrientation orient, QWidget *parent = nullptr);
-
-public slots:
+    // Візуально додати одну карту
     void AddCard();
+    // Візуально забрати одну карту
     void ExtractCard();
+    // Візуально видалити всі карти з руки ворога
     void ExtractAllCards();
 
 };
