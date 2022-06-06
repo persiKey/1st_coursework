@@ -42,7 +42,7 @@ void PlayerCardDisplayer::printSelection(QColor color)
 {
     QPainter painter(PixCard);
     painter.setPen(color);
-    DrawCardBorder(painter);
+    CardMaker::DrawCardBorder(painter);
     painter.end();
     this->update();
 }
@@ -51,7 +51,7 @@ void PlayerCardDisplayer::unprintSelection()
 {
     QPainter painter(PixCard);
     painter.setPen(Qt::black);
-    DrawCardBorder(painter);
+    CardMaker::DrawCardBorder(painter);
     painter.end();
     this->update();
 }

@@ -39,7 +39,7 @@ CardMaker::~CardMaker()
     }
     delete [] CachedCards;
 }
-char GetPrintValue(CardValue value)
+char CardMaker::GetPrintValue(CardValue value)
 {
     if(value < CardValue::_10)
     {
@@ -55,7 +55,7 @@ char GetPrintValue(CardValue value)
     default: return '%';
     }
 }
-void SetSuit(QPixmap& PixSuit, CardSuit suit)
+void CardMaker::SetSuit(QPixmap& PixSuit, CardSuit suit)
 {
     switch (suit)
     {
@@ -66,7 +66,7 @@ void SetSuit(QPixmap& PixSuit, CardSuit suit)
     }
 
 }
-void DrawCardBorder(QPainter &painter)
+void CardMaker::DrawCardBorder(QPainter &painter)
 {
     painter.drawLine(0,0,CARD_WIDTH-1,0);
     painter.drawLine(0,0,0,CARD_HEIGHT-1);
@@ -74,7 +74,7 @@ void DrawCardBorder(QPainter &painter)
     painter.drawLine(0,CARD_HEIGHT-1,CARD_WIDTH-1, CARD_HEIGHT-1);
 }
 
-void MakeAce(QPainter& painter, QPixmap& PixSuit)
+void CardMaker::MakeAce(QPainter& painter, QPixmap& PixSuit)
 {
     int offset = QFontMetrics(painter.font()).width('f')/2-1;
     // ACE TOP
