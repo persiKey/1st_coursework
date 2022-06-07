@@ -68,5 +68,5 @@ void SetUpWnd(QWidget* Wnd)
     Wnd->move((QGuiApplication::primaryScreen()->geometry().width() - Constants::WINDOW_WIDTH)/2,
                  QGuiApplication::primaryScreen()->geometry().height() - Constants::WINDOW_HEIGHT - 40);
     Wnd->setFixedSize(Constants::WINDOW_WIDTH,Constants::WINDOW_HEIGHT);
-    Wnd->setWindowTitle("Карткова гра \"Курка\" - persiKey");
+    Wnd->setWindowTitle("Карткова гра \"Курка\" - Ілля Пархомчук ІП-13");
 }
