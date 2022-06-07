@@ -64,6 +64,7 @@ void PrepareAppToStart(QApplication(&a))
 void SetUpWnd(QWidget* Wnd)
 {
     Wnd->setObjectName("Back");
+    Wnd->setStyleSheet("QWidget#Back{background-image: url(src/back.png);}");
     Wnd->move((QGuiApplication::primaryScreen()->geometry().width() - Constants::WINDOW_WIDTH)/2,
                  QGuiApplication::primaryScreen()->geometry().height() - Constants::WINDOW_HEIGHT - 40);
     Wnd->setFixedSize(Constants::WINDOW_WIDTH,Constants::WINDOW_HEIGHT);
