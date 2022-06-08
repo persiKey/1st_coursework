@@ -11,16 +11,27 @@ using Types::Difficulty;
 class Menu : public QObject
 {
     Q_OBJECT
+    // Віджет заходу в профіль
     LoginWidget* Login;
+    // Вікно, на якому все буде відображуватися
     QWidget* Wnd;
+    // Головний напис
     QLabel Title;
+    // Розміщення елментів
     QGridLayout Layout;
+    // Текстове поле, де буде відображено статистику
     QTextBrowser* StatInfo;
+    // Кнопка управління
     QPushButton FuncButton1;
+    // Кнопка управління
     QPushButton FuncButton3;
+    // Кнопка управління
     QPushButton FuncButton2;
+    // Кількість обраних гравців
     int players;
+    // Обрана складність
     Difficulty Diff;
+    // Профіль
     PlayerStat Profile;
 
 private slots:

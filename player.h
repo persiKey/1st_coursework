@@ -17,10 +17,15 @@ class Person
 {
     friend class Game;
 protected:
+    // Карти в руці
     vector<const Card*> Hand;
+    // Можливі наступні карти
     deque<const Card*> PossibleNextCards;
+    // Наступні карти
     deque<const Card*> NextCards;
+    // Масть відкритої карти
     CardSuit* OpenSuit;
+    // Відображувач кількості карт у руці
     QLabel* Counter;
 public:
     Person ();
@@ -47,7 +52,9 @@ class MainPlayer : public Person
 {
 
 private:
+    // Візуальне представлення гравця
     PlayerCardHolder* Holder;
+    // Відображувач наступних карт
     NextCardsDisplayer* Hint;
 public:
     MainPlayer(QWidget* wnd,CardMaker* maker, bool is_hard);
@@ -70,7 +77,9 @@ class Enemy : public Person
 {
     Difficulty dif;
 private:
+    // Візуальне представлення противника
     EnemyCardHolder* Holder;
+    // Штучний інтелект для прийняття рішень
     AI Ai;
 public:
     Enemy(QWidget* wnd, CardOrientation, int x, int y);

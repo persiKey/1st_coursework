@@ -8,8 +8,11 @@ using std::vector;
 class CardDeque
 {
     friend class Game;
+    //Карти в колоді
     vector<const Card*> Cards;
+    // Графічне представлення
     DequeDisplayer* Displayer;
+    // Кількість карт
     QLabel* Counter;
 
 public:

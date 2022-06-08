@@ -8,7 +8,9 @@
 class DequeDisplayer : public QWidget
 {
     Q_OBJECT
+    // Текстура колоди
     QPixmap deque;
+    // Кількість відображуваних один на одному карт
     int DisplayedCardsCount;
 
     //Очистити текстуру колоди
@@ -32,7 +34,9 @@ signals:
 class OpenDequeDisplayer : public QWidget
 {
     Q_OBJECT
+    // Текстура колоди
     QPixmap deque;
+    // Інструмент, що робить та зберігає текстури карт
     CardMaker* maker;
 public:
     explicit OpenDequeDisplayer(QWidget *parent = nullptr, CardMaker* maker = nullptr);

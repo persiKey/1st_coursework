@@ -11,8 +11,11 @@ using Types::Card;
 
 class CardMaker
 {
+    // Масив вже зроблених текстур карт
     QPixmap*** CachedCards;
+    // Текстура рубашки
     static QPixmap* CachedCover;
+    // Шрифт для розпису текстур
     QFont Font;
 
     //Створити карту "Туз"

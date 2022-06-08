@@ -19,33 +19,58 @@ using Types::Difficulty;
 class Game : public QObject
 {
     Q_OBJECT
+    // Вікно на якому все відображується
     QWidget* Wnd;
+    // Кнопка "Зробити хід"
     QPushButton* Move;
+    // Кнопка паузи
     QPushButton* PauseButton;
+    // Кнопка підказки
     QPushButton* HintButton;
 
+    // Текст повідомлення
     QLabel* Text;
+    // Розмітка елементів
     QGridLayout* Layout;
+    // Кнопка "Продовжити"
     QPushButton* ResumeButton;
+    // Кнопка "Заново"
     QPushButton* RestartButton;
+    // Кнопка виходу до головного меню
     QPushButton* MainMenuButton;
 
+    // Профіль гавця
     PlayerStat* Profile;
+    // Кількість гравців
     int players;
+    // Складність
     Difficulty difficulty;
+    // Час початку гри
     clock_t game_started;
+    // Активний гравець
     int active_player;
+    // Гравець, на якому закінчиться колода
     int moves_offset;
 
+    // Штучний інтелект для підказки
     AI* Helper;
+    // Карти, що були підказані оснанніми
     vector<int> lastHintIndexes;
+    // Масть останньої відкритої карти
     CardSuit last;
+    // Масив унікальні карт в пам'яті програми
     Card Cards[NUM_OF_SUITS*NUM_OF_VALUES];
+    // Інструмент, що робить та зберігає текстури карт
     CardMaker* Maker;
+    // Головний гравець
     MainPlayer* Player;
+    // Противники
     Enemy** Enemies;
+    // Основна колода
     CardDeque* Deque;
+    // Відкрита колода
     OpenCardDeque* OpenDeque;
+    // Стіл
     QWidget* Desk;
 
 

@@ -8,7 +8,9 @@
 class PlayerCardDisplayer : public QWidget
 {
     Q_OBJECT
+    // Текстура карти
     QPixmap* PixCard;
+    // Індекс карти
     int index;
 public:
     explicit PlayerCardDisplayer(QWidget *parent = nullptr);

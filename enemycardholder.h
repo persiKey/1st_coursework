@@ -11,6 +11,7 @@ using Constants::VISIBLE_CARDS_IN_HAND;
 class EnemyCardDisplayer : public QWidget
 {
     Q_OBJECT
+    // Орієнтація карти
     CardOrientation Orientation;
 
 public:
@@ -24,9 +25,13 @@ public:
 class EnemyCardHolder : public QWidget
 {
     Q_OBJECT
+    // Розміщення елементів
     QLayout* Layout;
+    // Відображувачі карт
     EnemyCardDisplayer VisibleCards[VISIBLE_CARDS_IN_HAND];
+    // Орієнтація
     CardOrientation Orientation;
+    // Індекс карт, що відображуються
     int VisibleCardsIndex;
 
 public:

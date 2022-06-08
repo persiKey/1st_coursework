@@ -15,13 +15,21 @@ using Types::PlayerStat;
 class LoginWidget : public QWidget
 {
     Q_OBJECT
+    // Розміщенні головних елементів
     QVBoxLayout* mainLayout;
+    // Розміщення побічних елементів
     QHBoxLayout* subLayout;
+    // Випадаючий список з іменами профілю
     QComboBox* profileSelector;
+    // Поле вводу імені профілю
     QLineEdit* profileNameEdit;
+    // Головний напис
     QLabel* mainText;
+    // Рядок-підказка, куди будуть виведені помилки
     QLabel* subText;
+    // Кнопка управілння
     QPushButton* funcButton1;
+    // Кнопка управління
     QPushButton* funcButton2;
 private:
     //Відобразити помилку

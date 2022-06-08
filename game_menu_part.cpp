@@ -119,7 +119,7 @@ void Game::DeleteMenuElements()
 void Game::PauseGame()
 {
     HideGameElements();
-    Text->setText("Павза");
+    Text->setText("Пауза");
     ShowMenuElements();
 }
 
