@@ -82,3 +82,8 @@ void EnemyCardHolder::ExtractAllCards()
     }
     VisibleCardsIndex = -1;
 }
+
+EnemyCardHolder::~EnemyCardHolder()
+{
+    delete Layout;
+}

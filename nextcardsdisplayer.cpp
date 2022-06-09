@@ -9,7 +9,7 @@ NextCardsDisplayer::NextCardsDisplayer(const deque<const Card*>* DisplCards,cons
     this->setLayout(&Layout);
     this->setWindowTitle("Наступні карти");
     this->setWindowFlags(Qt::Window | Qt::Tool);
-    for(int i = 0; i < 13; ++i)
+    for(int i = 0; i < MAX_NEXT_CARDS; ++i)
     {
         Layout.insertWidget(0,&Cards[i],0,Qt::AlignRight);
         Cards[i].hide();
@@ -29,19 +29,19 @@ void NextCardsDisplayer::UpdateNextCards()
     }
     else
         this->show();
-    for(size_t i = 0; i < 13 && i < NextCards->size();++i)
+    for(size_t i = 0; i < MAX_NEXT_CARDS && i < NextCards->size();++i)
     {
         Cards[i].updatePix(Maker.GetCard(*(*NextCards)[i]));
         Cards[i].printSelection(Qt::yellow);
         Cards[i].show();
     }
-    for(size_t i = NextCards->size(), c_i = 0; i < 13 && i < NextCards->size()+PossibleNextCards->size() ;++i,++c_i)
+    for(size_t i = NextCards->size(), c_i = 0; i < MAX_NEXT_CARDS && i < NextCards->size()+PossibleNextCards->size() ;++i,++c_i)
     {
         Cards[i].updatePix(Maker.GetCard(*(*PossibleNextCards)[c_i]));
         Cards[i].printSelection(Qt::cyan);
         Cards[i].show();
     }
-    for(size_t i = NextCards->size()+PossibleNextCards->size(); i < 13;++i)
+    for(size_t i = NextCards->size()+PossibleNextCards->size(); i < MAX_NEXT_CARDS;++i)
         Cards[i].hide();
     this->adjustSize();
     this->move((QGuiApplication::primaryScreen()->geometry().width()-this->size().width())/2,0);

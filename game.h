@@ -47,6 +47,8 @@ class Game : public QObject
     Difficulty difficulty;
     // Час початку гри
     clock_t game_started;
+    // Час початку паузи
+    clock_t pause_started;
     // Активний гравець
     int active_player;
     // Гравець, на якому закінчиться колода

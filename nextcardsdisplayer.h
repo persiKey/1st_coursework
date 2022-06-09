@@ -9,7 +9,7 @@
 #include <cardmaker.h>
 
 using std::deque;
-
+using Constants::MAX_NEXT_CARDS;
 class NextCardsDisplayer : public QWidget
 {
     Q_OBJECT
@@ -20,7 +20,7 @@ class NextCardsDisplayer : public QWidget
     // Розміщення елеметів
     QHBoxLayout Layout;
     // Форми, які будуть показувати текстури карт
-    PlayerCardDisplayer Cards[Constants::MAX_NEXT_CARDS];
+    PlayerCardDisplayer Cards[MAX_NEXT_CARDS];
     // Інструмент для створення та збереження текстур карт
     CardMaker Maker;
 public:

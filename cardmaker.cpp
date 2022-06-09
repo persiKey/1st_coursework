@@ -38,6 +38,7 @@ CardMaker::~CardMaker()
         delete[] CachedCards[i];
     }
     delete [] CachedCards;
+    if(CachedCover != nullptr) {delete CachedCover; CachedCover = nullptr;}
 }
 char CardMaker::GetPrintValue(CardValue value)
 {

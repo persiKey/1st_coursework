@@ -91,6 +91,7 @@ public:
     void Hide() override;
     // Встановити рівень складності
     void SetDifficulty(Difficulty dif);
+    ~Enemy();
 };
 
 #endif // PLAYER_H

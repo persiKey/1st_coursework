@@ -118,6 +118,7 @@ void Game::DeleteMenuElements()
 
 void Game::PauseGame()
 {
+    pause_started = clock();
     HideGameElements();
     Text->setText("Пауза");
     ShowMenuElements();
@@ -125,6 +126,7 @@ void Game::PauseGame()
 
 void Game::ResumeGame()
 {
+    game_started += clock() - pause_started;
     ShowGameElements();
     HideMenuElements();
 }

@@ -42,7 +42,7 @@ public:
     void ExtractCard();
     // Візуально видалити всі карти з руки ворога
     void ExtractAllCards();
-
+    ~EnemyCardHolder();
 };
 
 #endif // ENEMYCARDHOLDER_H

@@ -127,6 +127,7 @@ void MainPlayer::Hide()
 #include <windows.h>
 MainPlayer::~MainPlayer()
 {
+    delete Holder;
     if(Hint != nullptr) delete Hint;
 }
 
@@ -214,4 +215,9 @@ void Enemy::Hide()
 void Enemy::SetDifficulty(Difficulty dif)
 {
     this->dif = dif;
+}
+
+Enemy::~Enemy()
+{
+    delete Holder;
 }

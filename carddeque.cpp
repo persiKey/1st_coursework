@@ -53,6 +53,7 @@ void CardDeque::Hide()
 
 CardDeque::~CardDeque()
 {
+    delete Displayer;
     delete Counter;
 }
 
@@ -128,5 +129,6 @@ void OpenCardDeque::Hide()
 
 OpenCardDeque::~OpenCardDeque()
 {
+    delete Displayer;
     delete Counter;
 }
