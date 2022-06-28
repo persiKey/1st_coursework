@@ -76,7 +76,7 @@ Element AI::GetChoosenElement(const vector<Element> &Elements, CardSuit OpenSuit
         }
         else
         {
-            if(Elements.size() == 2 && Elements[(i+1) % 2].Slots.size() == 1 && Elements[(i+1) % 2].Slots[0]->Suit != OpenSuit && is_real && Elements[(i+1) % 2].lenght)
+            if(Elements.size() == 2 && Elements[(i+1) % 2].Slots.size() == 1 && Elements[(i+1) % 2].Slots[0]->Suit != OpenSuit && !is_real && !Elements[(i+1) % 2].lenght)
                     return Elements[(i+1) % 2];
 
             return FindBetter(Elements,i,OpenSuit);

@@ -220,6 +220,7 @@ void Game::RenewDeque()
 void Game::GiveOneCardFromDequeToPlayer(Person * pl)
 {
     if(Deque->Cards.empty()) RenewDeque();
+    if(Deque->Cards.empty()) return;
     pl->AddCard(Deque->TakeCard());
 }
 int Game::OnePlayerTact( Person  *pl)
